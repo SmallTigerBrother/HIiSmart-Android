@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">btcontrollerforbag</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    
+    <string name="intro_location_title">Pinned Location</string>
+    <string name="intro_location_detail">You can easily find the history of all the locations you have been to.</string>
+    <string name="intro_find_title">Find My Item</string>
+    <string name="intro_find_detail">Search for the item attached to the HiRemote.</string>
+    <string name="intro_camera_title">Camera Shutter</string>
+    <string name="intro_camera_detail">Use the shutter button on your HiRemote to snap pics</string>
+    <string name="intro_voice_title">Voice Memos</string>
+    <string name="intro_voice_detail">You easily can store,remame,or delete your audio file.</string>
+    <string name="intro_hiremote_title">HiRemote Control</string>
+    <string name="intro_hiremote_detail"></string>
+    
+    <string name="my_bag">My Bag</string>
+    <string name="edit">Edit</string>
+    
+    <string name="start">Start</string>
+
+</resources>

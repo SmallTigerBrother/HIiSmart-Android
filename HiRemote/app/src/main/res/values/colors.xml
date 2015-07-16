@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dialog_btn_blue">#0072ff</color>
+    <color name="dialog_btn_stroke_color">#d3d3d3</color>
+    <color name="dialog_btn_press_color">#f6f6f6</color>
+    <color name="dialog_btn_default_color">#ffffff</color>
+    <color name="text_color_normal">#444444</color>
+</resources>
