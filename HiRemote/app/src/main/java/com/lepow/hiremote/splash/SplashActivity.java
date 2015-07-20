@@ -31,11 +31,11 @@ public class SplashActivity extends BaseActivity
 			R.string.intro_voice_title,
 			R.string.intro_hiremote_title};
 	
-	private int[] introImgResIds = {R.drawable.ic_launcher,
-			R.drawable.ic_launcher,
-			R.drawable.ic_launcher,
-			R.drawable.ic_launcher,
-			R.drawable.ic_launcher};
+	private int[] introImgResIds = {R.drawable.intro_1,
+			R.drawable.intro_2,
+			R.drawable.intro_3,
+			R.drawable.intro_4,
+			R.drawable.intro_5};
 	
 	private int[] introDetailResIds = {R.string.intro_location_detail,
 			R.string.intro_find_detail,
