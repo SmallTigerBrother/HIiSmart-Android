@@ -97,7 +97,6 @@
     <orderEntry type="library" exported="" name="httpclient-android-4.3.5" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.8" level="project" />
     <orderEntry type="library" exported="" name="swipelistview" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.3.6" level="project" />
     <orderEntry type="module" module-name="tiger" exported="" />
     <orderEntry type="library" exported="" name="tiger-unspecified" level="project" />
   </component>

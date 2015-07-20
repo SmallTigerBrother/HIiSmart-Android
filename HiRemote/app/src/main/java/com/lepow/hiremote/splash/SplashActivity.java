@@ -50,6 +50,7 @@ public class SplashActivity extends BaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		setNavigationBarVisible(false);
 		
 		if(AppConfigs.isNewOrUpgrade(this))
 		{
@@ -84,16 +85,13 @@ public class SplashActivity extends BaseActivity
 		}
 		else
 		{
-			ImageView imageView = new ImageView(this);
-			imageView.setBackgroundResource(R.drawable.ic_launcher);
-			setContentView(imageView);
-			
 			new Handler().postDelayed(new Runnable()
 			{
 				@Override
 				public void run()
 				{
 					startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+					finish();
 				}
 			}, 2000);
 		}
