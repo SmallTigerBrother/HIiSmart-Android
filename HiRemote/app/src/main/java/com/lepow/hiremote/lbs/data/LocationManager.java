@@ -69,7 +69,7 @@ public class LocationManager
 		}
 	}
 
-	public List<LocationInfo> findAllPinnedLocation(Context context)
+	public List<LocationInfo> findAllPinnedLocationSortByTime(Context context)
 	{
 		try
 		{
@@ -83,25 +83,18 @@ public class LocationManager
 		}
 	}
 
-	public List<Object> findAllPinnedLocationSortByTime(Context context)
-	{
-		List<LocationInfo> locationInfos = findAllPinnedLocation(context);
-		return insertTimeSectionInfo(locationInfos);
-	}
-
-	public List<Object> findAllPinnedLocationSortByTime(Context context, String queryText)
+	public List<LocationInfo> findAllPinnedLocationSortByTime(Context context, String queryText)
 	{
 		try
 		{
-			List<LocationInfo> locationInfos = getPinnedLocationDBManager(context).findAll(
+			return getPinnedLocationDBManager(context).findAll(
 					Selector.from(LocationInfo.class).orderBy("time")
 							.and("address", "like", queryText).or("remark", "like", queryText));
-			return insertTimeSectionInfo(locationInfos);
 		}
 		catch (DbException e)
 		{
 			LOG.e(e);
-			return new ArrayList<Object>();
+			return new ArrayList<LocationInfo>();
 		}
 	}
 
@@ -137,12 +130,27 @@ public class LocationManager
 		}
 	}
 
-	public List<LocationInfo> findAllDisconnectedLocation(Context context)
+	public List<LocationInfo> findAllDisconnectedLocationOderByTime(Context context)
 	{
 		try
 		{
 			return getDisconnectedLocationDBManager(context).findAll(
 					Selector.from(LocationInfo.class).orderBy("time"));
+		}
+		catch (DbException e)
+		{
+			LOG.e(e);
+			return new ArrayList<LocationInfo>();
+		}
+	}
+
+	public List<LocationInfo> findAllDisconnectedLocationOderByTime(Context context,String queryText)
+	{
+		try
+		{
+			return getDisconnectedLocationDBManager(context).findAll(
+					Selector.from(LocationInfo.class).orderBy("time")
+							.and("address", "like", queryText).or("remark", "like", queryText));
 		}
 		catch (DbException e)
 		{

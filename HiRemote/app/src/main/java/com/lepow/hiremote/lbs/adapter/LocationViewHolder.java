@@ -11,8 +11,9 @@ import com.mn.tiger.widget.adpter.TGViewHolder;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.lbs.data.LocationTimeInfo;
+import com.mn.tiger.widget.swipelistview.SwipeListViewHolder;
 
-public class LocationViewHolder extends TGViewHolder<Object>
+public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
 {
 	@FindView(R.id.location_date)
 	TextView locationDate;
@@ -22,48 +23,25 @@ public class LocationViewHolder extends TGViewHolder<Object>
 	
 	@FindView(R.id.location_time)
 	TextView locationTime;
-	
-	@Override
-	public View initView(View convertView, ViewGroup parent, int position)
-	{
-		switch (getAdapter().getItemViewType(position))
-		{
-			case LocationListAdapter.TYPE_LOCATION:
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.location_list_item, null);
-				
-				ButterKnife.bind(this, convertView);
-				
-				return convertView;
-				
-			case LocationListAdapter.TYPE_TIME:
-				
-				TextView textView = new TextView(getContext());
-				
-				return textView;
 
-			default:
-				return null;
-		}
+	@Override
+	protected int getFrontViewId()
+	{
+		return 0;
 	}
-	
-	@Override
-	public void fillData(ViewGroup parent, View convertView, Object itemData, int position)
-	{
-		switch (getAdapter().getItemViewType(position))
-		{
-			case LocationListAdapter.TYPE_LOCATION:
-				locationDate.setText(((LocationInfo)itemData).getDateString());
-				locationTime.setText(((LocationInfo)itemData).getTimeString());
-				locationAddress.setText(((LocationInfo)itemData).getAddress());
-				break;
-				
-			case LocationListAdapter.TYPE_TIME:
-				((TextView)convertView).setText(((LocationTimeInfo)itemData).getTimeString());
-				break;
 
-			default:
-				break;
-		}
+	@Override
+	protected int getBackViewId()
+	{
+		return 0;
+	}
+
+	@Override
+	public void fillData(ViewGroup parent, View convertView, LocationInfo itemData, int position)
+	{
+		locationDate.setText(((LocationInfo)itemData).getDateString());
+		locationTime.setText(((LocationInfo)itemData).getTimeString());
+		locationAddress.setText(((LocationInfo) itemData).getAddress());
 	}
 
 }

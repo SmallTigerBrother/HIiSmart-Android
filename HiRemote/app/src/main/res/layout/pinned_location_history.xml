@@ -10,10 +10,10 @@
         android:layout_height="wrap_content" >
     </com.mn.tiger.widget.TGSearchView>
 
-    <ListView
+    <com.mn.tiger.widget.swipelistview.SwipeListView
         android:id="@+id/pinned_location_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </ListView>
+    </com.mn.tiger.widget.swipelistview.SwipeListView>
 
 </LinearLayout>

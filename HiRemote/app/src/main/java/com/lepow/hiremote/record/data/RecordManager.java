@@ -1,14 +1,14 @@
 package com.lepow.hiremote.record.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
 import com.mn.tiger.datastorage.db.sqlite.Selector;
 import com.mn.tiger.log.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecordManager
 {
@@ -35,7 +35,7 @@ public class RecordManager
 		return instanse;
 	}
 	
-	public List<RecordInfo> findAll(Context context)
+	public List<RecordInfo> findAllRecordsSortByTime(Context context)
 	{
 		try
 		{
@@ -46,13 +46,6 @@ public class RecordManager
 			LOG.e(e);
 			return new ArrayList<RecordInfo>();
 		}
-	}
-	
-	public List<Object> findAllRecordsSortByTime(Context context)
-	{
-		List<RecordInfo> recordInfos = findAll(context);
-		//TODO 
-		return null;
 	}
 	
 	public void saveRecord(Context context, RecordInfo recordInfo)
@@ -73,7 +66,7 @@ public class RecordManager
 		{
 			//删除数据库记录
 			getDBManager(context).delete(recordInfo);
-			//删除文件
+			//TODO 删除文件
 			
 		}
 		catch (DbException e)

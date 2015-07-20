@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <ListView 
+    <com.mn.tiger.widget.swipelistview.SwipeListView
         android:id="@+id/disconnect_location_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ></ListView>
+        ></com.mn.tiger.widget.swipelistview.SwipeListView>
 
 </LinearLayout>
