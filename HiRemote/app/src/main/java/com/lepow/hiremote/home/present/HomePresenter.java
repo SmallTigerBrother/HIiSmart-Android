@@ -20,24 +20,6 @@ public class HomePresenter extends Presenter
 	{
 		view.initDeviceBanner(DeviceManager.getInstanse().getAllDevices());
 		
-		if(AppSettings.isConnectedSettingOn(getActivity()))
-		{
-			view.turnOnConnectSetting();
-		}
-		else
-		{
-			view.turnOffConnectSetting();
-		}
-		
-		if(AppSettings.isFindSettingOn(getActivity()))
-		{
-			view.turnOnFindSetting();
-		}
-		else
-		{
-			view.turnOffFindSetting();
-		}
-		
 		if(AppSettings.isNotificationSettingOn(getActivity()))
 		{
 			view.turnOnNotificationSetting();
@@ -54,34 +36,6 @@ public class HomePresenter extends Presenter
 		else
 		{
 			view.turnOffVoiceSetting();
-		}
-	}
-	
-	public void turnOnOrOffConnectSetting()
-	{
-		if(AppSettings.isConnectedSettingOn(getActivity()))
-		{
-			AppSettings.setConnectedSetting(getActivity(), false);
-			view.turnOffConnectSetting();
-		}
-		else
-		{
-			AppSettings.setConnectedSetting(getActivity(), true);
-			view.turnOnConnectSetting();
-		}
-	}
-	
-	public void turnOnOrOffFindSetting()
-	{
-		if(AppSettings.isFindSettingOn(getActivity()))
-		{
-			AppSettings.setFindSetting(getActivity(), false);
-			view.turnOffFindSetting();
-		}
-		else
-		{
-			AppSettings.setFindSetting(getActivity(), true);
-			view.turnOnFindSetting();
 		}
 	}
 	

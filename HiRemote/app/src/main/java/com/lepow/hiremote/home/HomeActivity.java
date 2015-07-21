@@ -36,28 +36,22 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	LinearLayout functionBord;
 
 	@FindView(R.id.function_pinned_location_image)
-	ImageView pinnedLocationImg;
+	Button pinnedLocationImg;
 
 	@FindView(R.id.function_camera_shutter_image)
-	ImageView cameraShutterImg;
+	Button cameraShutterImg;
 
 	@FindView(R.id.function_find_item_image)
-	ImageView findItemImg;
+	Button findItemImg;
 
 	@FindView(R.id.function_voice_memos_image)
-	ImageView voiceMemosImg;
+	Button voiceMemosImg;
 
 	@FindView(R.id.common_settings_btn)
 	Button settingsBtn;
 
 	@FindView(R.id.common_settings_bord)
 	LinearLayout settingsBord;
-
-	@FindView(R.id.connect_switch)
-	Switch connectSwitch;
-
-	@FindView(R.id.find_switch)
-	Switch findSwitch;
 
 	@FindView(R.id.notification_switch)
 	Switch notificationSwitch;
@@ -104,8 +98,7 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		});
 	}
 
-	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn ,
-		R.id.connect_switch, R.id.find_switch, R.id.notification_switch, R.id.voice_switch})
+	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch})
 	public void onClick(View view)
 	{
 		switch (view.getId())
@@ -118,14 +111,6 @@ public class HomeActivity extends BaseActivity implements IHomeView
 			case R.id.common_settings_btn:
 				functionBord.setVisibility(View.GONE);
 				settingsBord.setVisibility(View.VISIBLE);
-				break;
-
-			case R.id.connect_switch:
-				presenter.turnOnOrOffConnectSetting();
-				break;
-
-			case R.id.find_switch:
-				presenter.turnOnOrOffFindSetting();
 				break;
 
 			case R.id.notification_switch:
@@ -144,30 +129,6 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	public void initDeviceBanner(List<DeviceInfo> deviceInfos)
 	{
 		bannerPagerView.setData(deviceInfos);
-	}
-
-	@Override
-	public void turnOnConnectSetting()
-	{
-		connectSwitch.setChecked(true);
-	}
-
-	@Override
-	public void turnOffConnectSetting()
-	{
-		connectSwitch.setChecked(false);
-	}
-
-	@Override
-	public void turnOnFindSetting()
-	{
-		findSwitch.setChecked(true);
-	}
-
-	@Override
-	public void turnOffFindSetting()
-	{
-		findSwitch.setChecked(false);
 	}
 
 	@Override

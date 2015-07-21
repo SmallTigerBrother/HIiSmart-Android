@@ -4,4 +4,61 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- 以20pt为基准换算 -->
+    <dimen name="text_size_70pt">58sp</dimen>
+    <dimen name="text_size_60pt">42sp</dimen>
+    <dimen name="text_size_50pt">36sp</dimen>
+    <dimen name="text_size_38pt">22sp</dimen>
+    <dimen name="text_size_34pt">20sp</dimen>
+    <dimen name="text_size_30pt">18sp</dimen>
+    <dimen name="text_size_28pt">17sp</dimen>
+    <dimen name="text_size_26pt">15sp</dimen>
+    <dimen name="text_size_24pt">14sp</dimen>
+    <dimen name="text_size_22pt">13sp</dimen>
+    <dimen name="text_size_20pt">12sp</dimen>
+
+
+    <!-- 以20px为基准换算 -->
+    <dimen name="margin_val_6px">4dp</dimen>
+    <dimen name="margin_val_10px">6dp</dimen>
+    <dimen name="margin_val_12px">8dp</dimen>
+    <dimen name="margin_val_14px">8dp</dimen>
+    <dimen name="margin_val_16px">10dp</dimen>
+    <dimen name="margin_val_18px">10dp</dimen>
+    <dimen name="margin_val_20px">12dp</dimen>
+    <dimen name="margin_val_22px">12dp</dimen>
+    <dimen name="margin_val_24px">14dp</dimen>
+    <dimen name="margin_val_26px">14dp</dimen>
+    <dimen name="margin_val_28px">15dp</dimen>
+    <dimen name="margin_val_30px">15dp</dimen>
+    <dimen name="margin_val_32px">16dp</dimen>
+    <dimen name="margin_val_34px">17dp</dimen>
+    <dimen name="margin_val_36px">18dp</dimen>
+    <dimen name="margin_val_38px">18dp</dimen>
+    <dimen name="margin_val_40px">20dp</dimen>
+    <dimen name="margin_val_42px">21dp</dimen>
+    <dimen name="margin_val_48px">23dp</dimen>
+    <dimen name="margin_val_50px">24dp</dimen>
+    <dimen name="margin_val_52px">24dp</dimen>
+    <dimen name="margin_val_54px">28dp</dimen>
+    <dimen name="margin_val_58px">30dp</dimen>
+    <dimen name="margin_val_60px">32dp</dimen>
+    <dimen name="margin_val_64px">34dp</dimen>
+    <dimen name="margin_val_70px">36dp</dimen>
+    <dimen name="margin_val_72px">36dp</dimen>
+    <dimen name="margin_val_86px">44dp</dimen>
+    <dimen name="margin_val_106px">54dp</dimen>
+    <dimen name="margin_val_120px">60dp</dimen>
+    <dimen name="margin_val_130px">68dp</dimen>
+    <dimen name="margin_val_142px">70dp</dimen>
+    <dimen name="margin_val_144px">72dp</dimen>
+    <dimen name="margin_val_150px">76dp</dimen>
+    <dimen name="margin_val_160px">80dp</dimen>
+    <dimen name="margin_val_190px">100dp</dimen>
+    <dimen name="margin_val_210px">104dp</dimen>
+    <dimen name="margin_val_260px">130dp</dimen>
+    <dimen name="margin_val_300px">150dp</dimen>
+    <dimen name="margin_val_550px">260dp</dimen>
+
+
 </resources>

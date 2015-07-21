@@ -10,14 +10,6 @@ public interface IHomeView extends IView
 {
 	void initDeviceBanner(List<DeviceInfo> deviceInfos);
 
-	void turnOnConnectSetting();
-
-	void turnOffConnectSetting();
-
-	void turnOnFindSetting();
-
-	void turnOffFindSetting();
-
 	void turnOnNotificationSetting();
 
 	void turnOffNotificationSetting();

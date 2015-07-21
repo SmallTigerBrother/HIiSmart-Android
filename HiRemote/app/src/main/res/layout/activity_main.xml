@@ -17,26 +17,30 @@
         <com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView
             android:id="@+id/devices_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="250dp" >
+            android:layout_height="@dimen/margin_val_300px" >
         </com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_val_20px"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/common_function_btn"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
+                android:background="@android:color/white"
+                android:textSize="@dimen/text_size_30pt"
                 android:text="@string/my_bag" />
 
             <Button
                 android:id="@+id/common_settings_btn"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_bright"
+                android:textSize="@dimen/text_size_30pt"
                 android:text="@string/edit" />
         </LinearLayout>
 
@@ -57,17 +61,19 @@
                     android:layout_weight="1"
                     android:orientation="vertical" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/function_pinned_location_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_launcher" />
+                        android:background="@drawable/location_button_bg"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="@dimen/margin_val_20px"
                         android:text="@string/intro_location_title" />
                 </LinearLayout>
 
@@ -77,17 +83,19 @@
                     android:layout_weight="1"
                     android:orientation="vertical" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/function_camera_shutter_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_launcher" />
+                        android:background="@drawable/camera_button_bg" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="@dimen/margin_val_20px"
                         android:text="@string/intro_camera_title" />
                 </LinearLayout>
             </LinearLayout>
@@ -95,6 +103,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
                 android:orientation="horizontal" >
 
                 <LinearLayout
@@ -103,17 +112,19 @@
                     android:layout_weight="1"
                     android:orientation="vertical" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/function_find_item_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_launcher" />
+                        android:background="@drawable/find_button_bg" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="@dimen/margin_val_20px"
                         android:text="@string/intro_find_title" />
                 </LinearLayout>
 
@@ -123,17 +134,19 @@
                     android:layout_weight="1"
                     android:orientation="vertical" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/function_voice_memos_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_launcher" />
+                        android:background="@drawable/voice_button_bg" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="@dimen/margin_val_20px"
                         android:text="@string/intro_voice_title" />
                 </LinearLayout>
             </LinearLayout>
@@ -145,67 +158,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" 
             android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/connect_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@id/connect_switch"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="sfsffd" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="sfsfsfsdf" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <Switch
-                    android:id="@+id/find_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@id/find_switch"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="sfsffd" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="sfsfsfsdf" />
-                </LinearLayout>
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
