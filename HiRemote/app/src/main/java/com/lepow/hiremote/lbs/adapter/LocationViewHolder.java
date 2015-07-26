@@ -27,6 +27,7 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
 	@Override
 	protected int getFrontViewId()
 	{
+//		return R.id.;
 		return 0;
 	}
 

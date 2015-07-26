@@ -10,6 +10,7 @@
     <dimen name="text_size_50pt">36sp</dimen>
     <dimen name="text_size_38pt">22sp</dimen>
     <dimen name="text_size_34pt">20sp</dimen>
+    <dimen name="text_size_32pt">19sp</dimen>
     <dimen name="text_size_30pt">18sp</dimen>
     <dimen name="text_size_28pt">17sp</dimen>
     <dimen name="text_size_26pt">15sp</dimen>

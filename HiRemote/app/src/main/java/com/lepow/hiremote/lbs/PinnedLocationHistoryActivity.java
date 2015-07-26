@@ -40,7 +40,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity
 		listView.setSwipeOpenOnLongPress(true);
 
 		listAdapter = new TGListAdapter<LocationInfo>(this, LocationManager.getInstanse().findAllPinnedLocationSortByTime(this),
-				-1, LocationViewHolder.class);
+				R.layout.location_list_item, LocationViewHolder.class);
 		listView.setAdapter(listAdapter);
 	}
 	

@@ -4,38 +4,80 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/list_right_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/location_list_item_above"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/list_right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/add_device" />
+
+        <TextView
+            android:id="@+id/location_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/list_right_arrow"
+            android:layout_marginRight="@dimen/margin_val_30px"
+            android:text="12:00" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_val_10px"
+            android:paddingBottom="@dimen/margin_val_10px">
+
+            <TextView
+                android:id="@+id/location_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_32pt"
+                android:text="Jan.1" />
+
+            <TextView
+                android:id="@+id/location_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:textSize="@dimen/text_size_26pt"
+                android:drawableLeft="@drawable/add_device"
+                android:drawablePadding="@dimen/margin_val_6px"
+                android:text="street mahaton" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/location_list_item_below"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/location_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/list_right_arrow"
-        android:text="12:00" />
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_val_10px"
+        android:paddingRight="@dimen/margin_val_10px">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/location_delete"
+            android:layout_width="@dimen/margin_val_40px"
+            android:layout_height="@dimen/margin_val_40px"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/add_device"/>
 
-        <TextView
-            android:id="@+id/location_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jan.1" />
+        <ImageView
+            android:id="@+id/location_edit"
+            android:layout_width="@dimen/margin_val_40px"
+            android:layout_height="@dimen/margin_val_40px"
+            android:layout_toLeftOf="@+id/location_delete"
+            android:src="@drawable/add_device"
+            android:layout_marginRight="@dimen/margin_val_20px"
+            />
 
-        <TextView
-            android:id="@+id/location_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="street mahaton" />
-    </LinearLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

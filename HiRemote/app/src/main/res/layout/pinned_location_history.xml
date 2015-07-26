@@ -12,6 +12,8 @@
 
     <com.mn.tiger.widget.swipelistview.SwipeListView
         android:id="@+id/pinned_location_history"
+        android:layout_marginLeft="@dimen/margin_val_20px"
+        android:layout_marginRight="@dimen/margin_val_20px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </com.mn.tiger.widget.swipelistview.SwipeListView>
