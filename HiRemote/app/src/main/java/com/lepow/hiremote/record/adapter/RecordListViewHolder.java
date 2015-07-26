@@ -1,11 +1,9 @@
 package com.lepow.hiremote.record.adapter;
 
-import android.annotation.SuppressLint;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.ButterKnife;
+
 import butterknife.FindView;
 import com.mn.tiger.widget.adpter.TGViewHolder;
 import com.lepow.hiremote.R;

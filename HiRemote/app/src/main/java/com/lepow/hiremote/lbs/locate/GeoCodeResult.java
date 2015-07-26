@@ -5,6 +5,7 @@ import java.util.List;
 public class GeoCodeResult
 {
 	private String status;
+
 	private List<AddressResult> results;
 
 	public String getStatus()

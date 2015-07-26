@@ -14,7 +14,7 @@ import com.lepow.hiremote.Dialog.HRDialog;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.PinnedLocationMapActivity;
 import com.lepow.hiremote.lbs.data.LocationInfo;
-import com.lepow.hiremote.lbs.data.LocationManager;
+import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.widget.swipelistview.SwipeListViewHolder;
@@ -100,11 +100,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
         switch (itemData.getDataType())
         {
             case TYPE_PINNED_LOCATION:
-                LocationManager.getInstanse().removePinnedLocation(getContext(), itemData);
+                LocationDataManager.getInstanse().removePinnedLocation(getContext(), itemData);
                 break;
 
             case TYPE_DISCONNECT_LOCATIONA:
-                LocationManager.getInstanse().removeDisconnectedLocation(getContext(), itemData);
+                LocationDataManager.getInstanse().removeDisconnectedLocation(getContext(), itemData);
                 break;
 
             default:
@@ -173,11 +173,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
                 switch (itemData.getDataType())
                 {
                     case TYPE_PINNED_LOCATION:
-                        LocationManager.getInstanse().savePinnedLocation(getContext(), itemData);
+                        LocationDataManager.getInstanse().savePinnedLocation(getContext(), itemData);
                         break;
 
                     case TYPE_DISCONNECT_LOCATIONA:
-                        LocationManager.getInstanse().saveDisconnectedLocation(getContext(), itemData);
+                        LocationDataManager.getInstanse().saveDisconnectedLocation(getContext(), itemData);
                         break;
                     default:
                         break;

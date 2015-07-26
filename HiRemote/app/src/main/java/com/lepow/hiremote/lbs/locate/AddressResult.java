@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class AddressResult
 {
 	private String[] types;
+
 	private String formatted_address;
 
 	public String getFormatted_address()

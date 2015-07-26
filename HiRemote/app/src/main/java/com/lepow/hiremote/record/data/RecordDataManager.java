@@ -10,26 +10,26 @@ import com.mn.tiger.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordManager
+public class RecordDataManager
 {
-	private static final Logger LOG = Logger.getLogger(RecordManager.class);
+	private static final Logger LOG = Logger.getLogger(RecordDataManager.class);
 	
 	private static final String DB_NAME = "hismart_records";
 	
 	private static final int DB_VERSION = 1;
 	
-	private static RecordManager instanse;
+	private static RecordDataManager instanse;
 	
 	private static TGDBManager getDBManager(Context context)
 	{
 		return TGDBManager.create(context, DB_NAME, DB_VERSION, null);
 	}
 	
-	public static synchronized RecordManager getInstanse()
+	public static synchronized RecordDataManager getInstanse()
 	{
 		if(null == instanse)
 		{
-			instanse = new RecordManager();
+			instanse = new RecordDataManager();
 		}
 		
 		return instanse;

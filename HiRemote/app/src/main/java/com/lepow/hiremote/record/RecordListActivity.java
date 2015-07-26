@@ -2,13 +2,15 @@ package com.lepow.hiremote.record;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.record.adapter.RecordListViewHolder;
 import com.lepow.hiremote.record.data.RecordInfo;
-import com.lepow.hiremote.record.data.RecordManager;
+import com.lepow.hiremote.record.data.RecordDataManager;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
 
@@ -42,7 +44,7 @@ public class RecordListActivity extends BaseActivity
 		
 		ButterKnife.bind(this);
 
-		listAdapter = new TGListAdapter<RecordInfo>(this, RecordManager.getInstanse().findAllRecordsSortByTime(this),
+		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstanse().findAllRecordsSortByTime(this),
 			R.layout.record_history_list_item, RecordListViewHolder.class);
 		listView.setAdapter(listAdapter);
 
@@ -50,10 +52,10 @@ public class RecordListActivity extends BaseActivity
 	}
 
 	@OnItemClick(R.id.record_list_view)
-	public void onItemClick(RecordInfo recordInfo)
+	public void onItemClick(AdapterView<?> adapterView, View convertView, int position)
 	{
 		//显示录音播放、编辑框
-		recordPopupWindow.setData(recordInfo);
+		recordPopupWindow.setData((RecordInfo)listAdapter.getItem(position));
 		recordPopupWindow.showAsDropDown(searchView);
 	}
 
@@ -63,7 +65,7 @@ public class RecordListActivity extends BaseActivity
 		String queryText = searchView.getQueryText();
 		if(!TextUtils.isEmpty(queryText))
 		{
-			List<RecordInfo> recordInfos = RecordManager.getInstanse().findAllRecordsSortByTime(this, queryText);
+			List<RecordInfo> recordInfos = RecordDataManager.getInstanse().findAllRecordsSortByTime(this, queryText);
 			listAdapter.updateData(recordInfos);
 		}
 	}
