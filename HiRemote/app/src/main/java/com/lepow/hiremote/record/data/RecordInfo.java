@@ -50,6 +50,11 @@ public class RecordInfo implements Serializable
 	{
 		this.duration = duration;
 	}
+
+	public String getDurationString()
+	{
+		return duration + "";
+	}
 	
 	public String getFilePath()
 	{

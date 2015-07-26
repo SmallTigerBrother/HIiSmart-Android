@@ -5,4 +5,6 @@ package com.lepow.hiremote.misc;
  */
 public class ActivityResultCode
 {
+    public static final int DISCONNECT_LOCATION_HISTORY = 1000;
+
 }

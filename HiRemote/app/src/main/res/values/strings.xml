@@ -21,5 +21,11 @@
     <string name="edit">Edit</string>
     
     <string name="start">Start</string>
+    
+    <string name="edit_location_title">Change a name</string>
+    <string name="edit_record_title">Change a name</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confim</string>
 
 </resources>

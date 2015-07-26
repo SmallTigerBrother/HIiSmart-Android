@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_record_title"
+        android:paddingLeft="@dimen/margin_val_30px"
+        android:paddingTop="@dimen/margin_val_16px"
+        android:paddingBottom="@dimen/margin_val_16px"
+        android:paddingRight="@dimen/margin_val_30px"
+        android:background="@android:color/holo_green_light"/>
+
+    <EditText
+        android:id="@+id/record_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:paddingLeft="@dimen/margin_val_30px"
+        android:paddingTop="@dimen/margin_val_16px"
+        android:paddingBottom="@dimen/margin_val_16px"
+        android:paddingRight="@dimen/margin_val_30px"
+        android:text="New Record1"
+        android:enabled="false"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="30px">
+        
+        <TextView
+            android:id="@+id/record_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:text="1/19/15"/>
+
+        <TextView
+            android:id="@+id/record_time_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00:09"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_val_30px">
+
+        <ImageView
+            android:id="@+id/record_play_icon"
+            android:layout_width="@dimen/margin_val_40px"
+            android:layout_height="@dimen/margin_val_40px"
+            android:src="@drawable/add_device"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/record_play_current_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_val_10px"
+            android:text="0:00"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/record_play_progress"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_val_10px"
+            style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+        <TextView
+            android:id="@+id/record_play_surplus_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_val_10px"
+            android:text="-0:09"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_val_30px"
+        android:background="@drawable/top_000000_stroke_white_bg">
+
+        <ImageView
+            android:id="@+id/record_delete"
+            android:layout_width="@dimen/margin_val_40px"
+            android:layout_height="@dimen/margin_val_40px"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/add_device"/>
+
+        <ImageView
+            android:id="@+id/record_edit"
+            android:layout_width="@dimen/margin_val_40px"
+            android:layout_height="@dimen/margin_val_40px"
+            android:layout_toLeftOf="@+id/record_delete"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:src="@drawable/add_device"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,14 +1,14 @@
 package com.lepow.hiremote.lbs.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
 import com.mn.tiger.datastorage.db.sqlite.Selector;
 import com.mn.tiger.log.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocationManager
 {
@@ -96,14 +96,6 @@ public class LocationManager
 			LOG.e(e);
 			return new ArrayList<LocationInfo>();
 		}
-	}
-
-	private List<Object> insertTimeSectionInfo(List<LocationInfo> locationInfos)
-	{
-		ArrayList<Object> results = new ArrayList<Object>();
-
-		// TODO 加入时间信息
-		return results;
 	}
 
 	public void saveDisconnectedLocation(Context context, LocationInfo locationInfo)

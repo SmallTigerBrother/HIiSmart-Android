@@ -16,6 +16,8 @@ public class LocationInfo implements Serializable
 	private String address;
 	
 	private String remark;
+
+	private DataType dataType;
 	
 	public void setTime(long time)
 	{
@@ -75,5 +77,21 @@ public class LocationInfo implements Serializable
 	public void setRemark(String remark)
 	{
 		this.remark = remark;
+	}
+
+	public void setDataType(DataType dataType)
+	{
+		this.dataType = dataType;
+	}
+
+	public DataType getDataType()
+	{
+		return dataType;
+	}
+
+	public static enum DataType
+	{
+		TYPE_PINNED_LOCATION,
+		TYPE_DISCONNECT_LOCATIONA
 	}
 }

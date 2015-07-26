@@ -16,48 +16,51 @@ import butterknife.ButterKnife;
 import butterknife.FindView;
 import butterknife.tiger.OnQueryText;
 
+/**
+ * 断开连接的地址历史界面
+ */
 public class DisconnectLocationHistory extends BaseActivity
 {
-	@FindView(R.id.disconnect_location_history)
-	SwipeListView locationListView;
+    @FindView(R.id.disconnect_location_history)
+    SwipeListView locationListView;
 
-	private TGListAdapter<LocationInfo> listAdapter;
+    private TGListAdapter<LocationInfo> listAdapter;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.disconnect_location_history);
-		
-		ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.disconnect_location_history);
 
-		locationListView.setSwipeCloseAllItemsWhenMoveList(true);
-		locationListView.setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
-		locationListView.setSwipeOpenOnLongPress(true);
+        ButterKnife.bind(this);
 
-		listAdapter = new TGListAdapter<LocationInfo>(this, LocationManager.getInstanse().findAllDisconnectedLocationOderByTime(this),
-				-1, LocationViewHolder.class);
-		locationListView.setAdapter(listAdapter);
-	}
+        locationListView.setSwipeCloseAllItemsWhenMoveList(true);
+        locationListView.setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
+        locationListView.setSwipeOpenOnLongPress(true);
+
+        listAdapter = new TGListAdapter<LocationInfo>(this, LocationManager.getInstanse().findAllDisconnectedLocationOderByTime(this),
+                R.layout.location_list_item, LocationViewHolder.class);
+        locationListView.setAdapter(listAdapter);
+    }
 
 
-	/**
-	 * 搜索提交回调方法
-	 * @param queryText
-	 */
-	@OnQueryText(R.id.location_search)
-	public void onSearchSubmit(CharSequence queryText)
-	{
-		//根据关键字查找本地数据
-		List<LocationInfo> results = LocationManager.getInstanse().findAllDisconnectedLocationOderByTime(this, queryText.toString());
-		if(null == results || results.size() == 0)
-		{
-			//TODO 显示未搜索到结果的提示界面
-		}
-		else
-		{
-			//更新列表内容
-			listAdapter.updateData(results);
-		}
-	}
+    /**
+     * 搜索提交回调方法
+     *
+     * @param queryText
+     */
+    @OnQueryText(R.id.location_search)
+    public void onSearchSubmit(CharSequence queryText)
+    {
+        //根据关键字查找本地数据
+        List<LocationInfo> results = LocationManager.getInstanse().findAllDisconnectedLocationOderByTime(this, queryText.toString());
+        if (null == results || results.size() == 0)
+        {
+            //TODO 显示未搜索到结果的提示界面
+        } else
+        {
+            //更新列表内容
+            listAdapter.updateData(results);
+        }
+    }
 }

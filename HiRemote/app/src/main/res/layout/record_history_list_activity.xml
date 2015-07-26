@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/record_list_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-    
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</ListView>
+    <com.mn.tiger.widget.TGSearchView
+        android:id="@+id/record_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.mn.tiger.widget.TGSearchView>
+
+    <ListView
+        android:id="@+id/record_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_val_20px"
+        android:layout_marginRight="@dimen/margin_val_20px"></ListView>
+
+</LinearLayout>

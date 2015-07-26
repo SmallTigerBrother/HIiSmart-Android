@@ -47,12 +47,26 @@ public class RecordManager
 			return new ArrayList<RecordInfo>();
 		}
 	}
+
+	public List<RecordInfo> findAllRecordsSortByTime(Context context, String queryText)
+	{
+		try
+		{
+			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("time")
+					.and("name", "like", queryText));
+		}
+		catch (DbException e)
+		{
+			LOG.e(e);
+			return new ArrayList<RecordInfo>();
+		}
+	}
 	
 	public void saveRecord(Context context, RecordInfo recordInfo)
 	{
 		try
 		{
-			getDBManager(context).save(recordInfo);
+			getDBManager(context).saveOrUpdate(recordInfo);
 		}
 		catch (DbException e)
 		{
