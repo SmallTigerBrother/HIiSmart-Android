@@ -1,4 +1,4 @@
-package com.lepow.hiremote.lbs.locate;
+package com.lepow.hiremote.mn.tiger.location;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -10,9 +10,11 @@ import com.mn.tiger.app.TGApplication;
  * Created by Dalang on 2015/7/26.
  * 百度定位管理类
  */
-public class BaiduLocationManager
+public class BaiduLocationManager implements ILocationManager
 {
     private LocationClient locationClient;
+
+    private ILocationListener listener;
 
     private BDLocationListener locationListener = new BDLocationListener()
     {
@@ -20,7 +22,10 @@ public class BaiduLocationManager
         public void onReceiveLocation(BDLocation bdLocation)
         {
             //发通知界面处理
-            TGApplication.getBus().post(bdLocation);
+            if(null != listener)
+            {
+                listener.onReceiveLocation(TGLocation.initWith(bdLocation));
+            }
         }
     };
 
@@ -41,11 +46,36 @@ public class BaiduLocationManager
         locationClient.setLocOption(option);
     }
 
+    public void checkLocationIsChina(ILocationListener listener)
+    {
+        locationClient.registerLocationListener(new BDLocationListener()
+        {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation)
+            {
+                locationClient.unRegisterLocationListener(this);
+                listener.onReceiveLocation(TGLocation.initWith(bdLocation));
+            }
+        });
+    }
+
     /**
      * 请求定位
      */
+    @Override
     public void requestLocationUpdates()
     {
         locationClient.start();
+    }
+
+    @Override
+    public void setLocationListener(ILocationListener listener)
+    {
+        this.listener = listener;
+    }
+
+    public static boolean isLocationInChina(TGLocation location)
+    {
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.lepow.hiremote.lbs.locate;
+package com.lepow.hiremote.mn.tiger.location;
 
 import java.util.List;
 

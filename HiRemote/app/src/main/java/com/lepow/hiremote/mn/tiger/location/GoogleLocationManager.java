@@ -1,4 +1,4 @@
-package com.lepow.hiremote.lbs.locate;
+package com.lepow.hiremote.mn.tiger.location;
 
 import android.content.Context;
 import android.location.Location;
@@ -12,7 +12,7 @@ import com.mn.tiger.app.TGApplication;
 /**
  * Created by Dalang on 2015/7/26.
  */
-public class GoogleLocationManager
+public class GoogleLocationManager implements ILocationManager
 {
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
@@ -26,6 +26,8 @@ public class GoogleLocationManager
      */
     private LocationManager locationManager;
 
+    private ILocationListener listener;
+
     public GoogleLocationManager()
     {
         locationManager = (LocationManager) TGApplication.getInstance().getSystemService(Context.LOCATION_SERVICE);
@@ -34,10 +36,17 @@ public class GoogleLocationManager
     /**
      * 请求地址更新
      */
+    @Override
     public void requestLocationUpdates()
     {
         requestGPSLocationUpdates();
         requestNetworkLocationUpdates();
+    }
+
+    @Override
+    public void setLocationListener(ILocationListener listener)
+    {
+        this.listener = listener;
     }
 
     /**
@@ -151,8 +160,32 @@ public class GoogleLocationManager
     private void updateLocation(Location location)
     {
         this.lastLocation = location;
-        //发通知界面处理
-        TGApplication.getBus().post(location);
+        GoogleGeoCoding.geoCoding(location.getLatitude(), location.getLongitude(), new GoogleGeoCoding.GeoCodeListener()
+        {
+            @Override
+            public void onGeoCodingSuccess(GeoCodeResult result)
+            {
+                //发通知界面处理
+                if (null != listener)
+                {
+                    TGLocation tgLocation = TGLocation.initWith(location);
+                    if(result.getResults().size() > 0)
+                    {
+                        AddressResult addressResult = result.getResults().get(0);
+                        //TODO 分析数据
+                        tgLocation.setCountry(addressResult.getFormatted_address());
+                    }
+                    listener.onReceiveLocation(tgLocation);
+                }
+            }
+
+            @Override
+            public void onGeoCodingError(int code, String message)
+            {
+
+            }
+        });
+
     }
 
     /**
