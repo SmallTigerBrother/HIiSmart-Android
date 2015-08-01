@@ -21,7 +21,7 @@ public class HSApplication extends TGApplication
         httpLoader.addRequestParam("appVersion", PackageUtils.getPackageInfoByName(this, this.getPackageName()).versionName);
         httpLoader.addRequestParam("system", "android");
         httpLoader.addRequestParam("appId", getPackageName());
-        httpLoader.setHttpType(HttpType.REQUEST_GET);
+        httpLoader.setHttpType(HttpType.REQUEST_POST);
 
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());
         TGUpgradeManager.setCheckUpgradeHttpLoader(httpLoader);

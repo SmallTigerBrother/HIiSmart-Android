@@ -1,4 +1,4 @@
-package com.lepow.hiremote.Dialog;
+package com.lepow.hiremote.dialog;
 
 import android.content.Context;
 import android.graphics.Color;

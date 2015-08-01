@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lepow.hiremote.Dialog.HRDialog;
+import com.lepow.hiremote.dialog.HRDialog;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.PinnedLocationMapActivity;
 import com.lepow.hiremote.lbs.data.LocationInfo;
