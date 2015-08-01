@@ -1,4 +1,4 @@
-package com.lepow.hiremote.mn.tiger.location;
+package com.mn.tiger.location;
 
 /**
  * Created by Dalang on 2015/7/26.

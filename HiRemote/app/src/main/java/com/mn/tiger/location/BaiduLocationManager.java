@@ -1,4 +1,4 @@
-package com.lepow.hiremote.mn.tiger.location;
+package com.mn.tiger.location;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;

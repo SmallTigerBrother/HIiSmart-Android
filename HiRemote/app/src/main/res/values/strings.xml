@@ -27,5 +27,16 @@
 
     <string name="cancel">Cancel</string>
     <string name="confirm">Confim</string>
+    <string name="exit_now">Exit Now</string>
+    <string name="tips">Tips</string>
+    <string name="your_app_is_invalid">We are so sorry to tell you that this App is invalid now!</string>
+    <string name="upgrade_now">Upgrade Now</string>
+    <string name="upgrade_later">Upgrade Later</string>
+    <string name="downloading">Downloading</string>
+    <string name="prompt_upgrade_string_format">The new version %1$s is found. \n %2$s</string>
+    <string name="force_upgrade_string_format">This version of app is Invalid now. You must upgrade to the new version %1$s. \n %2$s</string>
+
+    <string name="something_wrong_downloading_try_again">There was something wrong occured while dowloading package, please try again!</string>
+    <string name="something_wrong_downloading_try_later">There was something wrong occured while dowloading package, you can try later!</string>
 
 </resources>
