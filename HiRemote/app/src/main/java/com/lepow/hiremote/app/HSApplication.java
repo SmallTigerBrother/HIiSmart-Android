@@ -1,8 +1,14 @@
 package com.lepow.hiremote.app;
 
+import com.lepow.hiremote.misc.ServerUrls;
+import com.lepow.hiremote.request.HttpLoader;
+import com.lepow.hiremote.request.SimpleLoadCallback;
+import com.mn.tiger.request.HttpType;
+import com.mn.tiger.request.receiver.TGHttpResult;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.utility.PackageUtils;
 
 public class HSApplication extends TGApplication
 {
@@ -11,7 +17,14 @@ public class HSApplication extends TGApplication
     {
         super.onCreate();
 
+        HttpLoader<Void> httpLoader = new HttpLoader<Void>();
+        httpLoader.addRequestParam("appVersion", PackageUtils.getPackageInfoByName(this, this.getPackageName()).versionName);
+        httpLoader.addRequestParam("system", "android");
+        httpLoader.addRequestParam("appId", getPackageName());
+        httpLoader.setHttpType(HttpType.REQUEST_GET);
+
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());
-        TGUpgradeManager.upgrade();
+        TGUpgradeManager.setCheckUpgradeHttpLoader(httpLoader);
+        TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
     }
 }

@@ -59,8 +59,8 @@ public class TGUpgradeDialogActivity extends Activity
         }
     }
 
-    private void showPromptUpgradeDialog(String latestVersion, String description,
-                                         String packageUrl)
+    private void showPromptUpgradeDialog(final  String latestVersion, String description,
+                                         final String packageUrl)
     {
         HSAlertDialog dialog = new HSAlertDialog(this);
         dialog.setTitle(getString(R.string.tips));
@@ -118,10 +118,10 @@ public class TGUpgradeDialogActivity extends Activity
         });
     }
 
-    private void showForceUpgradeDialog(String latestVersion, String description,
-                                        String packageUrl)
+    private void showForceUpgradeDialog(final String latestVersion, String description,
+                                        final String packageUrl)
     {
-        HSAlertDialog upgradeDialog = new HSAlertDialog(this);
+        final HSAlertDialog upgradeDialog = new HSAlertDialog(this);
         upgradeDialog.setTitle(getString(R.string.tips));
         upgradeDialog.setBodyText(getString(R.string.force_upgrade_string_format, latestVersion, description));
         upgradeDialog.setLeftButton(getString(R.string.exit_now), new DialogInterface.OnClickListener()
@@ -139,7 +139,7 @@ public class TGUpgradeDialogActivity extends Activity
             public void onClick(DialogInterface dialog, int which)
             {
                 upgradeDialog.setTitle(R.string.downloading);
-                ProgressBar progressBar = new ProgressBar(TGUpgradeDialogActivity.this);
+                final ProgressBar progressBar = new ProgressBar(TGUpgradeDialogActivity.this);
                 upgradeDialog.setBodyContentView(progressBar, new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 

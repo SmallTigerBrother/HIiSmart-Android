@@ -1,13 +1,11 @@
 package com.mn.tiger.upgrade;
 
-import android.content.Context;
 import android.content.Intent;
 
-import com.lepow.hiremote.request.Httploader;
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
+import com.mn.tiger.request.TGHttpLoader;
 import com.mn.tiger.request.receiver.TGHttpResult;
-import com.mn.tiger.utility.PackageUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,26 +31,33 @@ public class TGUpgradeManager
 
     private static IUpgradeDataParser upgradeDataParser;
 
-    public static void upgrade()
+    private static TGHttpLoader<Void> checkUpgradeHttpLoader;
+
+    public static void upgrade(String url)
     {
-        Context context = TGApplication.getInstance();
-        Httploader<Void> httploader = new Httploader<Void>();
-        httploader.addRequestParam("appVersion", PackageUtils.getPackageInfoByName(context,context.getPackageName()).versionName);
-        httploader.addRequestParam("system","android");
-        httploader.addRequestParam("appId",context.getPackageName());
-        httploader.loadByPost(context, UPGRADE_URL, Void.class, new Httploader.SimpleOnLoadCallback<Void>(context)
+        if(null == checkUpgradeHttpLoader || null == upgradeDataParser)
         {
+            LOG.e("[Method:upgrade] you must set checkUpgradeHttpLoader and upgradeDataParser before upgrade");
+            return;
+        }
+
+        checkUpgradeHttpLoader.load(TGApplication.getInstance(), url, Void.class, new TGHttpLoader.OnLoadCallback<Void>()
+        {
+            @Override
+            public void onLoadStart()
+            {
+            }
+
             @Override
             public void onLoadSuccess(Void result, TGHttpResult tgHttpResult)
             {
-                String resultString = tgHttpResult.getResult();
                 try
                 {
-                    JSONObject upgradeData = new JSONObject(resultString);
-                    if(null != upgradeDataParser)
+                    JSONObject upgradeData = new JSONObject(tgHttpResult.getResult());
+                    if (null != upgradeDataParser)
                     {
                         int upgradeMode = upgradeDataParser.getUpgradeMode(upgradeData);
-                        if(upgradeMode != IUpgradeDataParser.MODE_NOT_YET)
+                        if (upgradeMode != IUpgradeDataParser.MODE_NOT_YET)
                         {
                             startUpgradeActivity(upgradeMode,
                                     upgradeDataParser.getUpgradeLatestVersoin(upgradeData),
@@ -66,6 +71,21 @@ public class TGUpgradeManager
                 {
                     LOG.e(e);
                 }
+            }
+
+            @Override
+            public void onLoadError(int code, String message, TGHttpResult tgHttpResult)
+            {
+            }
+
+            @Override
+            public void onLoadCache(Void result, TGHttpResult tgHttpResult)
+            {
+            }
+
+            @Override
+            public void onLoadOver()
+            {
             }
         });
     }
@@ -83,9 +103,14 @@ public class TGUpgradeManager
         TGApplication.getInstance().startActivity(intent);
     }
 
-    public static void setUpgradeDataParser(IUpgradeDataParser policy)
+    public static void setUpgradeDataParser(IUpgradeDataParser upgradeDataParser)
     {
-        upgradeDataParser = policy;
+        TGUpgradeManager.upgradeDataParser = upgradeDataParser;
+    }
+
+    public static void setCheckUpgradeHttpLoader(TGHttpLoader<Void> checkUpgradeHttpLoader)
+    {
+        TGUpgradeManager.checkUpgradeHttpLoader = checkUpgradeHttpLoader;
     }
 
     static int getUpgradeModeFromIntent(Intent intent)
