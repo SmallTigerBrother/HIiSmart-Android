@@ -44,7 +44,7 @@ public class RecordListActivity extends BaseActivity
 		
 		ButterKnife.bind(this);
 
-		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstanse().findAllRecordsSortByTime(this),
+		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstance().findAllRecordsSortByTime(this),
 			R.layout.record_history_list_item, RecordListViewHolder.class);
 		listView.setAdapter(listAdapter);
 
@@ -65,7 +65,7 @@ public class RecordListActivity extends BaseActivity
 		String queryText = searchView.getQueryText();
 		if(!TextUtils.isEmpty(queryText))
 		{
-			List<RecordInfo> recordInfos = RecordDataManager.getInstanse().findAllRecordsSortByTime(this, queryText);
+			List<RecordInfo> recordInfos = RecordDataManager.getInstance().findAllRecordsSortByTime(this, queryText);
 			listAdapter.updateData(recordInfos);
 		}
 	}

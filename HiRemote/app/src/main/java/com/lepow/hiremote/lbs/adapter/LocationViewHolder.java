@@ -100,11 +100,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
         switch (itemData.getDataType())
         {
             case TYPE_PINNED_LOCATION:
-                LocationDataManager.getInstanse().removePinnedLocation(getContext(), itemData);
+                LocationDataManager.getInstance().removePinnedLocation(getContext(), itemData);
                 break;
 
             case TYPE_DISCONNECT_LOCATIONA:
-                LocationDataManager.getInstanse().removeDisconnectedLocation(getContext(), itemData);
+                LocationDataManager.getInstance().removeDisconnectedLocation(getContext(), itemData);
                 break;
 
             default:
@@ -173,11 +173,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
                 switch (itemData.getDataType())
                 {
                     case TYPE_PINNED_LOCATION:
-                        LocationDataManager.getInstanse().savePinnedLocation(getContext(), itemData);
+                        LocationDataManager.getInstance().savePinnedLocation(getContext(), itemData);
                         break;
 
                     case TYPE_DISCONNECT_LOCATIONA:
-                        LocationDataManager.getInstanse().saveDisconnectedLocation(getContext(), itemData);
+                        LocationDataManager.getInstance().saveDisconnectedLocation(getContext(), itemData);
                         break;
                     default:
                         break;

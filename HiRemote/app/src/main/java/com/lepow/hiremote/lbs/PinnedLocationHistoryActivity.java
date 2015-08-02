@@ -39,7 +39,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity
 		listView.setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
 		listView.setSwipeOpenOnLongPress(true);
 
-		listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstanse().findAllPinnedLocationSortByTime(this),
+		listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this),
 				R.layout.location_list_item, LocationViewHolder.class);
 		listView.setAdapter(listAdapter);
 	}
@@ -52,7 +52,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity
 	public void onSearchSubmit(CharSequence queryText)
 	{
 		//根据关键字查找本地数据
-		List<LocationInfo> results = LocationDataManager.getInstanse().findAllPinnedLocationSortByTime(this, queryText.toString());
+		List<LocationInfo> results = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this, queryText.toString());
 		if(null == results || results.size() == 0)
 		{
 			//TODO 显示未搜索到结果的提示界面
