@@ -9,6 +9,7 @@ import com.mn.tiger.request.HttpType;
 import com.mn.tiger.request.TGHttpLoader;
 import com.mn.tiger.request.async.TGHttpAsyncTask;
 import com.mn.tiger.request.receiver.TGHttpResult;
+import com.mn.tiger.utility.Commons;
 import com.mn.tiger.utility.PackageUtils;
 
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class HttpLoader<T> extends TGHttpLoader<T>
         this.addRequestParam("versionCode", PackageUtils.getPackageInfoByName(context,
                 context.getPackageName()).versionCode + "");
         this.addRequestParam("systemVersion", Build.VERSION.RELEASE);
+        this.addProperty("Accept-Language", Commons.getSystemLanguage(context));
 
         super.execute(context, requestType, requestUrl, resultClsName, callback);
     }

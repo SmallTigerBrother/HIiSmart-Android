@@ -46,7 +46,7 @@ public class BaiduLocationManager implements ILocationManager
         locationClient.setLocOption(option);
     }
 
-    public void checkLocationIsChina(ILocationListener listener)
+    public void checkLocationIsChina(final ILocationListener listener)
     {
         locationClient.registerLocationListener(new BDLocationListener()
         {

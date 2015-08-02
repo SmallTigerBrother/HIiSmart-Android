@@ -70,7 +70,7 @@ public class HSUpgradeDataParser implements IUpgradeDataParser
     {
         try
         {
-            return upgradeData.getString("description");
+            return upgradeData.getString("appUrl");
         }
         catch (Exception e)
         {

@@ -4,11 +4,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.FindView;
-import com.mn.tiger.widget.adpter.TGViewHolder;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.record.data.RecordInfo;
-import com.lepow.hiremote.record.data.RecordTimeInfo;
+import com.mn.tiger.widget.adpter.TGViewHolder;
+
+import butterknife.FindView;
 
 public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 {

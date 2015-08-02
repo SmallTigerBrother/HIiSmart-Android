@@ -76,7 +76,9 @@
 
         <activity android:name=".record.RecordListActivity" android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.mn.tiger.upgrade.TGUpgradeDialogActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.mn.tiger.upgrade.TGUpgradeDialogActivity"
+                  android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent"></activity>
 
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
