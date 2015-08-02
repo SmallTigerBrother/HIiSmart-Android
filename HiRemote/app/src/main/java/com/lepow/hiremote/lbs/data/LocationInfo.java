@@ -13,12 +13,12 @@ public class LocationInfo implements Serializable
 	/**
 	 * 定位数据
 	 */
-	public static final int DATA_TYPE_PINNED_LOCATION = 1;
+	public static final int DATA_TYPE_PINNED_LOCATION = 0;
 
 	/**
 	 * 设备断开连接数据
 	 */
-	public static final int DATA_TYPE_DISCONNECT_LOCATION = 2;
+	public static final int DATA_TYPE_DISCONNECT_LOCATION = 1;
 
 	/**
 	 * 用户Id
@@ -28,12 +28,12 @@ public class LocationInfo implements Serializable
 	/**
 	 * 蓝牙模块UUID
 	 */
-	private String bleUUID;
+	private String peripheralUUID;
 
 	/**
 	 * 定位时间
 	 */
-	private long time;
+	private long timestamp;
 
 	/**
 	 * 时区
@@ -43,17 +43,17 @@ public class LocationInfo implements Serializable
 	/**
 	 * 同步状态
 	 */
-	private int syncStatus;
+	private int sync;
 
 	/**
 	 * 经度
 	 */
-	private double latitude;
+	private String latitude;
 
 	/**
 	 * 纬度
 	 */
-	private double longitude;
+	private String longitude;
 
 	/**
 	 * 地址信息
@@ -80,32 +80,32 @@ public class LocationInfo implements Serializable
 		this.userId = userId;
 	}
 
-	public void setTime(long time)
+	public void setTimestamp(long timestamp)
 	{
-		this.time = time;
+		this.timestamp = timestamp;
 	}
 	
-	public long getTime()
+	public long getTimestamp()
 	{
-		return time;
+		return timestamp;
 	}
 	
-	public double getLatitude()
+	public String getLatitude()
 	{
 		return latitude;
 	}
 	
-	public void setLatitude(double latitude)
+	public void setLatitude(String latitude)
 	{
 		this.latitude = latitude;
 	}
 	
-	public double getLongitude()
+	public String getLongitude()
 	{
 		return longitude;
 	}
 	
-	public void setLongitude(double longitude)
+	public void setLongitude(String longitude)
 	{
 		this.longitude = longitude;
 	}
@@ -150,24 +150,24 @@ public class LocationInfo implements Serializable
 		this.dataType = dataType;
 	}
 
-	public int getSyncStatus()
+	public int getSync()
 	{
-		return syncStatus;
+		return sync;
 	}
 
-	public void setSyncStatus(int syncStatus)
+	public void setSync(int sync)
 	{
-		this.syncStatus = syncStatus;
+		this.sync = sync;
 	}
 
-	public void setBleUUID(String bleUUID)
+	public void setPeripheralUUID(String peripheralUUID)
 	{
-		this.bleUUID = bleUUID;
+		this.peripheralUUID = peripheralUUID;
 	}
 
-	public String getBleUUID()
+	public String getPeripheralUUID()
 	{
-		return bleUUID;
+		return peripheralUUID;
 	}
 
 	public String getTimeZone()

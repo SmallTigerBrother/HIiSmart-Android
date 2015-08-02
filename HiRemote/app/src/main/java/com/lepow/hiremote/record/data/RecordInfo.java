@@ -19,17 +19,17 @@ public class RecordInfo implements Serializable
 	/**
 	 * 设备的UUID
 	 */
-	private String bleUUID;
+	private String peripheralUUID;
 
 	/**
 	 * 记录名称
 	 */
-	private String name;
+	private String title;
 
 	/**
 	 * 录音时间
 	 */
-	private long time;
+	private long timestamp;
 
 	/**
 	 * 时区
@@ -47,48 +47,43 @@ public class RecordInfo implements Serializable
 	private String fileName;
 
 	/**
-	 * 文件格式
-	 */
-	private String fileFormat;
-
-	/**
 	 * 同步状态
 	 */
-	private int syncStatus;
+	private int sync;
 
 	/**
 	 * 录音文件下载地址
 	 */
-	private int recordFileUrl;
+	private String recordFileUrl;
 
 	/**
 	 * 录音文件MD5校验码
 	 */
 	private String md5Code;
 	
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 	
-	public void setName(String name)
+	public void setTitle(String name)
 	{
-		this.name = name;
+		this.title = name;
 	}
 	
-	public void setTime(long time)
+	public void setTimestamp(long timestamp)
 	{
-		this.time = time;
+		this.timestamp = timestamp;
 	}
 	
-	public long getTime()
+	public long getTimestamp()
 	{
-		return time;
+		return timestamp;
 	}
 	
 	public String getDateString()
 	{
-		return new Date(time).toString();
+		return new Date(timestamp).toString();
 	}
 	
 	public long getDuration()
@@ -121,14 +116,14 @@ public class RecordInfo implements Serializable
 		this.userId = userId;
 	}
 
-	public String getBleUUID()
+	public String getPeripheralUUID()
 	{
-		return bleUUID;
+		return peripheralUUID;
 	}
 
-	public void setBleUUID(String bleUUID)
+	public void setPeripheralUUID(String peripheralUUID)
 	{
-		this.bleUUID = bleUUID;
+		this.peripheralUUID = peripheralUUID;
 	}
 
 	public String getTimeZone()
@@ -141,22 +136,22 @@ public class RecordInfo implements Serializable
 		this.timeZone = timeZone;
 	}
 
-	public int getSyncStatus()
+	public int getSync()
 	{
-		return syncStatus;
+		return sync;
 	}
 
-	public void setSyncStatus(int syncStatus)
+	public void setSync(int sync)
 	{
-		this.syncStatus = syncStatus;
+		this.sync = sync;
 	}
 
-	public int getRecordFileUrl()
+	public String getRecordFileUrl()
 	{
 		return recordFileUrl;
 	}
 
-	public void setRecordFileUrl(int recordFileUrl)
+	public void setRecordFileUrl(String recordFileUrl)
 	{
 		this.recordFileUrl = recordFileUrl;
 	}
@@ -181,13 +176,4 @@ public class RecordInfo implements Serializable
 		this.md5Code = md5Code;
 	}
 
-	public String getFileFormat()
-	{
-		return fileFormat;
-	}
-
-	public void setFileFormat(String fileFormat)
-	{
-		this.fileFormat = fileFormat;
-	}
 }
