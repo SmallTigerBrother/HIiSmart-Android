@@ -19,11 +19,11 @@ import org.json.JSONObject;
  * 网络请求类
  * @param <T>
  */
-public class HttpLoader<T> extends TGHttpLoader<T>
+public class HRHttpLoader<T> extends TGHttpLoader<T>
 {
-    private static final Logger LOG = Logger.getLogger(HttpLoader.class);
+    private static final Logger LOG = Logger.getLogger(HRHttpLoader.class);
 
-    public HttpLoader()
+    public HRHttpLoader()
     {
     }
 
