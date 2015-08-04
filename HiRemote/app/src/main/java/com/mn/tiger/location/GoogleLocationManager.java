@@ -157,7 +157,7 @@ public class GoogleLocationManager implements ILocationManager
      * 更新地址
      * @param location
      */
-    private void updateLocation(Location location)
+    private void updateLocation(final Location location)
     {
         this.lastLocation = location;
         GoogleGeoCoding.geoCoding(location.getLatitude(), location.getLongitude(), new GoogleGeoCoding.GeoCodeListener()

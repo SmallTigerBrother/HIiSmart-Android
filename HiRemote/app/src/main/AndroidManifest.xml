@@ -17,6 +17,10 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!-- 这个权限用于访问GPS定位-->
@@ -76,7 +80,9 @@
 
         <activity android:name=".record.RecordListActivity" android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.mn.tiger.upgrade.TGUpgradeDialogActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.mn.tiger.upgrade.TGUpgradeDialogActivity"
+                  android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent"></activity>
 
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>

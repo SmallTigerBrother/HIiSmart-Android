@@ -16,6 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.FindView;
 import butterknife.OnClick;
 
+import com.lepow.hiremote.misc.ServerUrls;
+import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 import com.lepow.hiremote.R;
@@ -74,6 +76,9 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		presenter = new HomePresenter(this, this);
 
 		presenter.initDevicesAndSettings();
+
+		//检测更新
+		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
 	}
 
 	private void initViews()

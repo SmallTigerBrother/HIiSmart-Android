@@ -18,13 +18,10 @@ public class HSApplication extends TGApplication
         super.onCreate();
 
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
-        httpLoader.addRequestParam("appVersion", PackageUtils.getPackageInfoByName(this, this.getPackageName()).versionName);
-        httpLoader.addRequestParam("system", "android");
-        httpLoader.addRequestParam("appId", getPackageName());
+        httpLoader.addRequestParam("appId","app123");
         httpLoader.setHttpType(HttpType.REQUEST_POST);
 
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());
         TGUpgradeManager.setCheckUpgradeHttpLoader(httpLoader);
-        TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
     }
 }

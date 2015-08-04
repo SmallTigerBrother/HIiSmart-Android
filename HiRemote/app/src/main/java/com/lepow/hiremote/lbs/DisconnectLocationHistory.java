@@ -38,7 +38,7 @@ public class DisconnectLocationHistory extends BaseActivity
         locationListView.setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
         locationListView.setSwipeOpenOnLongPress(true);
 
-        listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstanse().findAllDisconnectedLocationOderByTime(this),
+        listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this),
                 R.layout.location_list_item, LocationViewHolder.class);
         locationListView.setAdapter(listAdapter);
     }
@@ -53,7 +53,7 @@ public class DisconnectLocationHistory extends BaseActivity
     public void onSearchSubmit(CharSequence queryText)
     {
         //根据关键字查找本地数据
-        List<LocationInfo> results = LocationDataManager.getInstanse().findAllDisconnectedLocationOderByTime(this, queryText.toString());
+        List<LocationInfo> results = LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this, queryText.toString());
         if (null == results || results.size() == 0)
         {
             //TODO 显示未搜索到结果的提示界面

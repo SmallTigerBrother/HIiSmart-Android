@@ -18,21 +18,27 @@ public class RecordDataManager
 	
 	private static final int DB_VERSION = 1;
 	
-	private static RecordDataManager instanse;
+	private static RecordDataManager instance;
 	
 	private static TGDBManager getDBManager(Context context)
 	{
 		return TGDBManager.create(context, DB_NAME, DB_VERSION, null);
 	}
 	
-	public static synchronized RecordDataManager getInstanse()
+	public static RecordDataManager getInstance()
 	{
-		if(null == instanse)
+		if(null == instance)
 		{
-			instanse = new RecordDataManager();
+			synchronized (RecordDataManager.class)
+			{
+				if(null == instance)
+				{
+					instance = new RecordDataManager();
+				}
+			}
 		}
 		
-		return instanse;
+		return instance;
 	}
 	
 	public List<RecordInfo> findAllRecordsSortByTime(Context context)

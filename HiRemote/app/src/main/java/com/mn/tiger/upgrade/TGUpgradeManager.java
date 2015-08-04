@@ -2,6 +2,7 @@ package com.mn.tiger.upgrade;
 
 import android.content.Intent;
 
+import com.lepow.hiremote.request.Response;
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.request.TGHttpLoader;
@@ -51,9 +52,10 @@ public class TGUpgradeManager
             @Override
             public void onLoadSuccess(Void result, TGHttpResult tgHttpResult)
             {
+                LOG.d("[Method:onLoadSuccess]");
                 try
                 {
-                    JSONObject upgradeData = new JSONObject(tgHttpResult.getResult());
+                    JSONObject upgradeData = new JSONObject(((Response<Void>)tgHttpResult.getObjectResult()).rawData);
                     if (null != upgradeDataParser)
                     {
                         int upgradeMode = upgradeDataParser.getUpgradeMode(upgradeData);
@@ -93,12 +95,15 @@ public class TGUpgradeManager
     private static void startUpgradeActivity(int upgradeMode, String latestVersion, String description,
                                              String packageUrl, String options)
     {
+        LOG.d("[Method:startUpgradeActivity]");
+
         Intent intent = new Intent(TGApplication.getInstance(), TGUpgradeDialogActivity.class);
         intent.putExtra(INTENT_KEY_UPGRADE_MODE, upgradeMode);
         intent.putExtra(INTENT_KEY_UPGRADE_LATEST_VERSION, latestVersion);
         intent.putExtra(INTENT_KEY_UPGRADE_DESCRIPTION,description);
         intent.putExtra(INTENT_KEY_UPGRADE_PACKAGE_URL, packageUrl);
         intent.putExtra(INTENT_KEY_UPGRADE_OPTIONS, options);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         TGApplication.getInstance().startActivity(intent);
     }

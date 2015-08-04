@@ -12,22 +12,28 @@ import java.util.List;
 
 public class LocationDataManager
 {
-	private static LocationDataManager instanse;
+	private volatile static LocationDataManager instance;
 
-	private static final String PINNED_LOCATION_DB_NAME = "pinned_location_db";
+	private static final String LOCATION_DB_NAME = "location_db";
 
-	private static final String DISCONNECTED_LOCATION_DB_NAME = "disconnected_location_db";
+	private static final int DB_VERSION = 1;
 
 	private static final Logger LOG = Logger.getLogger(LocationDataManager.class);
 
-	public static synchronized LocationDataManager getInstanse()
+	public static LocationDataManager getInstance()
 	{
-		if (null == instanse)
+		if (null == instance)
 		{
-			instanse = new LocationDataManager();
+			synchronized (LocationDataManager.class)
+			{
+				if(null == instance)
+				{
+					instance = new LocationDataManager();
+				}
+			}
 		}
 
-		return instanse;
+		return instance;
 	}
 
 	private LocationDataManager()
@@ -35,21 +41,17 @@ public class LocationDataManager
 
 	}
 
-	private TGDBManager getPinnedLocationDBManager(Context context)
+	private TGDBManager getLocationDBManager(Context context)
 	{
-		return TGDBManager.create(context, PINNED_LOCATION_DB_NAME, 1, null);
-	}
-
-	private TGDBManager getDisconnectedLocationDBManager(Context context)
-	{
-		return TGDBManager.create(context, DISCONNECTED_LOCATION_DB_NAME, 1, null);
+		return TGDBManager.create(context, LOCATION_DB_NAME, DB_VERSION, null);
 	}
 
 	public void savePinnedLocation(Context context, LocationInfo locationInfo)
 	{
 		try
 		{
-			getPinnedLocationDBManager(context).saveOrUpdate(locationInfo);
+			locationInfo.setDataType(LocationInfo.DATA_TYPE_PINNED_LOCATION);
+			getLocationDBManager(context).saveOrUpdate(locationInfo);
 		}
 		catch (DbException e)
 		{
@@ -61,7 +63,8 @@ public class LocationDataManager
 	{
 		try
 		{
-			getPinnedLocationDBManager(context).delete(locationInfo);
+			locationInfo.setDataType(LocationInfo.DATA_TYPE_PINNED_LOCATION);
+			getLocationDBManager(context).delete(locationInfo);
 		}
 		catch (DbException e)
 		{
@@ -73,8 +76,10 @@ public class LocationDataManager
 	{
 		try
 		{
-			return getPinnedLocationDBManager(context).findAll(
-					Selector.from(LocationInfo.class).orderBy("time"));
+			return getLocationDBManager(context).findAll(Selector
+					.from(LocationInfo.class)
+					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
+					.orderBy("time"));
 		}
 		catch (DbException e)
 		{
@@ -87,9 +92,12 @@ public class LocationDataManager
 	{
 		try
 		{
-			return getPinnedLocationDBManager(context).findAll(
-					Selector.from(LocationInfo.class).orderBy("time")
-							.and("address", "like", queryText).or("remark", "like", queryText));
+			return getLocationDBManager(context).findAll(Selector
+					.from(LocationInfo.class)
+					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
+					.orderBy("time")
+					.and("address", "like", queryText)
+					.or("remark", "like", queryText));
 		}
 		catch (DbException e)
 		{
@@ -102,7 +110,8 @@ public class LocationDataManager
 	{
 		try
 		{
-			getDisconnectedLocationDBManager(context).saveOrUpdate(locationInfo);
+			locationInfo.setDataType(LocationInfo.DATA_TYPE_DISCONNECT_LOCATION);
+			getLocationDBManager(context).saveOrUpdate(locationInfo);
 		}
 		catch (DbException e)
 		{
@@ -114,7 +123,8 @@ public class LocationDataManager
 	{
 		try
 		{
-			getDisconnectedLocationDBManager(context).delete(locationInfo);
+			locationInfo.setDataType(LocationInfo.DATA_TYPE_DISCONNECT_LOCATION);
+			getLocationDBManager(context).delete(locationInfo);
 		}
 		catch (DbException e)
 		{
@@ -126,8 +136,10 @@ public class LocationDataManager
 	{
 		try
 		{
-			return getDisconnectedLocationDBManager(context).findAll(
-					Selector.from(LocationInfo.class).orderBy("time"));
+			return getLocationDBManager(context).findAll(Selector
+					.from(LocationInfo.class)
+					.where("dataType", "=", LocationInfo.DATA_TYPE_DISCONNECT_LOCATION)
+					.orderBy("time"));
 		}
 		catch (DbException e)
 		{
@@ -140,9 +152,12 @@ public class LocationDataManager
 	{
 		try
 		{
-			return getDisconnectedLocationDBManager(context).findAll(
-					Selector.from(LocationInfo.class).orderBy("time")
-							.and("address", "like", queryText).or("remark", "like", queryText));
+			return getLocationDBManager(context).findAll(Selector
+					.from(LocationInfo.class)
+					.where("dataType", "=", LocationInfo.DATA_TYPE_DISCONNECT_LOCATION)
+					.orderBy("time")
+					.and("address", "like", queryText)
+					.or("remark", "like", queryText));
 		}
 		catch (DbException e)
 		{

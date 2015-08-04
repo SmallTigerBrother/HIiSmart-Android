@@ -4,41 +4,86 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 录音数据
+ */
 public class RecordInfo implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	
-	private String name;
 
-	private long time;
-	
+	/**
+	 * 用户ID
+	 */
+	private String userId;
+
+	/**
+	 * 设备的UUID
+	 */
+	private String peripheralUUID;
+
+	/**
+	 * 记录名称
+	 */
+	private String title;
+
+	/**
+	 * 录音时间
+	 */
+	private long timestamp;
+
+	/**
+	 * 时区
+	 */
+	private String timeZone;
+
+	/**
+	 * 录音时长
+	 */
 	private long duration;
+
+	/**
+	 * 录音本地文件名称
+	 */
+	private String fileName;
+
+	/**
+	 * 同步状态
+	 */
+	private int sync;
+
+	/**
+	 * 录音文件下载地址
+	 */
+	private String recordFileUrl;
+
+	/**
+	 * 录音文件MD5校验码
+	 */
+	private String md5Code;
 	
-	private String filePath;
-	
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 	
-	public void setName(String name)
+	public void setTitle(String name)
 	{
-		this.name = name;
+		this.title = name;
 	}
 	
-	public void setTime(long time)
+	public void setTimestamp(long timestamp)
 	{
-		this.time = time;
+		this.timestamp = timestamp;
 	}
 	
-	public long getTime()
+	public long getTimestamp()
 	{
-		return time;
+		return timestamp;
 	}
 	
 	public String getDateString()
 	{
-		return new Date(time).toString();
+		return new Date(timestamp).toString();
 	}
 	
 	public long getDuration()
@@ -56,18 +101,79 @@ public class RecordInfo implements Serializable
 		return duration + "";
 	}
 	
-	public String getFilePath()
-	{
-		return filePath;
-	}
-	
-	public void setFilePath(String filePath)
-	{
-		this.filePath = filePath;
-	}
-	
 	public File getRecordFile()
 	{
 		return null;
 	}
+
+	public String getUserId()
+	{
+		return userId;
+	}
+
+	public void setUserId(String userId)
+	{
+		this.userId = userId;
+	}
+
+	public String getPeripheralUUID()
+	{
+		return peripheralUUID;
+	}
+
+	public void setPeripheralUUID(String peripheralUUID)
+	{
+		this.peripheralUUID = peripheralUUID;
+	}
+
+	public String getTimeZone()
+	{
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZone)
+	{
+		this.timeZone = timeZone;
+	}
+
+	public int getSync()
+	{
+		return sync;
+	}
+
+	public void setSync(int sync)
+	{
+		this.sync = sync;
+	}
+
+	public String getRecordFileUrl()
+	{
+		return recordFileUrl;
+	}
+
+	public void setRecordFileUrl(String recordFileUrl)
+	{
+		this.recordFileUrl = recordFileUrl;
+	}
+
+	public String getFileName()
+	{
+		return fileName;
+	}
+
+	public void setFileName(String fileName)
+	{
+		this.fileName = fileName;
+	}
+
+	public String getMd5Code()
+	{
+		return md5Code;
+	}
+
+	public void setMd5Code(String md5Code)
+	{
+		this.md5Code = md5Code;
+	}
+
 }

@@ -3,48 +3,109 @@ package com.lepow.hiremote.lbs.data;
 import java.io.Serializable;
 
 
+/**
+ * 位置信息
+ */
 public class LocationInfo implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private long time;
-	
-	private double latitude;
-	
-	private double longitude;
-	
+	/**
+	 * 定位数据
+	 */
+	public static final int DATA_TYPE_PINNED_LOCATION = 0;
+
+	/**
+	 * 设备断开连接数据
+	 */
+	public static final int DATA_TYPE_DISCONNECT_LOCATION = 1;
+
+	/**
+	 * 用户Id
+	 */
+	private String userId;
+
+	/**
+	 * 蓝牙模块UUID
+	 */
+	private String peripheralUUID;
+
+	/**
+	 * 定位时间
+	 */
+	private long timestamp;
+
+	/**
+	 * 时区
+	 */
+	private String timeZone;
+
+	/**
+	 * 同步状态
+	 */
+	private int sync;
+
+	/**
+	 * 经度
+	 */
+	private String latitude;
+
+	/**
+	 * 纬度
+	 */
+	private String longitude;
+
+	/**
+	 * 地址信息
+	 */
 	private String address;
-	
+
+	/**
+	 * 备注
+	 */
 	private String remark;
 
-	private DataType dataType;
-	
-	public void setTime(long time)
+	/**
+	 * 数据类型
+	 */
+	private int dataType = DATA_TYPE_PINNED_LOCATION;
+
+	public String getUserId()
 	{
-		this.time = time;
+		return userId;
+	}
+
+	public void setUserId(String userId)
+	{
+		this.userId = userId;
+	}
+
+	public void setTimestamp(long timestamp)
+	{
+		this.timestamp = timestamp;
 	}
 	
-	public long getTime()
+	public long getTimestamp()
 	{
-		return time;
+		return timestamp;
 	}
 	
-	public double getLatitude()
+	public String getLatitude()
 	{
 		return latitude;
 	}
 	
-	public void setLatitude(double latitude)
+	public void setLatitude(String latitude)
 	{
 		this.latitude = latitude;
 	}
 	
-	public double getLongitude()
+	public String getLongitude()
 	{
 		return longitude;
 	}
 	
-	public void setLongitude(double longitude)
+	public void setLongitude(String longitude)
 	{
 		this.longitude = longitude;
 	}
@@ -79,19 +140,43 @@ public class LocationInfo implements Serializable
 		this.remark = remark;
 	}
 
-	public void setDataType(DataType dataType)
-	{
-		this.dataType = dataType;
-	}
-
-	public DataType getDataType()
+	public int getDataType()
 	{
 		return dataType;
 	}
 
-	public static enum DataType
+	public void setDataType(int dataType)
 	{
-		TYPE_PINNED_LOCATION,
-		TYPE_DISCONNECT_LOCATIONA
+		this.dataType = dataType;
+	}
+
+	public int getSync()
+	{
+		return sync;
+	}
+
+	public void setSync(int sync)
+	{
+		this.sync = sync;
+	}
+
+	public void setPeripheralUUID(String peripheralUUID)
+	{
+		this.peripheralUUID = peripheralUUID;
+	}
+
+	public String getPeripheralUUID()
+	{
+		return peripheralUUID;
+	}
+
+	public String getTimeZone()
+	{
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZone)
+	{
+		this.timeZone = timeZone;
 	}
 }

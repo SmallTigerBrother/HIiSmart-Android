@@ -5,7 +5,10 @@ import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.lepow.hiremote.R;
@@ -32,6 +35,7 @@ public class TGUpgradeDialogActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setVisible(false);
 
         int upgradeMode = TGUpgradeManager.getUpgradeModeFromIntent(getIntent());
@@ -63,7 +67,7 @@ public class TGUpgradeDialogActivity extends Activity
                                          final String packageUrl)
     {
         HSAlertDialog dialog = new HSAlertDialog(this);
-        dialog.setTitle(getString(R.string.tips));
+        dialog.setTitleText(getString(R.string.tips));
         dialog.setBodyText(getString(R.string.prompt_upgrade_string_format, latestVersion, description));
         dialog.setLeftButton(getString(R.string.upgrade_later), new DialogInterface.OnClickListener()
         {
@@ -79,7 +83,7 @@ public class TGUpgradeDialogActivity extends Activity
         dialog.setRightButton(getString(R.string.upgrade_now), new DialogInterface.OnClickListener()
         {
             @Override
-            public void onClick(DialogInterface dialog, int which)
+            public void onClick(final DialogInterface dialog, int which)
             {
                 downloadPackage(latestVersion, packageUrl, new TGDownloadObserver()
                 {
@@ -93,14 +97,14 @@ public class TGUpgradeDialogActivity extends Activity
                         builder.setSmallIcon(R.drawable.add_device);
                         builder.setContentTitle(getString(R.string.downloading));
 
-                        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.notify(DOWNLOADING_NOTIFICATION_ID, builder.build());
                     }
 
                     @Override
                     public void onSuccess(TGDownloader downloader)
                     {
-                        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.cancel(DOWNLOADING_NOTIFICATION_ID);
 
                         PackageUtils.installPackage(TGUpgradeDialogActivity.this, downloader.getSavePath());
@@ -116,13 +120,14 @@ public class TGUpgradeDialogActivity extends Activity
                 TGUpgradeDialogActivity.this.finish();
             }
         });
+        dialog.show();
     }
 
     private void showForceUpgradeDialog(final String latestVersion, String description,
                                         final String packageUrl)
     {
         final HSAlertDialog upgradeDialog = new HSAlertDialog(this);
-        upgradeDialog.setTitle(getString(R.string.tips));
+        upgradeDialog.setTitleText(getString(R.string.tips));
         upgradeDialog.setBodyText(getString(R.string.force_upgrade_string_format, latestVersion, description));
         upgradeDialog.setLeftButton(getString(R.string.exit_now), new DialogInterface.OnClickListener()
         {
@@ -138,9 +143,12 @@ public class TGUpgradeDialogActivity extends Activity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                upgradeDialog.setTitle(R.string.downloading);
-                final ProgressBar progressBar = new ProgressBar(TGUpgradeDialogActivity.this);
-                upgradeDialog.setBodyContentView(progressBar, new ViewGroup.LayoutParams(
+                upgradeDialog.setTitleText(getString(R.string.downloading));
+
+                LinearLayout progressLayout = (LinearLayout)LayoutInflater.from(
+                        TGUpgradeDialogActivity.this).inflate(R.layout.download_progress_layout,null);
+                final ProgressBar progressBar = (ProgressBar)progressLayout.findViewById(R.id.download_package_progress);
+                upgradeDialog.setBodyContentView(progressLayout, new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 downloadPackage(latestVersion, packageUrl, new TGDownloadObserver()
@@ -154,23 +162,25 @@ public class TGUpgradeDialogActivity extends Activity
                     @Override
                     public void onSuccess(TGDownloader downloader)
                     {
+                        progressBar.setProgress(100);
                         PackageUtils.installPackage(TGUpgradeDialogActivity.this, downloader.getSavePath());
                     }
 
                     @Override
                     public void onFailed(TGDownloader downloader, int errorCode, String errorMessage)
                     {
-                        ToastUtils.showToast(TGUpgradeDialogActivity.this,R.string.something_wrong_downloading_try_again);
+                        ToastUtils.showToast(TGUpgradeDialogActivity.this, R.string.something_wrong_downloading_try_again);
                     }
                 });
             }
         });
+        upgradeDialog.show();
     }
 
     private void showAppInvalidDialog()
     {
         HSAlertDialog dialog = new HSAlertDialog(this);
-        dialog.setTitle(getString(R.string.tips));
+        dialog.setTitleText(getString(R.string.tips));
         dialog.setBodyText(getString(R.string.your_app_is_invalid));
         dialog.setMiddleButton(getString(R.string.exit_now), new DialogInterface.OnClickListener()
         {
@@ -180,6 +190,7 @@ public class TGUpgradeDialogActivity extends Activity
                 TGApplication.getInstance().exit();
             }
         });
+        dialog.show();
     }
 
     private void downloadPackage(String latestVersion, String packageUrl, TGDownloadObserver observer)
