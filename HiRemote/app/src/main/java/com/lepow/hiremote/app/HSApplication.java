@@ -1,6 +1,6 @@
 package com.lepow.hiremote.app;
 
-import com.lepow.hiremote.request.HRHttpLoader;
+import com.lepow.hiremote.request.HttpLoader;
 import com.mn.tiger.request.HttpType;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
@@ -13,7 +13,7 @@ public class HSApplication extends TGApplication
     {
         super.onCreate();
 
-        HRHttpLoader<Void> httpLoader = new HRHttpLoader<Void>();
+        HttpLoader<Void> httpLoader = new HttpLoader<Void>();
         httpLoader.addRequestParam("appId","app123");
         httpLoader.setHttpType(HttpType.REQUEST_POST);
 
