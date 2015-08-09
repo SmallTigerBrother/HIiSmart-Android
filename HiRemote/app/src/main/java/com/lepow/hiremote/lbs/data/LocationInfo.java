@@ -1,5 +1,7 @@
 package com.lepow.hiremote.lbs.data;
 
+import com.mn.tiger.location.TGLocation;
+
 import java.io.Serializable;
 
 
@@ -34,11 +36,6 @@ public class LocationInfo implements Serializable
 	 * 定位时间
 	 */
 	private long timestamp;
-
-	/**
-	 * 时区
-	 */
-	private String timeZone;
 
 	/**
 	 * 同步状态
@@ -170,13 +167,14 @@ public class LocationInfo implements Serializable
 		return peripheralUUID;
 	}
 
-	public String getTimeZone()
+	public static LocationInfo fromLocation(TGLocation location)
 	{
-		return timeZone;
-	}
-
-	public void setTimeZone(String timeZone)
-	{
-		this.timeZone = timeZone;
+		LocationInfo locationInfo = new LocationInfo();
+		locationInfo.setLatitude(location.getLatitude() + "");
+		locationInfo.setLongitude(location.getLongitude() + "");
+		locationInfo.setTimestamp(location.getTime());
+		locationInfo.setAddress(location.getCountry() + location.getProvince() + location.getCity() +
+				location.getStreet() + location.getAddress());
+		return locationInfo;
 	}
 }

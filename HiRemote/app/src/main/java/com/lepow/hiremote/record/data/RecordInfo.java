@@ -32,11 +32,6 @@ public class RecordInfo implements Serializable
 	private long timestamp;
 
 	/**
-	 * 时区
-	 */
-	private String timeZone;
-
-	/**
 	 * 录音时长
 	 */
 	private long duration;
@@ -124,16 +119,6 @@ public class RecordInfo implements Serializable
 	public void setPeripheralUUID(String peripheralUUID)
 	{
 		this.peripheralUUID = peripheralUUID;
-	}
-
-	public String getTimeZone()
-	{
-		return timeZone;
-	}
-
-	public void setTimeZone(String timeZone)
-	{
-		this.timeZone = timeZone;
 	}
 
 	public int getSync()

@@ -3,7 +3,6 @@ package com.mn.tiger.media;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
-import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
 
 /**
@@ -15,11 +14,15 @@ public class TGAudioPlayer
 
     private volatile static TGAudioPlayer instance;
 
-    private Handler timeHandler;
+    private static Handler timeHandler;
 
     private int progress = 0;
 
     private MediaPlayer mediaPlayer;
+
+    private OnPlayListener onPlayListener;
+
+    private String currentDataSource = "";
 
     public static TGAudioPlayer getInstance()
     {
@@ -47,20 +50,35 @@ public class TGAudioPlayer
         start(dataSource, null);
     }
 
-    public void start(String dataSource, MediaPlayer.OnCompletionListener listener)
+    public void start(final String dataSource, final OnPlayListener listener)
     {
+        this.currentDataSource = dataSource;
+        this.onPlayListener = listener;
         progress = 0;
         try
         {
             mediaPlayer.reset(); //重置多媒体
-            mediaPlayer.setDataSource(dataSource);//为多媒体对象设置播放路径
+            mediaPlayer.setDataSource(currentDataSource);//为多媒体对象设置播放路径
             mediaPlayer.prepare();//准备播放
             mediaPlayer.start();//开始播放
-            //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
-            if(null != listener)
+
+            if(null != onPlayListener)
             {
-                mediaPlayer.setOnCompletionListener(null);
+                onPlayListener.onPlayStart(currentDataSource);
             }
+
+            //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+            {
+                @Override
+                public void onCompletion(MediaPlayer mp)
+                {
+                    if(null != onPlayListener)
+                    {
+                        onPlayListener.onPlayComplete(currentDataSource);
+                    }
+                }
+            });
 
             final int updateProgressTimeLength = mediaPlayer.getDuration() / 100;
 
@@ -70,7 +88,11 @@ public class TGAudioPlayer
                 public void run()
                 {
                     progress++;
-                    TGApplication.getBus().post(new TGAudioPlayProgressEvent(progress));
+                    if (null != onPlayListener)
+                    {
+                        onPlayListener.onPlaying(currentDataSource, progress);
+                    }
+
                     if(progress < 100)
                     {
                         timeHandler.postDelayed(this,updateProgressTimeLength);
@@ -89,10 +111,18 @@ public class TGAudioPlayer
         if (mediaPlayer.isPlaying())
         {
             mediaPlayer.pause();
+            if(null != onPlayListener)
+            {
+                onPlayListener.onPlayPause(currentDataSource);
+            }
         }
         else
         {
             mediaPlayer.start();
+            if(null != onPlayListener)
+            {
+                onPlayListener.onPlayStart(currentDataSource);
+            }
         }
     }
 
@@ -101,9 +131,29 @@ public class TGAudioPlayer
         if(mediaPlayer.isPlaying())
         {
             mediaPlayer.stop();
-
             progress = 0;
-            TGApplication.getBus().post(new TGAudioPlayProgressEvent(progress));
+            if(null != onPlayListener)
+            {
+                onPlayListener.onPlayStop(currentDataSource);
+            }
         }
+    }
+
+    public boolean isPlaying()
+    {
+        return mediaPlayer.isPlaying();
+    }
+
+    public static interface OnPlayListener
+    {
+        void onPlayStart(String dataSource);
+
+        void onPlaying(String dataSource, int progress);
+
+        void onPlayPause(String dataSource);
+
+        void onPlayStop(String dataSource);
+
+        void onPlayComplete(String dataSource);
     }
 }
