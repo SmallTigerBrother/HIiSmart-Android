@@ -124,10 +124,6 @@ public class SplashActivity extends BaseActivity
 	@OnClick(R.id.get_start_button)
 	public void onClick(View view)
 	{
-//		TGAudioPlayer.getInstance().start(FileUtils.getSDCardPath() + File.separator + "mine.mp3");
-
-//		TGRecorder.getInstance().start(FileUtils.getSDCardPath() + File.separator + "mine.mp3");
-
 		startActivity(new Intent(this, HomeActivity.class));
 		this.finish();
 	}
