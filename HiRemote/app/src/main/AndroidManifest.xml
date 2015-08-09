@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!-- 这个权限用于访问GPS定位-->
@@ -44,9 +46,7 @@
         android:name=".app.HSApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        tools:replace="android:label">
+        android:label="@string/app_name">
 
         <activity
             android:name=".splash.SplashActivity"

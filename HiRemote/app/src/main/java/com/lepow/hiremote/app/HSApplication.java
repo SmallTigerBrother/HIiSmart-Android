@@ -14,7 +14,7 @@ public class HSApplication extends TGApplication
         super.onCreate();
 
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
-        httpLoader.addRequestParam("appId","app123");
+        httpLoader.addRequestParam("appId",getPackageName());
         httpLoader.setHttpType(HttpType.REQUEST_POST);
 
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());

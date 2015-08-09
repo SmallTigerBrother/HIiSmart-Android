@@ -24,7 +24,7 @@ public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 	@Override
 	public void fillData(ViewGroup parent, View convertView, RecordInfo itemData, int position)
 	{
-		recordName.setText(((RecordInfo)itemData).getName());
+		recordName.setText(((RecordInfo)itemData).getTitle());
 		recordTimeLength.setText(((RecordInfo)itemData).getDuration() + "");
 		recordDate.setText(((RecordInfo)itemData).getDateString() + "");
 	}

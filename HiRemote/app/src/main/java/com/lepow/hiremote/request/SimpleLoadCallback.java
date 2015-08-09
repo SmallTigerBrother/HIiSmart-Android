@@ -52,8 +52,7 @@ public abstract class SimpleLoadCallback<T> implements OnLoadCallback<T>
                     break;
 
                 default:
-                    ToastUtils.showToast(context, "异常" + code);
-
+                    ToastUtils.showToast(context, "Error " + code);
                     break;
             }
         }
@@ -78,6 +77,11 @@ public abstract class SimpleLoadCallback<T> implements OnLoadCallback<T>
                     break;
 
                 default:
+                    if (context instanceof Activity)
+                    {
+                        ToastUtils.showToast(context, response.message);
+                    }
+
                     break;
             }
         }

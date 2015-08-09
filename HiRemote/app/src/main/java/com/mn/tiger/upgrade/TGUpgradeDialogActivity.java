@@ -120,6 +120,7 @@ public class TGUpgradeDialogActivity extends Activity
                 TGUpgradeDialogActivity.this.finish();
             }
         });
+
         dialog.show();
     }
 
@@ -145,9 +146,9 @@ public class TGUpgradeDialogActivity extends Activity
             {
                 upgradeDialog.setTitleText(getString(R.string.downloading));
 
-                LinearLayout progressLayout = (LinearLayout)LayoutInflater.from(
-                        TGUpgradeDialogActivity.this).inflate(R.layout.download_progress_layout,null);
-                final ProgressBar progressBar = (ProgressBar)progressLayout.findViewById(R.id.download_package_progress);
+                LinearLayout progressLayout = (LinearLayout) LayoutInflater.from(
+                        TGUpgradeDialogActivity.this).inflate(R.layout.download_progress_layout, null);
+                final ProgressBar progressBar = (ProgressBar) progressLayout.findViewById(R.id.download_package_progress);
                 upgradeDialog.setBodyContentView(progressLayout, new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -174,6 +175,9 @@ public class TGUpgradeDialogActivity extends Activity
                 });
             }
         });
+
+        upgradeDialog.setCancelable(false);
+        upgradeDialog.setCanceledOnTouchOutside(false);
         upgradeDialog.show();
     }
 
@@ -190,6 +194,9 @@ public class TGUpgradeDialogActivity extends Activity
                 TGApplication.getInstance().exit();
             }
         });
+
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

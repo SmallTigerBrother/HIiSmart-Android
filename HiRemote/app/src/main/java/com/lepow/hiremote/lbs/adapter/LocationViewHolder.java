@@ -99,11 +99,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
     {
         switch (itemData.getDataType())
         {
-            case TYPE_PINNED_LOCATION:
+            case LocationInfo.DATA_TYPE_PINNED_LOCATION:
                 LocationDataManager.getInstance().removePinnedLocation(getContext(), itemData);
                 break;
 
-            case TYPE_DISCONNECT_LOCATIONA:
+            case LocationInfo.DATA_TYPE_DISCONNECT_LOCATION:
                 LocationDataManager.getInstance().removeDisconnectedLocation(getContext(), itemData);
                 break;
 
@@ -118,18 +118,18 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
      *启动地图界面
      * @param dataType
      */
-    private void startMapActivity(LocationInfo.DataType dataType)
+    private void startMapActivity(int dataType)
     {
         Intent intent = new Intent();
         switch (dataType)
         {
-            case TYPE_PINNED_LOCATION:
+            case LocationInfo.DATA_TYPE_PINNED_LOCATION:
                 //启动地图界面
                 intent.setClass(getContext(), PinnedLocationMapActivity.class);
                 getContext().startActivity(intent);
                 break;
 
-            case TYPE_DISCONNECT_LOCATIONA:
+            case LocationInfo.DATA_TYPE_DISCONNECT_LOCATION:
                 //返回到上一界面
                 intent.putExtra(IntentKeys.LOCATION_INFO, itemData);
                 ((Activity) getContext()).setResult(ActivityResultCode.DISCONNECT_LOCATION_HISTORY, intent);
@@ -172,11 +172,11 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
                 itemData.setRemark(editText.getText().toString().trim());
                 switch (itemData.getDataType())
                 {
-                    case TYPE_PINNED_LOCATION:
+                    case LocationInfo.DATA_TYPE_PINNED_LOCATION:
                         LocationDataManager.getInstance().savePinnedLocation(getContext(), itemData);
                         break;
 
-                    case TYPE_DISCONNECT_LOCATIONA:
+                    case LocationInfo.DATA_TYPE_DISCONNECT_LOCATION:
                         LocationDataManager.getInstance().saveDisconnectedLocation(getContext(), itemData);
                         break;
                     default:

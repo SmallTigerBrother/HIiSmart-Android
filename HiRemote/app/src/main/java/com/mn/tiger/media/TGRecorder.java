@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 
+import com.czt.mp3recorder.MP3Recorder;
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
+import com.mn.tiger.utility.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -21,13 +25,9 @@ public class TGRecorder
 
     private volatile static TGRecorder instance;
 
-    private static int recordOutputFormat = MediaRecorder.OutputFormat.AAC_ADTS;
-
-    private static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
-
     private AudioManager audioManager;
 
-    private MediaRecorder mediaRecorder;
+    private MP3Recorder mp3Recorder;
 
     public static TGRecorder getInstance()
     {
@@ -46,32 +46,26 @@ public class TGRecorder
 
     private TGRecorder()
     {
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setOutputFormat(recordOutputFormat);
-        mediaRecorder.setAudioEncoder(audioEncoder);
         audioManager = (AudioManager)TGApplication.getInstance().getSystemService(Context.AUDIO_SERVICE);
     }
 
-    public void start(int sourceInput, String outputFilePath)
+    public void start(String outputFilePath)
     {
-        mediaRecorder.setAudioSource(sourceInput);
-        mediaRecorder.setOutputFile(outputFilePath);
-
+        mp3Recorder = new MP3Recorder(FileUtils.createFile(outputFilePath));
         try
         {
-            mediaRecorder.prepare();
 
-            audioManager.startBluetoothSco();
-            TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
-            {
-                @Override
-                public void onReceive(Context context, Intent intent)
-                {
-
-                }
-            }, new IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED));
-
-            mediaRecorder.start();
+//            audioManager.startBluetoothSco();
+//            TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
+//            {
+//                @Override
+//                public void onReceive(Context context, Intent intent)
+//                {
+//
+//                }
+//            }, new IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED));
+//
+            mp3Recorder.start();
         }
         catch (IOException e)
         {
@@ -81,28 +75,6 @@ public class TGRecorder
 
     public void stop()
     {
-        mediaRecorder.stop();
-        mediaRecorder.reset();
-        mediaRecorder.release();
-    }
-
-    public static int getAudioEncoder()
-    {
-        return audioEncoder;
-    }
-
-    public static void setAudioEncoder(int audioEncoder)
-    {
-        TGRecorder.audioEncoder = audioEncoder;
-    }
-
-    public static int getRecordOutputFormat()
-    {
-        return recordOutputFormat;
-    }
-
-    public static void setRecordOutputFormat(int recordOutputFormat)
-    {
-        TGRecorder.recordOutputFormat = recordOutputFormat;
+        mp3Recorder.stop();
     }
 }

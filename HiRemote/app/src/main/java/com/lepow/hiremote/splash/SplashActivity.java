@@ -1,9 +1,11 @@
 package com.lepow.hiremote.splash;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -15,7 +17,10 @@ import butterknife.ButterKnife;
 import butterknife.FindView;
 import butterknife.OnClick;
 
+import com.mn.tiger.media.TGAudioPlayer;
+import com.mn.tiger.media.TGRecorder;
 import com.mn.tiger.system.AppConfigs;
+import com.mn.tiger.utility.FileUtils;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 import com.lepow.hiremote.R;
@@ -119,6 +124,10 @@ public class SplashActivity extends BaseActivity
 	@OnClick(R.id.get_start_button)
 	public void onClick(View view)
 	{
+//		TGAudioPlayer.getInstance().start(FileUtils.getSDCardPath() + File.separator + "mine.mp3");
+
+//		TGRecorder.getInstance().start(FileUtils.getSDCardPath() + File.separator + "mine.mp3");
+
 		startActivity(new Intent(this, HomeActivity.class));
 		this.finish();
 	}

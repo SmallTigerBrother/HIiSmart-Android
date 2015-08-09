@@ -73,7 +73,7 @@ public class RecordPopupWindow extends PopupWindow
     public void setData(RecordInfo data)
     {
         this.recordInfo = data;
-        recordNameEdit.setText(data.getName());
+        recordNameEdit.setText(data.getTitle());
         recordDateView.setText(data.getDateString());
         recordLengthView.setText(data.getDurationString());
         recordCurrentLengthView.setText("0:00");

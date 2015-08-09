@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.lepow.hiremote"
+        applicationId "com.lepow.androidhismart"
         minSdkVersion 18
         targetSdkVersion 21
         versionCode 1
@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile files('libs/swipelistview.jar')
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services:6.5.87'
@@ -34,4 +34,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile files('libs/locSDK_5.3.jar')
     compile project(':tiger')
+    compile 'com.czt.mp3recorder:library:1.0@aar'
 }

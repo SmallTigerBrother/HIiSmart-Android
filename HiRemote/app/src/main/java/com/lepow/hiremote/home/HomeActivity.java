@@ -1,5 +1,6 @@
 package com.lepow.hiremote.home;
 
+import java.io.File;
 import java.util.List;
 
 import android.app.Activity;
@@ -17,6 +18,7 @@ import butterknife.FindView;
 import butterknife.OnClick;
 
 import com.lepow.hiremote.misc.ServerUrls;
+import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;

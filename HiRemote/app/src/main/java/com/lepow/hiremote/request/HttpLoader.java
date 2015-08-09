@@ -113,8 +113,7 @@ public class HttpLoader<T> extends TGHttpLoader<T>
             Response<T> response = (Response<T>) httpResult.getObjectResult();
             if(null != response)
             {
-                return response.code == Response.RESULT_FAILED ||
-                        response.code == Response.RESULT_EXPIRED;
+                return response.code != Response.RESULT_SUCCESS;
             }
 
             return true;
