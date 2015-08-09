@@ -42,7 +42,7 @@ public class TGLocationManager implements ILocationManager
                 if (BaiduLocationManager.isLocationInChina(location))
                 {
                     curLocationManager = baiduLocationManager;
-                    provider = Provider.Baidu;
+                    provider = Provider.BaiDu;
                 }
                 else
                 {

@@ -23,6 +23,8 @@ public class TGLocation
 
     private String address;
 
+    private long time;
+
     private TGLocation()
     {
     }
@@ -106,5 +108,15 @@ public class TGLocation
     void setAddress(String address)
     {
         this.address = address;
+    }
+
+    public void setTime(long time)
+    {
+        this.time = time;
+    }
+
+    public long getTime()
+    {
+        return time;
     }
 }

@@ -16,7 +16,7 @@ public interface ILocationManager
 
     public static enum Provider
     {
-        Baidu,
+        BaiDu,
         Google,
         Unknown
     }

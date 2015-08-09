@@ -169,6 +169,7 @@ public class GoogleLocationManager implements ILocationManager
                 if (null != listener)
                 {
                     TGLocation tgLocation = TGLocation.initWith(location);
+                    tgLocation.setTime(System.currentTimeMillis());
                     if(result.getResults().size() > 0)
                     {
                         AddressResult addressResult = result.getResults().get(0);

@@ -54,7 +54,9 @@ public class BaiduLocationManager implements ILocationManager
             public void onReceiveLocation(BDLocation bdLocation)
             {
                 locationClient.unRegisterLocationListener(this);
-                listener.onReceiveLocation(TGLocation.initWith(bdLocation));
+                TGLocation location = TGLocation.initWith(bdLocation);
+                location.setTime(System.currentTimeMillis());
+                listener.onReceiveLocation(location);
             }
         });
     }
