@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/add_new_device"
+        android:id="@+id/add_new_peripheral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">

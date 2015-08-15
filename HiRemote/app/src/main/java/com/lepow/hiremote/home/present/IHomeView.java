@@ -4,11 +4,11 @@ import java.util.List;
 
 
 import com.mn.tiger.app.IView;
-import com.lepow.hiremote.connect.data.DeviceInfo;
+import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 
 public interface IHomeView extends IView
 {
-	void initDeviceBanner(List<DeviceInfo> deviceInfos);
+	void initDeviceBanner(List<PeripheralInfo> deviceInfos);
 
 	void turnOnNotificationSetting();
 

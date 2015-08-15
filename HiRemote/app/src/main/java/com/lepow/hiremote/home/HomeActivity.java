@@ -1,10 +1,6 @@
 package com.lepow.hiremote.home;
 
-import java.io.File;
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,22 +16,19 @@ import butterknife.FindView;
 import butterknife.OnClick;
 
 import com.lepow.hiremote.misc.ServerUrls;
-import com.mn.tiger.log.LogTools;
-import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.upgrade.TGUpgradeManager;
-import com.mn.tiger.utility.FileUtils;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.connect.data.DeviceInfo;
+import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.present.HomePresenter;
 import com.lepow.hiremote.home.present.IHomeView;
 
 public class HomeActivity extends BaseActivity implements IHomeView
 {
 	@FindView(R.id.devices_viewpager)
-	DotIndicatorBannerPagerView<DeviceInfo> bannerPagerView;
+	DotIndicatorBannerPagerView<PeripheralInfo> bannerPagerView;
 
 	@FindView(R.id.common_function_btn)
 	Button functionBtn;
@@ -92,7 +84,7 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 	private void initViews()
 	{
-		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<DeviceInfo>()
+		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
 			@Override
 			public View initViewOfPage(Activity activity, PagerAdapter adapter, int viewType)
@@ -101,10 +93,10 @@ public class HomeActivity extends BaseActivity implements IHomeView
 			}
 			
 			@Override
-			public void fillData(View viewOfPage, DeviceInfo itemData, int position, int viewType)
+			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
 			{
 				TextView deviceName = (TextView) viewOfPage.findViewById(R.id.device_name);
-				deviceName.setText(itemData.getDeviceName());
+				deviceName.setText(itemData.getPeripheralName());
 
 				TextView syncTimeView = (TextView) viewOfPage.findViewById(R.id.sync_time);
 				syncTimeView.setText(itemData.getSyncTime() + "");
@@ -140,7 +132,7 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	}
 
 	@Override
-	public void initDeviceBanner(List<DeviceInfo> deviceInfos)
+	public void initDeviceBanner(List<PeripheralInfo> deviceInfos)
 	{
 		bannerPagerView.setData(deviceInfos);
 	}

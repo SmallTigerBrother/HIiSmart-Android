@@ -1,4 +1,4 @@
-package com.lepow.hiremote.connect;
+package com.lepow.hiremote.bluetooth;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import android.widget.RelativeLayout;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.HSApplication;
-import com.lepow.hiremote.connect.data.DeviceInfo;
+import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.widget.HSAlertDialog;
-import com.mn.tiger.bluetooth.event.Connect2DeviceEvent;
+import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 /**
  * 设备扫描界面
  */
-public class ScanDeviceActivity extends BaseActivity
+public class ScanPeripheralActivity extends BaseActivity
 {
 	@FindView(R.id.scan_device_progress)
 	ProgressBar scanProgressBar;
@@ -81,24 +81,27 @@ public class ScanDeviceActivity extends BaseActivity
 	}
 
 	@Subscribe
-	public void onConnectDevice(final Connect2DeviceEvent event)
+	public void onConnectDevice(final ConnectPeripheralEvent event)
 	{
 		switch (event.getState())
 		{
-			case Success:
+			case Connected:
 				connectSuccessLayout.setVisibility(View.VISIBLE);
 				handler.postDelayed(new Runnable()
 				{
 					@Override
 					public void run()
 					{
-						gotoHomeActivity(event.getDeviceInfo());
+						gotoHomeActivity(event.getPeripheralInfo());
 						finish();
 					}
 				}, 2000);
 				break;
 
 			case Disconnect:
+				break;
+
+			case Nonsupport:
 				break;
 
 			default:
@@ -153,7 +156,7 @@ public class ScanDeviceActivity extends BaseActivity
 	 * 进入主界面
 	 * @param deviceInfo
 	 */
-	private void gotoHomeActivity(DeviceInfo deviceInfo)
+	private void gotoHomeActivity(PeripheralInfo deviceInfo)
 	{
 		Intent intent = new Intent(this, HomeActivity.class);
 		intent.putExtra(IntentKeys.DEVICE_INFO, deviceInfo);

@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.connect.data.DeviceInfo;
+import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
-import com.mn.tiger.bluetooth.event.Connect2DeviceEvent;
+import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.utility.CR;
 import com.mn.tiger.widget.imageview.CircleImageView;
 import com.squareup.otto.Subscribe;
@@ -46,7 +46,7 @@ public class FindMyItemActivity extends BaseActivity
     @FindView(R.id.mapview_container)
     FrameLayout mapContainer;
 
-    private DeviceInfo deviceInfo;
+    private PeripheralInfo deviceInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -54,13 +54,13 @@ public class FindMyItemActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_my_item_layout);
         ButterKnife.bind(this);
-        deviceInfo = (DeviceInfo)getIntent().getSerializableExtra(IntentKeys.DEVICE_INFO);
+        deviceInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.DEVICE_INFO);
 
-        deviceAvatarView.setImageResource(CR.getDrawableId(this,deviceInfo.getDeviceImage()));
-        deviceName.setText(deviceInfo.getDeviceName());
+        deviceAvatarView.setImageResource(CR.getDrawableId(this,deviceInfo.getPeripheralImage()));
+        deviceName.setText(deviceInfo.getPeripheralName());
         deviceLocationView.setText(deviceInfo.getLocation().getAddress());
 
-        if(deviceInfo.getState() == TGBluetoothManager.ConnectState.Success)
+        if(deviceInfo.getState() == TGBluetoothManager.ConnectState.Connected)
         {
 
         }
@@ -93,14 +93,14 @@ public class FindMyItemActivity extends BaseActivity
     }
 
     @Subscribe
-    public void onConnectDevice(Connect2DeviceEvent event)
+    public void onConnectDevice(ConnectPeripheralEvent event)
     {
         switch (event.getState())
         {
-            case Success:
+            case Connected:
                 break;
 
-            case Failed:
+            case Disconnect:
                 break;
 
             default:

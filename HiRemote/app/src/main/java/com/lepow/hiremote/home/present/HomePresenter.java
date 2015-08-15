@@ -4,8 +4,8 @@ import android.app.Activity;
 
 import com.lepow.hiremote.app.AppSettings;
 import com.lepow.hiremote.app.Presenter;
-import com.lepow.hiremote.connect.data.DeviceManager;
-import com.mn.tiger.bluetooth.event.Connect2DeviceEvent;
+import com.lepow.hiremote.bluetooth.data.PeripheralManager;
+import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.squareup.otto.Subscribe;
 
 public class HomePresenter extends Presenter
@@ -19,11 +19,11 @@ public class HomePresenter extends Presenter
 	}
 
 	@Subscribe
-	public void onConnectDevice(Connect2DeviceEvent event)
+	public void onConnectDevice(ConnectPeripheralEvent event)
 	{
 		switch (event.getState())
 		{
-			case Success:
+			case Connected:
 				break;
 
 			case Failed:
@@ -43,7 +43,7 @@ public class HomePresenter extends Presenter
 
 	public void initDevicesAndSettings()
 	{
-		view.initDeviceBanner(DeviceManager.getInstanse().getAllDevices());
+		view.initDeviceBanner(PeripheralManager.getInstanse().getAllPeripherals());
 		
 		if(AppSettings.isNotificationSettingOn(getActivity()))
 		{

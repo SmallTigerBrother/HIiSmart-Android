@@ -23,12 +23,12 @@ public class SettingActivity extends BaseActivity
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.add_new_device, R.id.terms_service, R.id.privacy_policy})
+    @OnClick({R.id.add_new_peripheral, R.id.terms_service, R.id.privacy_policy})
     public void onClick(View view)
     {
         switch (view.getId())
         {
-            case R.id.add_new_device:
+            case R.id.add_new_peripheral:
                 break;
 
             case R.id.terms_service:
