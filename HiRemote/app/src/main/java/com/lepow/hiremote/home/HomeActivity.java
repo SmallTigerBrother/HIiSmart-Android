@@ -3,6 +3,7 @@ package com.lepow.hiremote.home;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -15,7 +16,11 @@ import butterknife.ButterKnife;
 import butterknife.FindView;
 import butterknife.OnClick;
 
+import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
+import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.misc.ServerUrls;
+import com.lepow.hiremote.setting.SettingActivity;
+import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
@@ -24,6 +29,7 @@ import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.present.HomePresenter;
 import com.lepow.hiremote.home.present.IHomeView;
+import com.squareup.otto.Subscribe;
 
 public class HomeActivity extends BaseActivity implements IHomeView
 {
@@ -62,6 +68,8 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 	private HomePresenter presenter;
 
+	private List<PeripheralInfo> peripheralInfos;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -70,6 +78,7 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 		ButterKnife.bind(this);
 
+		peripheralInfos = PeripheralDataManager.getAllPeripherals(this);
 		initViews();
 
 		presenter = new HomePresenter(this, this);
@@ -80,10 +89,14 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
 
 		presenter.register2Bus();
+
 	}
 
 	private void initViews()
 	{
+		showRightBarButton(true);
+		getRightBarButton().setImageResource(R.drawable.add_device);
+
 		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
 			@Override
@@ -91,7 +104,7 @@ public class HomeActivity extends BaseActivity implements IHomeView
 			{
 				return LayoutInflater.from(HomeActivity.this).inflate(R.layout.device_banner_item, null);
 			}
-			
+
 			@Override
 			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
 			{
@@ -102,11 +115,26 @@ public class HomeActivity extends BaseActivity implements IHomeView
 				syncTimeView.setText(itemData.getSyncTime() + "");
 			}
 		});
+
+		bannerPagerView.setData(peripheralInfos);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent)
+	{
+		super.onNewIntent(intent);
+
 	}
 
 	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch})
 	public void onClick(View view)
 	{
+		if(view == getRightBarButton())
+		{
+			startActivity(new Intent(this, SettingActivity.class));
+			return;
+		}
+
 		switch (view.getId())
 		{
 			case R.id.common_function_btn:
@@ -167,4 +195,25 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		super.onDestroy();
 		presenter.unregisterFromBus();
 	}
+
+	@Subscribe
+	public void onConnectDevice(final ConnectPeripheralEvent event)
+	{
+		switch (event.getState())
+		{
+			case Connected:
+				break;
+
+			case Disconnect:
+				break;
+
+			case BluetoothOff:
+				HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(this);
+				break;
+
+			default:
+				break;
+		}
+	}
+
 }

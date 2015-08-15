@@ -92,4 +92,25 @@ public class PeripheralInfo implements Serializable
 
 		return peripheralInfo;
 	}
+
+	public static PeripheralInfo NULL_OBJECT = new PeripheralInfo()
+	{
+		@Override
+		public int getEnergy()
+		{
+			return 0;
+		}
+
+		@Override
+		public String getPeripheralName()
+		{
+			return "无设备";
+		}
+
+		@Override
+		public String getPeripheralImage()
+		{
+			return "add_device";
+		}
+	};
 }

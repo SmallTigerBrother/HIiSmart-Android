@@ -38,7 +38,7 @@ public class ScanPeripheralActivity extends BaseActivity
 	@FindView(R.id.connect_success_layout)
 	RelativeLayout connectSuccessLayout;
 
-	private static Handler handler = new Handler();
+	protected static Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -53,7 +53,7 @@ public class ScanPeripheralActivity extends BaseActivity
 		scanDevice();
 	}
 
-	private void scanDevice()
+	protected void scanDevice()
 	{
 		scanProgressBar.setVisibility(View.VISIBLE);
 		cancelBtn.setVisibility(View.GONE);
@@ -119,7 +119,7 @@ public class ScanPeripheralActivity extends BaseActivity
 	 * 进入主界面
 	 * @param deviceInfo
 	 */
-	private void gotoHomeActivity(PeripheralInfo deviceInfo)
+	protected void gotoHomeActivity(PeripheralInfo deviceInfo)
 	{
 		Intent intent = new Intent(this, HomeActivity.class);
 		intent.putExtra(IntentKeys.DEVICE_INFO, deviceInfo);
@@ -131,6 +131,8 @@ public class ScanPeripheralActivity extends BaseActivity
 	{
 		super.onDestroy();
 		HSApplication.getBus().unregister(this);
+		//界面被销毁时，停止扫描蓝牙设备
+		HSBLEPeripheralManager.getInstance().stopScan();
 	}
 
 	@Override
@@ -138,4 +140,5 @@ public class ScanPeripheralActivity extends BaseActivity
 	{
 		HSBLEPeripheralManager.getInstance().onActivityResult(requestCode,resultCode,data);
 	}
+
 }
