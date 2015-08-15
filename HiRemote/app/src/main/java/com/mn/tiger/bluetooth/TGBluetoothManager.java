@@ -106,4 +106,15 @@ public class TGBluetoothManager
     {
 
     }
+
+
+    public static enum ConnectState
+    {
+        Success,
+        Failed,
+        Nonsupport,
+        BluetoothOff,
+        Disconnect,
+        Unknown
+    }
 }
