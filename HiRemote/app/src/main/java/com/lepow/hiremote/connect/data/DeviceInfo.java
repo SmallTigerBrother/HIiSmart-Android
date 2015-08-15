@@ -1,6 +1,12 @@
 package com.lepow.hiremote.connect.data;
 
-public class DeviceInfo
+import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.mn.tiger.bluetooth.TGBluetoothManager;
+import com.mn.tiger.datastorage.db.annotation.Transient;
+
+import java.io.Serializable;
+
+public class DeviceInfo implements Serializable
 {
 	private int energy;
 	
@@ -9,6 +15,12 @@ public class DeviceInfo
 	private String deviceName;
 	
 	private long syncTime;
+
+	@Transient
+	private TGBluetoothManager.ConnectState state;
+
+	@Transient
+	private LocationInfo location;
 
 	public int getEnergy()
 	{
@@ -49,5 +61,24 @@ public class DeviceInfo
 	{
 		this.syncTime = syncTime;
 	}
-	
+
+	public void setState(TGBluetoothManager.ConnectState state)
+	{
+		this.state = state;
+	}
+
+	public TGBluetoothManager.ConnectState getState()
+	{
+		return state;
+	}
+
+	public void setLocation(LocationInfo location)
+	{
+		this.location = location;
+	}
+
+	public LocationInfo getLocation()
+	{
+		return location;
+	}
 }

@@ -1,7 +1,10 @@
 package com.lepow.hiremote.home;
 
 import java.io.File;
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,8 +21,10 @@ import butterknife.FindView;
 import butterknife.OnClick;
 
 import com.lepow.hiremote.misc.ServerUrls;
+import com.mn.tiger.log.LogTools;
 import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.upgrade.TGUpgradeManager;
+import com.mn.tiger.utility.FileUtils;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 import com.lepow.hiremote.R;
@@ -81,6 +86,8 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 		//检测更新
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
+
+		presenter.register2Bus();
 	}
 
 	private void initViews()
@@ -162,4 +169,10 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		voiceSwitch.setChecked(false);
 	}
 
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		presenter.unregisterFromBus();
+	}
 }

@@ -1,6 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/device_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mn.tiger.widget.imageview.CircleImageView
+                android:id="@+id/device_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/camera_selected"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_val_40px"
+                android:layout_toRightOf="@+id/device_avatar"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/device_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="lepow"
+                        android:textSize="@dimen/text_size_30pt"/>
+
+                    <ImageView
+                        android:id="@+id/device_connect_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_val_40px"
+                        android:src="@drawable/add_device"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/device_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_val_20px"
+                    android:text="langshanglu zhong "
+                    android:textSize="@dimen/text_size_28pt"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_val_30px"
+            android:layout_marginLeft="@dimen/margin_val_60px"
+            android:layout_marginRight="@dimen/margin_val_60px"
+            android:layout_marginTop="@dimen/margin_val_30px">
+
+            <Button
+                android:id="@+id/buzz_my_item"
+                android:layout_width="@dimen/margin_val_300px"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/buzz_my_item"/>
+
+            <Button
+                android:id="@+id/stop_buzz"
+                android:layout_width="@dimen/margin_val_300px"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/stop"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/mapview_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/device_info_layout"></FrameLayout>
+
+</RelativeLayout>

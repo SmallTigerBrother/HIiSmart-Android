@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/scan_device_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_val_40px"
+        android:text="@string/common_android_wear_update_text"
+        android:layout_marginLeft="@dimen/margin_val_30px"
+        android:layout_marginRight="@dimen/margin_val_30px"
+        android:textSize="@dimen/text_size_28pt"/>
+
+    <ImageView
+        android:id="@+id/scan_device_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/scan_device_tips"
+        android:layout_marginTop="@dimen/margin_val_60px"
+        android:src="@drawable/camera_default"/>
+
+    <ProgressBar
+        android:id="@+id/scan_device_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/scan_device_image"
+        android:layout_marginTop="@dimen/margin_val_40px"/>
+
+    <Button
+        android:id="@+id/scan_device_cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_val_40px"
+        android:layout_centerHorizontal="true"
+        android:text="@string/cancel"/>
+
+    <Button
+        android:id="@+id/scan_device_retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scan_device_cancel_btn"
+        android:layout_marginBottom="@dimen/margin_val_40px"
+        android:layout_centerHorizontal="true"
+        android:text="@string/retry"/>
+
+    <RelativeLayout
+        android:id="@+id/connect_success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/camera_default"/>
+    </RelativeLayout>
+
+</RelativeLayout>
