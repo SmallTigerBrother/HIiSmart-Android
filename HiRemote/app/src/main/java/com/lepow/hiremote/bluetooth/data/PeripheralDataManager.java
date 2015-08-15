@@ -3,26 +3,10 @@ package com.lepow.hiremote.bluetooth.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeripheralManager
+public class PeripheralDataManager
 {
-	private static PeripheralManager instanse;
-	
-	public static synchronized PeripheralManager getInstanse()
-	{
-		if(null == instanse)
-		{
-			instanse = new PeripheralManager();
-		}
-		
-		return instanse;
-	}
-	
-	private PeripheralManager()
-	{
-		
-	}
-	
-	public void connectToDevice(DeviceConnectListener listener)
+
+	private PeripheralDataManager()
 	{
 		
 	}
@@ -41,13 +25,6 @@ public class PeripheralManager
 		
 		peripheralInfos.add(peripheralInfo);
 		return peripheralInfos;
-	}
-	
-	public static interface DeviceConnectListener
-	{
-		void onConnected(PeripheralInfo deviceInfo);
-		
-		void onDisConnected(PeripheralInfo deviceInfo);
 	}
 	
 }

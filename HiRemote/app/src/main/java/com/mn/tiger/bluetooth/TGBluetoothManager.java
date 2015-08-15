@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,30 +22,17 @@ public class TGBluetoothManager
 {
     public static final int REQUEST_CODE_ENABLE_BT = 1001;
 
-    private volatile static TGBluetoothManager instance;
-
     private TGBLEScanParameter scanParameter;
 
     private OnScanPeripheralListener onScanPeripheralListener;
 
     private BluetoothAdapter bluetoothAdapter;
 
-    public static TGBluetoothManager getInstance()
-    {
-        if(null == instance)
-        {
-            synchronized (TGBluetoothManager.class)
-            {
-                if(null == instance)
-                {
-                    instance = new TGBluetoothManager();
-                }
-            }
-        }
-        return instance;
-    }
+    private TGBLEPeripheralInfo currentPeripheral;
 
-    public static boolean isSupportBluetoochLowEnergy()
+    private TGBLEPeripheralInfo lastPeripheral;
+
+    public static boolean isSupportBluetoothLowEnergy()
     {
         if(TGApplication.getInstance().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
         {
@@ -54,7 +42,7 @@ public class TGBluetoothManager
         return false;
     }
 
-    private TGBluetoothManager()
+    protected TGBluetoothManager()
     {
         bluetoothAdapter = ((BluetoothManager)TGApplication.getInstance().getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
     }
@@ -62,6 +50,8 @@ public class TGBluetoothManager
     public void scan(OnScanPeripheralListener onScanPeripheralListener)
     {
         this.onScanPeripheralListener = onScanPeripheralListener;
+        this.lastPeripheral = currentPeripheral;
+        this.currentPeripheral = null;
     }
 
     public void stopScan()
@@ -72,12 +62,21 @@ public class TGBluetoothManager
         }
     }
 
+    /**
+     * 扫描并连接指定UUID的设备
+     * @param uuid
+     */
+    public void scanAndConnect2Peripheral(String uuid)
+    {
+
+    }
+
     public void setScanServicesAndCharacteristics(TGBLEScanParameter parameter)
     {
 
     }
 
-    public void turnOnBluetooch(Activity activity)
+    public void turnOnBluetooth(Activity activity)
     {
         if(!bluetoothAdapter.isEnabled())
         {
@@ -86,12 +85,12 @@ public class TGBluetoothManager
         }
     }
 
-    public void turnOnBluetoochInBackground()
+    public void turnOnBluetoothInBackground()
     {
         bluetoothAdapter.enable();
     }
 
-    public void turnOffBluetoochInBackground()
+    public void turnOffBluetoothInBackground()
     {
         bluetoothAdapter.disable();
     }
@@ -107,6 +106,15 @@ public class TGBluetoothManager
 
     }
 
+    public TGBLEPeripheralInfo getCurrentPeripheral()
+    {
+        return currentPeripheral;
+    }
+
+    public TGBLEPeripheralInfo getLastPeripheral()
+    {
+        return lastPeripheral;
+    }
 
     public static enum ConnectState
     {

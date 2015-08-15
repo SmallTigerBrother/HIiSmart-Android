@@ -1,6 +1,5 @@
 package com.lepow.hiremote.bluetooth;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
-import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.squareup.otto.Subscribe;
 
@@ -49,17 +47,17 @@ public class ScanPeripheralActivity extends BaseActivity
 		setContentView(R.layout.scan_device_activity);
 		ButterKnife.bind(this);
 
+		HSApplication.getBus().register(this);
+
 		//开始扫描设备
 		scanDevice();
-
-		HSApplication.getBus().register(this);
 	}
 
 	private void scanDevice()
 	{
 		scanProgressBar.setVisibility(View.VISIBLE);
-		cancelBtn.setVisibility(View.VISIBLE);
-		retryBtn.setVisibility(View.VISIBLE);
+		cancelBtn.setVisibility(View.GONE);
+		retryBtn.setVisibility(View.GONE);
 	}
 
 	@OnClick({R.id.scan_device_cancel_btn, R.id.scan_device_retry_btn})
@@ -99,57 +97,22 @@ public class ScanPeripheralActivity extends BaseActivity
 				break;
 
 			case Disconnect:
+				scanProgressBar.setVisibility(View.INVISIBLE);
+				cancelBtn.setVisibility(View.VISIBLE);
+				retryBtn.setVisibility(View.VISIBLE);
+				break;
+
+			case BluetoothOff:
+				HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(this);
 				break;
 
 			case Nonsupport:
+				HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(this);
 				break;
 
 			default:
 				break;
 		}
-	}
-
-	/**
-	 * 显示蓝牙未开启对话框
-	 */
-	private void showBluetoothOffDialog()
-	{
-		HSAlertDialog dialog = new HSAlertDialog(this);
-		dialog.setBodyText(getString(R.string.bluetooth_off_tips));
-		dialog.setLeftButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				dialog.dismiss();
-			}
-		});
-		dialog.setRightButton(getString(R.string.open_bluetooth_now), new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				dialog.dismiss();
-				startBluetoothSettingActivity();
-			}
-		});
-	}
-
-	/**
-	 * 显示不支持蓝牙4.0的对话框
-	 */
-	private void showNonSupportBLEDialog()
-	{
-		HSAlertDialog dialog = new HSAlertDialog(this);
-		dialog.setBodyText(getString(R.string.nonsupport_bluetooth_tips));
-		dialog.setLeftButton(getString(R.string.exit_now), new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				HSApplication.getInstance().exit();
-			}
-		});
 	}
 
 	/**
@@ -163,15 +126,16 @@ public class ScanPeripheralActivity extends BaseActivity
 		startActivity(intent);
 	}
 
-	private void startBluetoothSettingActivity()
-	{
-
-	}
-
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
 		HSApplication.getBus().unregister(this);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		HSBLEPeripheralManager.getInstance().onActivityResult(requestCode,resultCode,data);
 	}
 }

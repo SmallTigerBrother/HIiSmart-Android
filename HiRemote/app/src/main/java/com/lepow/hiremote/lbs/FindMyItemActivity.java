@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
@@ -56,7 +57,7 @@ public class FindMyItemActivity extends BaseActivity
         ButterKnife.bind(this);
         deviceInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.DEVICE_INFO);
 
-        deviceAvatarView.setImageResource(CR.getDrawableId(this,deviceInfo.getPeripheralImage()));
+        deviceAvatarView.setImageResource(CR.getDrawableId(this, deviceInfo.getPeripheralImage()));
         deviceName.setText(deviceInfo.getPeripheralName());
         deviceLocationView.setText(deviceInfo.getLocation().getAddress());
 
@@ -70,6 +71,7 @@ public class FindMyItemActivity extends BaseActivity
         }
 
         initMapView();
+        HSApplication.getBus().register(this);
     }
 
     private void initMapView()
@@ -108,4 +110,10 @@ public class FindMyItemActivity extends BaseActivity
         }
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        HSApplication.getBus().unregister(this);
+    }
 }

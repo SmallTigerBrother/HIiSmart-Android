@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.lepow.hiremote.app.AppSettings;
 import com.lepow.hiremote.app.Presenter;
-import com.lepow.hiremote.bluetooth.data.PeripheralManager;
+import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.squareup.otto.Subscribe;
 
@@ -43,7 +43,7 @@ public class HomePresenter extends Presenter
 
 	public void initDevicesAndSettings()
 	{
-		view.initDeviceBanner(PeripheralManager.getInstanse().getAllPeripherals());
+		view.initDeviceBanner(PeripheralDataManager.getInstance().getAllPeripherals());
 		
 		if(AppSettings.isNotificationSettingOn(getActivity()))
 		{

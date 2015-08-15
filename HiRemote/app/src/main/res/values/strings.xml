@@ -46,7 +46,9 @@
     <string name="open_bluetooth_now">立刻开启</string>
     <string name="bluetooth_off_tips">Oops! Bluetooth is not open now, please go to setting and turn on bluetooth</string>
     <string name="nonsupport_bluetooth_tips">Oops! Your device is not support Bluetooth 4.0!</string>
+    <string name="not_found_new_peripheral_tips">Oops! Can not find new peripheral! Do you want to connect the old one?</string>
     <string name="buzz_my_item">Buzz my item</string>
+    <string name="connect_old_peripheral">连接旧设备</string>
 
     <string name="stop">Stop</string>
 
