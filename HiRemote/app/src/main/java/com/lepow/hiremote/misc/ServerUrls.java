@@ -10,4 +10,8 @@ public class ServerUrls
     private static final String SERVER_URL = DEBUG ? "http://192.168.31.210:8090/lepow/api" : "http://app.lepow.net:8080/lepow/api";
 
     public static final String CHECK_UPGRADE_URL = SERVER_URL + "/apps";
+
+    public static final String PRIVACY_POLICY = "";
+
+    public static final String TERMS_SERVICE = "";
 }
