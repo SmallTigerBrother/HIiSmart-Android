@@ -16,4 +16,13 @@ public class Presenter extends AbstractPresenter
 		return false;
 	}
 
+	public void register2Bus()
+	{
+		HSApplication.getBus().register(this);
+	}
+
+	public void unregisterFromBus()
+	{
+		HSApplication.getBus().unregister(this);
+	}
 }
