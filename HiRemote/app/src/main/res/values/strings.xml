@@ -68,6 +68,13 @@
     <string name="voice_memo">Voice Memos</string>
     <string name="play_sounds">Play Sounds</string>
     <string name="stop">Stop</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="password_hint">Password:</string>
+    <string name="account_hint">UserName/E-mail:</string>
+    <string name="user_name_hint">UserName:</string>
+    <string name="email_hint">E-mail:</string>
+    <string name="confirm_password_hint">Confirm password:</string>
+    <string name="regsiter_agree_policy">I Agree to ...</string>
 
     <string name="private_policy_tips">Find the private policy here.</string>
     <string name="terms_conditions_tips">Find the information here.</string>

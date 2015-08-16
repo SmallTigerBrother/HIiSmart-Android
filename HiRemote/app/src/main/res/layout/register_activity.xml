@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark">
+
+    <LinearLayout
+        android:id="@+id/register_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_val_144px"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/register_username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_d9d9d9_stroke_transparent_bg"
+            android:padding="@dimen/margin_val_10px"
+            android:hint="@string/account_hint"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_32pt"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/login_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_d9d9d9_stroke_transparent_bg"
+            android:textSize="@dimen/text_size_32pt"
+            android:padding="@dimen/margin_val_10px"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:hint="@string/email_hint"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/register_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_d9d9d9_stroke_transparent_bg"
+            android:textSize="@dimen/text_size_32pt"
+            android:padding="@dimen/margin_val_10px"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:hint="@string/password_hint"
+            android:singleLine="true"/>
+
+
+        <EditText
+            android:id="@+id/register_password_confirm_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/text_size_32pt"
+            android:padding="@dimen/margin_val_10px"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:hint="@string/confirm_password_hint"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:layout_marginTop="@dimen/margin_val_30px"
+        android:layout_below="@+id/register_input_layout"
+        >
+
+        <CheckBox
+            android:id="@+id/register_agreement_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/register_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_32pt"
+            android:layout_marginLeft="20px"
+            android:text="@string/regsiter_agree_policy"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/register_next_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_val_60px"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:text="@string/next"
+        android:textSize="@dimen/text_size_32pt"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/facebook_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/register_next_btn"
+        android:layout_marginBottom="@dimen/margin_val_60px"
+        android:layout_marginLeft="@dimen/margin_val_86px"
+        android:layout_marginRight="@dimen/margin_val_86px"/>
+
+
+</RelativeLayout>

@@ -22,4 +22,8 @@ public class IntentKeys
 	 */
 	public static final String PERIPHERAL_INFO = "peripheral_info";
 
+	public static final String USER_NAME = "";
+
+	public static final String PASSWORD = "";
+
 }
