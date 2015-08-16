@@ -26,13 +26,10 @@ public class HomePresenter extends Presenter
 			case Connected:
 				break;
 
-			case Failed:
+			case Disconnect:
 				break;
 
 			case BluetoothOff:
-				break;
-
-			case Disconnect:
 				break;
 
 			default:
@@ -43,7 +40,7 @@ public class HomePresenter extends Presenter
 
 	public void initDevicesAndSettings()
 	{
-		view.initDeviceBanner(PeripheralDataManager.getInstance().getAllPeripherals());
+		view.initDeviceBanner(PeripheralDataManager.getAllPeripherals(getActivity()));
 		
 		if(AppSettings.isNotificationSettingOn(getActivity()))
 		{

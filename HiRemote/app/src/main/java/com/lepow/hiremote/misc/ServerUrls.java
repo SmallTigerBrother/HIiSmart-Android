@@ -13,5 +13,9 @@ public class ServerUrls
 
     public static final String PRIVACY_POLICY = "";
 
-    public static final String TERMS_SERVICE = "";
+    public static final String TERMS_CONDITIONS = "";
+
+    public static final String SUPPORT_FAQ = "";
+
+    public static final String CONTACT_US = "";
 }

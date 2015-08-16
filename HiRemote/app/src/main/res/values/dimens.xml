@@ -8,6 +8,7 @@
     <dimen name="text_size_70pt">58sp</dimen>
     <dimen name="text_size_60pt">42sp</dimen>
     <dimen name="text_size_50pt">36sp</dimen>
+    <dimen name="text_size_40pt">23sp</dimen>
     <dimen name="text_size_38pt">22sp</dimen>
     <dimen name="text_size_34pt">20sp</dimen>
     <dimen name="text_size_32pt">19sp</dimen>

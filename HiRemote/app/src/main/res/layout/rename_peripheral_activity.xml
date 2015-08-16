@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.mn.tiger.widget.imageview.CircleImageView
+        android:id="@+id/peripheral_avatar"
+        android:layout_marginTop="@dimen/margin_val_120px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/camera_default"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/rename_peripheral_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_val_60px"
+        android:layout_marginRight="@dimen/margin_val_60px"
+        android:layout_marginTop="@dimen/margin_val_40px"
+        android:layout_below="@id/peripheral_avatar"
+        android:textSize="@dimen/text_size_32pt"
+        android:text="@string/rename_peripheral_tips"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/peripheral_rename_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/rename_peripheral_tips"
+        android:layout_marginTop="@dimen/margin_val_60px"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:textSize="@dimen/text_size_30pt"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/peripheral_rename_next_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_val_60px"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_30pt"
+        android:text="@string/next"/>
+
+</RelativeLayout>

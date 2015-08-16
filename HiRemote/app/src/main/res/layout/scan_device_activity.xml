@@ -1,63 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/scan_device_tips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_val_40px"
-        android:text="@string/common_android_wear_update_text"
-        android:layout_marginLeft="@dimen/margin_val_30px"
-        android:layout_marginRight="@dimen/margin_val_30px"
-        android:textSize="@dimen/text_size_28pt"/>
-
-    <ImageView
-        android:id="@+id/scan_device_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/scan_device_tips"
-        android:layout_marginTop="@dimen/margin_val_60px"
-        android:src="@drawable/camera_default"/>
-
-    <ProgressBar
-        android:id="@+id/scan_device_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/scan_device_image"
-        android:layout_marginTop="@dimen/margin_val_40px"/>
-
-    <Button
-        android:id="@+id/scan_device_cancel_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/margin_val_40px"
-        android:layout_centerHorizontal="true"
-        android:text="@string/cancel"/>
-
-    <Button
-        android:id="@+id/scan_device_retry_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/scan_device_cancel_btn"
-        android:layout_marginBottom="@dimen/margin_val_40px"
-        android:layout_centerHorizontal="true"
-        android:text="@string/retry"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/connect_success_layout"
+        android:id="@+id/scaning_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/scan_device_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_val_120px"
+            android:text="@string/add_a_hismart"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_40pt"/>
+
+        <TextView
+            android:id="@+id/scan_device_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scan_device_title"
+            android:layout_marginLeft="@dimen/margin_val_60px"
+            android:layout_marginRight="@dimen/margin_val_60px"
+            android:layout_marginTop="@dimen/margin_val_40px"
+            android:text="@string/add_a_hismart_tips"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_30pt"/>
+
+        <ImageView
+            android:id="@+id/scan_device_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scan_device_tips"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_val_60px"
+            android:src="@drawable/camera_default"/>
+
+        <TextView
+            android:id="@+id/scan_device_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scan_device_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_val_60px"
+            android:text="@string/scanning"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_32pt"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/connect_success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/camera_default"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_val_40px"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:layout_marginTop="@dimen/margin_val_40px"
+            android:gravity="center"
+            android:text="@string/hismart_add_success"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_32pt"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/not_found_peripheral_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_green_light"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/not_found_peripheral_oops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_val_60px"
+            android:layout_marginTop="@dimen/margin_val_210px"
+            android:text="@string/oops"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_38pt"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/not_found_peripheral_oops"
+            android:layout_marginLeft="@dimen/margin_val_60px"
+            android:layout_marginRight="@dimen/margin_val_60px"
+            android:layout_marginTop="@dimen/margin_val_40px"
+            android:text="@string/not_found_peripheral_tips"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_32pt"/>
+
+        <LinearLayout
+            android:id="@+id/not_found_peripheral_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_val_40px"
+            android:layout_marginLeft="@dimen/margin_val_40px"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/while_line"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_val_20px"
+                android:paddingRight="@dimen/margin_val_20px"
+                android:text="@string/have_a_problem"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_30pt"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/while_line"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/scan_device_cancel_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/not_found_peripheral_help"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_val_40px"
+            android:layout_marginLeft="@dimen/margin_val_40px"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_30pt"/>
+
+        <Button
+            android:id="@+id/scan_device_retry_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/scan_device_cancel_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_val_40px"
+            android:layout_marginLeft="@dimen/margin_val_40px"
+            android:layout_marginRight="@dimen/margin_val_40px"
+            android:text="@string/retry"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_30pt"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

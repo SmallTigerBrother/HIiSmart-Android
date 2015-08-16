@@ -11,120 +11,203 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_val_20px"
-            android:text="@string/add_new_device"
-            android:textSize="@dimen/text_size_32pt"/>
-
         <ImageView
+            android:id="@+id/add_new_peripheral_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_val_20px"
             android:src="@drawable/add_device"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_val_20px"
+            android:layout_toLeftOf="@id/add_new_peripheral_arrow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/add_new_device"
+                android:textSize="@dimen/text_size_32pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:text="@string/add_new_device_tips"
+                android:textSize="@dimen/text_size_26pt"/>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/support_faq_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_val_20px"
-            android:text="@string/accept"
-            android:textSize="@dimen/text_size_32pt"/>
-
         <ImageView
+            android:id="@+id/support_faq_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_val_20px"
             android:src="@drawable/add_device"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_val_20px"
+            android:layout_toLeftOf="@id/support_faq_arrow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/support_faq"
+                android:textSize="@dimen/text_size_32pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:text="@string/support_faq_tips"
+                android:textSize="@dimen/text_size_26pt"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/contact_us_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_val_20px"
-            android:text="@string/accept"
-            android:textSize="@dimen/text_size_32pt"/>
-
         <ImageView
+            android:id="@+id/contact_us_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_val_20px"
             android:src="@drawable/add_device"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_val_20px"
+            android:layout_toLeftOf="@id/contact_us_arrow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/contact_us"
+                android:textSize="@dimen/text_size_32pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:text="@string/contact_us_tips"
+                android:textSize="@dimen/text_size_26pt"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/terms_service"
+        android:id="@+id/terms_conditions_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_val_20px"
-            android:text="@string/terms_service"
-            android:textSize="@dimen/text_size_32pt"/>
-
         <ImageView
+            android:id="@+id/terms_conditions_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_val_20px"
             android:src="@drawable/add_device"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_val_20px"
+            android:layout_toLeftOf="@id/terms_conditions_arrow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/terms_conditions"
+                android:textSize="@dimen/text_size_32pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:text="@string/terms_conditions_tips"
+                android:textSize="@dimen/text_size_26pt"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/privacy_policy"
+        android:id="@+id/privacy_policy_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_c4c4c4_stroke_white_bg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_val_20px"
-            android:text="@string/privacy_policy"
-            android:textSize="@dimen/text_size_32pt"/>
-
         <ImageView
+            android:id="@+id/privacy_policy_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_val_20px"
             android:src="@drawable/add_device"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_val_20px"
+            android:layout_toLeftOf="@id/privacy_policy_arrow"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/privacy_policy"
+                android:textSize="@dimen/text_size_32pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_val_20px"
+                android:text="@string/private_policy_tips"
+                android:textSize="@dimen/text_size_26pt"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

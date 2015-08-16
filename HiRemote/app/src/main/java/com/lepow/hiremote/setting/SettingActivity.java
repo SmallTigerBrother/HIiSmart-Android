@@ -28,21 +28,30 @@ public class SettingActivity extends BaseActivity
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.add_new_peripheral, R.id.terms_service, R.id.privacy_policy})
+    @OnClick({R.id.add_new_peripheral, R.id.terms_conditions_layout, R.id.privacy_policy_layout})
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.add_new_peripheral:
                 startActivity(new Intent(this, ScanNewPeripheralActivity.class));
+                finish();
                 break;
 
-            case R.id.terms_service:
-                startWebViewActivity(getString(R.string.terms_service), ServerUrls.TERMS_SERVICE);
+            case R.id.terms_conditions_layout:
+                startWebViewActivity(getString(R.string.terms_conditions), ServerUrls.TERMS_CONDITIONS);
                 break;
 
-            case R.id.privacy_policy:
+            case R.id.privacy_policy_layout:
                 startWebViewActivity(getString(R.string.privacy_policy), ServerUrls.PRIVACY_POLICY);
+                break;
+
+            case R.id.contact_us_layout:
+                startWebViewActivity(getString(R.string.contact_us), ServerUrls.CONTACT_US);
+                break;
+
+            case R.id.support_faq_layout:
+                startWebViewActivity(getString(R.string.support_faq), ServerUrls.SUPPORT_FAQ);
                 break;
 
             default:

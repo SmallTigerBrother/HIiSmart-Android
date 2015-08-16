@@ -55,7 +55,7 @@ public class FindMyItemActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_my_item_layout);
         ButterKnife.bind(this);
-        deviceInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.DEVICE_INFO);
+        deviceInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
 
         deviceAvatarView.setImageResource(CR.getDrawableId(this, deviceInfo.getPeripheralImage()));
         deviceName.setText(deviceInfo.getPeripheralName());

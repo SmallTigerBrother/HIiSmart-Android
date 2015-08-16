@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.HSApplication;
+import com.lepow.hiremote.app.WebViewActivity;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
+import com.lepow.hiremote.misc.ServerUrls;
 import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.squareup.otto.Subscribe;
 
@@ -26,17 +28,20 @@ import butterknife.OnClick;
  */
 public class ScanPeripheralActivity extends BaseActivity
 {
-	@FindView(R.id.scan_device_progress)
-	ProgressBar scanProgressBar;
-
 	@FindView(R.id.scan_device_cancel_btn)
 	Button cancelBtn;
 
 	@FindView(R.id.scan_device_retry_btn)
 	Button retryBtn;
 
+	@FindView(R.id.scaning_layout)
+	RelativeLayout scanningLayout;
+
 	@FindView(R.id.connect_success_layout)
-	RelativeLayout connectSuccessLayout;
+	LinearLayout connectSuccessLayout;
+
+	@FindView(R.id.not_found_peripheral_layout)
+	RelativeLayout notFoundPeripheralLayout;
 
 	protected static Handler handler = new Handler();
 
@@ -55,9 +60,9 @@ public class ScanPeripheralActivity extends BaseActivity
 
 	protected void scanDevice()
 	{
-		scanProgressBar.setVisibility(View.VISIBLE);
-		cancelBtn.setVisibility(View.GONE);
-		retryBtn.setVisibility(View.GONE);
+		scanningLayout.setVisibility(View.VISIBLE);
+		notFoundPeripheralLayout.setVisibility(View.GONE);
+
 	}
 
 	@OnClick({R.id.scan_device_cancel_btn, R.id.scan_device_retry_btn})
@@ -71,6 +76,13 @@ public class ScanPeripheralActivity extends BaseActivity
 
 			case R.id.scan_device_retry_btn:
 				scanDevice();
+				break;
+
+			case R.id.not_found_peripheral_help:
+				Intent intent = new Intent(this, WebViewActivity.class);
+				intent.putExtra(IntentKeys.WEBVIEW_ACTIVITY_TITLE, getString(R.string.support));
+				intent.putExtra(IntentKeys.URL, ServerUrls.SUPPORT_FAQ);
+				startActivity(intent);
 				break;
 
 			default:
@@ -90,14 +102,14 @@ public class ScanPeripheralActivity extends BaseActivity
 					@Override
 					public void run()
 					{
-						gotoHomeActivity(event.getPeripheralInfo());
+						gotoRenamePeripheralActivity(event.getPeripheralInfo());
 						finish();
 					}
 				}, 2000);
 				break;
 
 			case Disconnect:
-				scanProgressBar.setVisibility(View.INVISIBLE);
+				scanningLayout.setVisibility(View.GONE);
 				cancelBtn.setVisibility(View.VISIBLE);
 				retryBtn.setVisibility(View.VISIBLE);
 				break;
@@ -116,13 +128,24 @@ public class ScanPeripheralActivity extends BaseActivity
 	}
 
 	/**
-	 * 进入主界面
-	 * @param deviceInfo
+	 * 进入重命名设备界面
+	 * @param peripheralInfo
 	 */
-	protected void gotoHomeActivity(PeripheralInfo deviceInfo)
+	private void gotoRenamePeripheralActivity(PeripheralInfo peripheralInfo)
+	{
+		Intent intent = new Intent(this, RenamePeripheralActivity.class);
+		intent.putExtra(IntentKeys.PERIPHERAL_INFO, peripheralInfo);
+		startActivity(intent);
+	}
+
+	/**
+	 * 进入主界面
+	 * @param peripheralInfo
+	 */
+	protected void gotoHomeActivity(PeripheralInfo peripheralInfo)
 	{
 		Intent intent = new Intent(this, HomeActivity.class);
-		intent.putExtra(IntentKeys.DEVICE_INFO, deviceInfo);
+		intent.putExtra(IntentKeys.PERIPHERAL_INFO, peripheralInfo);
 		startActivity(intent);
 	}
 

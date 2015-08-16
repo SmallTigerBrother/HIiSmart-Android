@@ -1,5 +1,6 @@
 package com.lepow.hiremote.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,9 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.FindView;
 import butterknife.OnClick;
 
+import com.lepow.hiremote.authorise.ProfileActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
+import com.lepow.hiremote.lbs.FindMyItemActivity;
+import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.ServerUrls;
+import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.SettingActivity;
 import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.upgrade.TGUpgradeManager;
@@ -66,9 +72,18 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	@FindView(R.id.voice_switch)
 	Switch voiceSwitch;
 
+	@FindView(R.id.play_sound_switch)
+	Switch playSoundSwitch;
+
 	private HomePresenter presenter;
 
 	private List<PeripheralInfo> peripheralInfos;
+
+	private Button lastClickFunction;
+
+	private HashMap<Integer, Integer> defaultFunctionBtnResMap;
+
+	private HashMap<Integer, Integer> highlightFunctionBtnResMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -96,6 +111,8 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	{
 		showRightBarButton(true);
 		getRightBarButton().setImageResource(R.drawable.add_device);
+		showLeftBarButton(true);
+		getLeftBarButton().setImageResource(R.drawable.add_device);
 
 		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
@@ -119,6 +136,11 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		bannerPagerView.setData(peripheralInfos);
 	}
 
+	private void initFunctionBtnRes()
+	{
+		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image,R.drawable.location_button_bg);
+	}
+
 	@Override
 	protected void onNewIntent(Intent intent)
 	{
@@ -126,12 +148,19 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 	}
 
-	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch})
+	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch,
+	R.id.function_pinned_location_image, R.id.function_camera_shutter_image, R.id.function_find_item_image,
+	R.id.function_voice_memos_image})
 	public void onClick(View view)
 	{
 		if(view == getRightBarButton())
 		{
 			startActivity(new Intent(this, SettingActivity.class));
+			return;
+		}
+		else if(view == getLeftBarButton())
+		{
+			startActivity(new Intent(this, ProfileActivity.class));
 			return;
 		}
 
@@ -154,6 +183,24 @@ public class HomeActivity extends BaseActivity implements IHomeView
 			case R.id.voice_switch:
 				presenter.turnOnOrOffVoiceSetting();
 				break;
+
+			case R.id.function_pinned_location_image:
+				pinnedLocationImg.setPressed(true);
+				startPinnedLocationHistoryActivity();
+				break;
+
+			case R.id.function_camera_shutter_image:
+				startCamera();
+				break;
+
+			case R.id.function_find_item_image:
+				startFindItemActivity();
+				break;
+
+			case R.id.function_voice_memos_image:
+				startVoiceMemosActivity();
+				break;
+
 			default:
 				break; 
 		}
@@ -187,6 +234,26 @@ public class HomeActivity extends BaseActivity implements IHomeView
 	public void turnOffVoiceSetting()
 	{
 		voiceSwitch.setChecked(false);
+	}
+
+	private void startPinnedLocationHistoryActivity()
+	{
+		startActivity(new Intent(this, PinnedLocationHistoryActivity.class));
+	}
+
+	private void startFindItemActivity()
+	{
+		startActivity(new Intent(this, FindMyItemActivity.class));
+	}
+
+	private void startVoiceMemosActivity()
+	{
+		startActivity(new Intent(this, VoiceMemosActivity.class));
+	}
+
+	private void startCamera()
+	{
+		//TODO
 	}
 
 	@Override

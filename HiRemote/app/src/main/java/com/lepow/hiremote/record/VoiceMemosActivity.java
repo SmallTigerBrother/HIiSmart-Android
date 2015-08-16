@@ -24,7 +24,7 @@ import butterknife.tiger.OnQueryText;
 /**
  * 录音历史记录界面
  */
-public class RecordListActivity extends BaseActivity
+public class VoiceMemosActivity extends BaseActivity
 {
 	@FindView(R.id.record_search)
 	TGSearchView searchView;

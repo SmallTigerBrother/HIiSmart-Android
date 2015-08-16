@@ -4,8 +4,8 @@
     <string name="app_name">HiSmart</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
-    
+
+
     <string name="intro_location_title">Pinned Location</string>
     <string name="intro_location_detail">You can easily find the history of all the locations you have been to.</string>
     <string name="intro_find_title">Find My Item</string>
@@ -16,17 +16,19 @@
     <string name="intro_voice_detail">You easily can store,remame,or delete your audio file.</string>
     <string name="intro_hiremote_title">HiRemote Control</string>
     <string name="intro_hiremote_detail"></string>
-    
+
     <string name="my_bag">My Bag</string>
     <string name="edit">Edit</string>
-    
+
     <string name="start">Start</string>
-    
+
     <string name="edit_location_title">Change a name</string>
     <string name="edit_record_title">Change a name</string>
 
+    <string name="settings">Settings</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="confirm">Confim</string>
+    <string name="confirm">Confirm</string>
     <string name="exit_now">Exit Now</string>
     <string name="tips">Tips</string>
     <string name="your_app_is_invalid">We are so sorry to tell you that this App is invalid now!</string>
@@ -39,17 +41,37 @@
     <string name="something_wrong_downloading_try_again">There was something wrong occured while dowloading package, please try again!</string>
     <string name="something_wrong_downloading_try_later">There was something wrong occured while dowloading package, you can try later!</string>
 
-    <string name="add_new_device">Add New Device</string>
+    <string name="add_new_device">Add a New Device</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_service">Terms Service</string>
+    <string name="terms_conditions">Terms and Conditions</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="support_faq">Support and FAQs</string>
     <string name="retry">Retry</string>
     <string name="open_bluetooth_now">立刻开启</string>
-    <string name="bluetooth_off_tips">Oops! Bluetooth is not open now, please go to setting and turn on bluetooth</string>
+    <string name="bluetooth_off_tips">Turn on Bluetooth...</string>
     <string name="nonsupport_bluetooth_tips">Oops! Your device is not support Bluetooth 4.0!</string>
     <string name="not_found_new_peripheral_tips">Oops! Can not find new peripheral! Do you want to connect the old one?</string>
     <string name="buzz_my_item">Buzz my item</string>
     <string name="connect_old_peripheral">连接旧设备</string>
-
+    <string name="oops">Oops.</string>
+    <string name="not_found_peripheral_tips">It looks like we can\'t find it, let\'t try again!</string>
+    <string name="have_a_problem">have a problem</string>
+    <string name="support">Support</string>
+    <string name="hismart_add_success">HiSmart was added successfully!</string>
+    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
+    <string name="rename_peripheral_btn_text">Rename the %1$s as...</string>
+    <string name="next">Next</string>
+    <string name="add_a_hismart">Add a HiSmart</string>
+    <string name="add_a_hismart_tips">i: Make sure your smartphone's Bluetooth is turned on. \n ii: Hold the play button of the HiSmart to activate it.</string>
+    <string name="scanning">Scanning...</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="voice_memo">Voice Memos</string>
+    <string name="play_sounds">Play Sounds</string>
     <string name="stop">Stop</string>
 
+    <string name="private_policy_tips">Find the private policy here.</string>
+    <string name="terms_conditions_tips">Find the information here.</string>
+    <string name="contact_us_tips">Didn\'t find your answer in FAQs. Reach out to us directly.</string>
+    <string name="support_faq_tips">Need any help? We can help you.</string>
+    <string name="add_new_device_tips">Include another HiSmart device by adding it here.</string>
 </resources>

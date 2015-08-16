@@ -17,6 +17,9 @@ public class IntentKeys
 	 */
 	public static final String WEBVIEW_ACTIVITY_TITLE = "bar_title";
 
-	public static final String DEVICE_INFO = "device_info";
+	/**
+	 * 设备信息
+	 */
+	public static final String PERIPHERAL_INFO = "peripheral_info";
 
 }
