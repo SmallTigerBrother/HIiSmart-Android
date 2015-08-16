@@ -43,6 +43,10 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
 
     }
 
+    /**
+     * 显示未找到新设备的对话框
+     * @param activity
+     */
     public void showNotFoundNewDeviceDialog(final Activity activity)
     {
         HSAlertDialog dialog = new HSAlertDialog(activity);
@@ -74,21 +78,21 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
     {
         HSAlertDialog dialog = new HSAlertDialog(activity);
         dialog.setBodyText(activity.getString(R.string.bluetooth_off_tips));
-        dialog.setLeftButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-        dialog.setRightButton(activity.getString(R.string.open_bluetooth_now), new DialogInterface.OnClickListener()
+        dialog.setLeftButton(activity.getString(R.string.settings), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
                 dialog.dismiss();
                 HSBLEPeripheralManager.this.turnOnBluetooth(activity);
+            }
+        });
+        dialog.setRightButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
             }
         });
     }
@@ -100,7 +104,7 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
     {
         HSAlertDialog dialog = new HSAlertDialog(activity);
         dialog.setBodyText(activity.getString(R.string.nonsupport_bluetooth_tips));
-        dialog.setLeftButton(activity.getString(R.string.exit_now), new DialogInterface.OnClickListener()
+        dialog.setMiddleButton(activity.getString(R.string.exit_now), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
