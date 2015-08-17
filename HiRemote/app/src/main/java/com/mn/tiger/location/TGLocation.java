@@ -2,6 +2,7 @@ package com.mn.tiger.location;
 
 import android.location.Location;
 
+import com.amap.api.location.AMapLocation;
 import com.baidu.location.BDLocation;
 
 /**
@@ -49,6 +50,19 @@ public class TGLocation
         tgLocation.street = location.getStreet();
         return tgLocation;
     }
+
+    static TGLocation initWith(AMapLocation location)
+    {
+        TGLocation tgLocation = new TGLocation();
+        tgLocation.latitude = location.getLatitude();
+        tgLocation.longitude = location.getLongitude();
+        tgLocation.city = location.getCity();
+        tgLocation.country = location.getCountry();
+        tgLocation.province = location.getProvince();
+        tgLocation.address = location.getAddress();
+        tgLocation.street = location.getStreet();
+        return tgLocation;
+    };
 
     public double getLatitude()
     {

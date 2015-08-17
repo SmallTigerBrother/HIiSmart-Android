@@ -76,7 +76,7 @@ public class BaiduLocationManager implements ILocationManager
         this.listener = listener;
     }
 
-    public static boolean isLocationInChina(TGLocation location)
+    public boolean isLocationInChina(TGLocation location)
     {
         return true;
     }

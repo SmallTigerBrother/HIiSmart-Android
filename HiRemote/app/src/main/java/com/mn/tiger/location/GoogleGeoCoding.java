@@ -20,10 +20,10 @@ public class GoogleGeoCoding
 	/**
 	 * 执行地址解析
 	 * @param latitude
-	 * @param longatude
+	 * @param longitude
 	 * @param listener
 	 */
-	public static void geoCoding(final double latitude, final double longatude,
+	public static void geoCoding(final double latitude, final double longitude,
 			final GeoCodeListener listener)
 	{
 		Executors.newCachedThreadPool().execute(new Runnable()
@@ -32,7 +32,7 @@ public class GoogleGeoCoding
 			public void run()
 			{
 				String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude
-						+ "," + longatude + "&sensor=false";
+						+ "," + longitude + "&sensor=false";
 				// 创建一个HttpClient对象
 				HttpClient httpClient = new DefaultHttpClient();
 				String responseData = "";

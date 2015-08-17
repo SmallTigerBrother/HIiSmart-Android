@@ -9,6 +9,8 @@ public interface ILocationManager
 
     void setLocationListener(ILocationListener listener);
 
+    boolean isLocationInChina(TGLocation location);
+
     public static interface ILocationListener
     {
         void onReceiveLocation(TGLocation location);

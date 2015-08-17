@@ -8,12 +8,15 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.log.Logger;
 
 /**
  * Created by Dalang on 2015/7/26.
  */
 public class GoogleLocationManager implements ILocationManager
 {
+    private static final Logger LOG = Logger.getLogger(GoogleLocationManager.class);
+
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     /**
@@ -86,6 +89,8 @@ public class GoogleLocationManager implements ILocationManager
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras)
         {
+            LOG.d("[Method:onStatusChanged] provider == " + provider + "status == " + status);
+
             //若GPS定位不可用，则启动网络定位
             if (LocationProvider.OUT_OF_SERVICE == status)
             {
@@ -107,6 +112,7 @@ public class GoogleLocationManager implements ILocationManager
         @Override
         public void onLocationChanged(Location location)
         {
+            LOG.d("[Method:onLocationChanged] provider == " + location.getProvider());
             //判断当前地址和上一次定位的结果哪个更加精确，若当前定位的地址更加精确，通知更新地址
             if (isBetterLocation(location, lastLocation))
             {
@@ -145,6 +151,7 @@ public class GoogleLocationManager implements ILocationManager
         @Override
         public void onLocationChanged(Location location)
         {
+            LOG.d("[Method:onLocationChanged] provider == " + location.getProvider());
             //判断当前地址和上一次定位的结果哪个更加精确，若当前定位的地址更加精确，通知更新地址
             if (isBetterLocation(location, lastLocation))
             {
@@ -165,6 +172,7 @@ public class GoogleLocationManager implements ILocationManager
             @Override
             public void onGeoCodingSuccess(GeoCodeResult result)
             {
+                LOG.d("[Method:onGeoCodingSuccess]");
                 //发通知界面处理
                 if (null != listener)
                 {
@@ -183,7 +191,7 @@ public class GoogleLocationManager implements ILocationManager
             @Override
             public void onGeoCodingError(int code, String message)
             {
-
+                LOG.e("[Method:onGeoCodingError]");
             }
         });
 
@@ -264,5 +272,9 @@ public class GoogleLocationManager implements ILocationManager
         return provider1.equals(provider2);
     }
 
-
+    @Override
+    public boolean isLocationInChina(TGLocation location)
+    {
+        return false;
+    }
 }
