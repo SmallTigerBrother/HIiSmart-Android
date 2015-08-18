@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/device_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" 
+    <com.mn.tiger.widget.imageview.CircleImageView
+        android:id="@+id/peripheral_image"
+        android:layout_width="@dimen/margin_val_160px"
+        android:layout_height="@dimen/margin_val_160px"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginBottom="@dimen/margin_val_16px"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_val_10px"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:id="@+id/device_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" 
-        android:text="sfsffs"/>
-
-    <TextView
-        android:id="@+id/sync_time"
+        android:id="@+id/peripheral_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
         android:text="sfsdfsfsfsdf" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/peripheral_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_above="@+id/peripheral_location"
+        android:layout_marginBottom="@dimen/margin_val_16px"
+        android:textColor="@android:color/white"
+        android:text="sfsffs"/>
+
+</RelativeLayout>

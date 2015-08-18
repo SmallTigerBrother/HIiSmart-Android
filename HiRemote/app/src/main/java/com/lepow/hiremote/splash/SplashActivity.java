@@ -1,11 +1,7 @@
 package com.lepow.hiremote.splash;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -13,20 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.FindView;
-import butterknife.OnClick;
 
-import com.mn.tiger.media.TGAudioPlayer;
-import com.mn.tiger.media.TGRecorder;
-import com.mn.tiger.system.AppConfigs;
-import com.mn.tiger.utility.FileUtils;
-import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
-import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.splash.data.IntroductionInfo;
+import com.mn.tiger.system.AppConfigs;
+import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
+import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
+
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.FindView;
+import butterknife.OnClick;
 
 public class SplashActivity extends BaseActivity
 {
@@ -45,8 +41,7 @@ public class SplashActivity extends BaseActivity
 	private int[] introDetailResIds = {R.string.intro_location_detail,
 			R.string.intro_find_detail,
 			R.string.intro_camera_detail,
-			R.string.intro_voice_detail,
-			R.string.intro_hiremote_detail};
+			R.string.intro_voice_detail, -1};
 	
 	@FindView(R.id.intro_viewpager)
 	DotIndicatorBannerPagerView<IntroductionInfo> bannerPagerView;
@@ -62,7 +57,9 @@ public class SplashActivity extends BaseActivity
 			setContentView(R.layout.splash_activity);
 			
 			ButterKnife.bind(this);
-			
+
+			bannerPagerView.setDotViewBackground(getResources().getDrawable(R.drawable.half_alpha_white_dot),
+					getResources().getDrawable(R.drawable.white_dot));
 			bannerPagerView.setCircleable(false);
 			bannerPagerView.setData(initIntroductionInfos());
 			bannerPagerView.setViewPagerHolder(new ViewPagerHolder<IntroductionInfo>()
@@ -78,7 +75,15 @@ public class SplashActivity extends BaseActivity
 					introImageView.setImageResource(itemData.getIntroImgResId());
 					
 					TextView detailTextView = (TextView)pageOfView.findViewById(R.id.intro_detail);
-					detailTextView.setText(itemData.getIntroDetailResId());
+					if(itemData.getIntroDetailResId() > 0)
+					{
+						detailTextView.setVisibility(View.VISIBLE);
+						detailTextView.setText(itemData.getIntroDetailResId());
+					}
+					else
+					{
+						detailTextView.setVisibility(View.GONE);
+					}
 				}
 
 				@Override

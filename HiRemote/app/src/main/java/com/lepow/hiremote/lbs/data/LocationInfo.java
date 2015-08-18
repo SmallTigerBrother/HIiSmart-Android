@@ -3,6 +3,7 @@ package com.lepow.hiremote.lbs.data;
 import com.mn.tiger.location.TGLocation;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 
 /**
@@ -21,6 +22,8 @@ public class LocationInfo implements Serializable
 	 * 设备断开连接数据
 	 */
 	public static final int DATA_TYPE_DISCONNECT_LOCATION = 1;
+
+	private int _id;
 
 	/**
 	 * 用户Id
@@ -66,6 +69,16 @@ public class LocationInfo implements Serializable
 	 * 数据类型
 	 */
 	private int dataType = DATA_TYPE_PINNED_LOCATION;
+
+	public int get_id()
+	{
+		return _id;
+	}
+
+	public void set_id(int _id)
+	{
+		this._id = _id;
+	}
 
 	public String getUserId()
 	{
@@ -119,12 +132,16 @@ public class LocationInfo implements Serializable
 	
 	public String getDateString()
 	{
-		return "";
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+		return calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.YEAR);
 	}
 	
 	public String getTimeString()
 	{
-		return "";
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
 	}
 	
 	public String getRemark()

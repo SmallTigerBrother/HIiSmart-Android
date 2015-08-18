@@ -41,7 +41,7 @@ public class VoiceMemosActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record_history_list_activity);
-		
+		setBarTitleText(getString(R.string.voice_memo));
 		ButterKnife.bind(this);
 
 		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstance().findAllRecordsSortByTime(this),

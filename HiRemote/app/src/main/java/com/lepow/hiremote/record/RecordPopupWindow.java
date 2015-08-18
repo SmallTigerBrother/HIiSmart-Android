@@ -54,7 +54,7 @@ public class RecordPopupWindow extends PopupWindow
         super(context);
 
         View mainView = LayoutInflater.from(context).inflate(R.layout.edit_play_record_popview, null);
-        ButterKnife.bind(mainView);
+        ButterKnife.bind(this, mainView);
 
         this.setContentView(mainView);
         this.setOnDismissListener(new OnDismissListener()

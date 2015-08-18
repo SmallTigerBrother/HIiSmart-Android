@@ -9,6 +9,10 @@ import java.io.Serializable;
 
 public class PeripheralInfo implements Serializable
 {
+	private int _id;
+
+	private String UUID = "";
+
 	private int energy;
 	
 	private String peripheralImage;
@@ -22,6 +26,16 @@ public class PeripheralInfo implements Serializable
 
 	@Transient
 	private LocationInfo location;
+
+	public int get_id()
+	{
+		return _id;
+	}
+
+	public void set_id(int _id)
+	{
+		this._id = _id;
+	}
 
 	public int getEnergy()
 	{
@@ -83,6 +97,16 @@ public class PeripheralInfo implements Serializable
 		return location;
 	}
 
+	public String getUUID()
+	{
+		return UUID;
+	}
+
+	public void setUUID(String UUID)
+	{
+		this.UUID = UUID;
+	}
+
 	public static PeripheralInfo fromBLEPeripheralInfo(TGBLEPeripheralInfo blePeripheralInfo)
 	{
 		PeripheralInfo peripheralInfo = new PeripheralInfo();
@@ -95,6 +119,12 @@ public class PeripheralInfo implements Serializable
 
 	public static PeripheralInfo NULL_OBJECT = new PeripheralInfo()
 	{
+		@Override
+		public String getUUID()
+		{
+			return super.getUUID();
+		}
+
 		@Override
 		public int getEnergy()
 		{

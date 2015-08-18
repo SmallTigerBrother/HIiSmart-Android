@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginLeft="48dp"
-              android:layout_marginRight="48dp"
-              android:paddingTop="48dp"
+              android:paddingLeft="@dimen/margin_val_60px"
+              android:paddingRight="@dimen/margin_val_60px"
+              android:paddingTop="@dimen/margin_val_72px"
               android:orientation="vertical">
 
     <TextView
@@ -12,18 +12,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_40pt"
         android:gravity="center"/>
 
     <ImageView
         android:id="@+id/intro_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="@dimen/margin_val_40px"/>
 
     <TextView
         android:id="@+id/intro_detail"
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_val_40px"
+        android:layout_marginRight="@dimen/margin_val_40px"
+        android:textSize="@dimen/text_size_32pt"
+        android:layout_marginTop="@dimen/margin_val_40px"/>
 
 </LinearLayout>

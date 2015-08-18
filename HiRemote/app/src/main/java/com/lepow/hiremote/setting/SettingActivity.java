@@ -24,11 +24,11 @@ public class SettingActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity);
-
+        setBarTitleText(getString(R.string.settings));
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.add_new_peripheral, R.id.terms_conditions_layout, R.id.privacy_policy_layout})
+    @OnClick({R.id.add_new_peripheral, R.id.terms_conditions_layout, R.id.privacy_policy_layout, R.id.support_faq_layout, R.id.contact_us_layout})
     public void onClick(View view)
     {
         switch (view.getId())

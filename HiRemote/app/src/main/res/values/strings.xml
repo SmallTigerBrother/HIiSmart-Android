@@ -13,9 +13,8 @@
     <string name="intro_camera_title">Camera Shutter</string>
     <string name="intro_camera_detail">Use the shutter button on your HiRemote to snap pics</string>
     <string name="intro_voice_title">Voice Memos</string>
-    <string name="intro_voice_detail">You easily can store,remame,or delete your audio file.</string>
+    <string name="intro_voice_detail">You easily can store, rename, or delete your audio file.</string>
     <string name="intro_hiremote_title">HiRemote Control</string>
-    <string name="intro_hiremote_detail"></string>
 
     <string name="my_bag">My Bag</string>
     <string name="edit">Edit</string>
@@ -38,8 +37,8 @@
     <string name="prompt_upgrade_string_format">The new version %1$s is found. \n %2$s</string>
     <string name="force_upgrade_string_format">This version of app is Invalid now. You must upgrade to the new version %1$s. \n %2$s</string>
 
-    <string name="something_wrong_downloading_try_again">There was something wrong occured while dowloading package, please try again!</string>
-    <string name="something_wrong_downloading_try_later">There was something wrong occured while dowloading package, you can try later!</string>
+    <string name="something_wrong_downloading_try_again">There was something wrong happened while downloading package, please try again!</string>
+    <string name="something_wrong_downloading_try_later">There was something wrong happened while downloading package, you can try later!</string>
 
     <string name="add_new_device">Add a New Device</string>
     <string name="privacy_policy">Privacy Policy</string>
@@ -62,7 +61,7 @@
     <string name="rename_peripheral_btn_text">Rename the %1$s as...</string>
     <string name="next">Next</string>
     <string name="add_a_hismart">Add a HiSmart</string>
-    <string name="add_a_hismart_tips">i: Make sure your smartphone's Bluetooth is turned on. \n ii: Hold the play button of the HiSmart to activate it.</string>
+    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \n ii: Hold the play button of the HiSmart to activate it.</string>
     <string name="scanning">Scanning...</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="voice_memo">Voice Memos</string>

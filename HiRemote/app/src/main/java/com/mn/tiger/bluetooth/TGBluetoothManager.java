@@ -3,17 +3,12 @@ package com.mn.tiger.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by peng on 15/8/2.

@@ -74,18 +74,26 @@ public class LocationDataManager
 
 	public List<LocationInfo> findAllPinnedLocationSortByTime(Context context)
 	{
-		try
-		{
-			return getLocationDBManager(context).findAll(Selector
-					.from(LocationInfo.class)
-					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
-					.orderBy("time"));
-		}
-		catch (DbException e)
-		{
-			LOG.e(e);
-			return new ArrayList<LocationInfo>();
-		}
+		LocationInfo locationInfo = new LocationInfo();
+		locationInfo.setAddress("广东省深圳市南山区龙珠大道72号");
+		locationInfo.setTimestamp(System.currentTimeMillis());
+
+		ArrayList<LocationInfo> locationInfos = new ArrayList<LocationInfo>();
+		locationInfos.add(locationInfo);
+		return locationInfos;
+
+//locationInfos		try
+//		{
+//			return getLocationDBManager(context).findAll(Selector
+//					.from(LocationInfo.class)
+//					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
+//					.orderBy("time"));
+//		}
+//		catch (DbException e)
+//		{
+//			LOG.e(e);
+//			return new ArrayList<LocationInfo>();
+//		}
 	}
 
 	public List<LocationInfo> findAllPinnedLocationSortByTime(Context context, String queryText)

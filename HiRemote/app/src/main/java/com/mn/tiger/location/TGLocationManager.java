@@ -39,7 +39,7 @@ public class TGLocationManager implements ILocationManager
             @Override
             public void onReceiveLocation(TGLocation location)
             {
-                if (BaiduLocationManager.isLocationInChina(location))
+                if (baiduLocationManager.isLocationInChina(location))
                 {
                     curLocationManager = baiduLocationManager;
                     provider = Provider.BaiDu;
@@ -71,5 +71,11 @@ public class TGLocationManager implements ILocationManager
         {
             curLocationManager.setLocationListener(listener);
         }
+    }
+
+    @Override
+    public boolean isLocationInChina(TGLocation location)
+    {
+        return false;
     }
 }

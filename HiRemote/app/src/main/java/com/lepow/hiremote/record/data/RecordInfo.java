@@ -2,7 +2,7 @@ package com.lepow.hiremote.record.data;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * 录音数据
@@ -10,6 +10,8 @@ import java.util.Date;
 public class RecordInfo implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+
+	private int _id;
 
 	/**
 	 * 用户ID
@@ -55,7 +57,17 @@ public class RecordInfo implements Serializable
 	 * 录音文件MD5校验码
 	 */
 	private String md5Code;
-	
+
+	public int get_id()
+	{
+		return _id;
+	}
+
+	public void set_id(int _id)
+	{
+		this._id = _id;
+	}
+
 	public String getTitle()
 	{
 		return title;
@@ -78,7 +90,10 @@ public class RecordInfo implements Serializable
 	
 	public String getDateString()
 	{
-		return new Date(timestamp).toString();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+		return calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.YEAR ) +
+				"    " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
 	}
 	
 	public long getDuration()

@@ -11,11 +11,11 @@ public class ServerUrls
 
     public static final String CHECK_UPGRADE_URL = SERVER_URL + "/apps";
 
-    public static final String PRIVACY_POLICY = "";
+    public static final String PRIVACY_POLICY = "http://hismart.us/help/privacy";
 
-    public static final String TERMS_CONDITIONS = "";
+    public static final String TERMS_CONDITIONS = "http://hismart.us/help/privacy";
 
-    public static final String SUPPORT_FAQ = "";
+    public static final String SUPPORT_FAQ = "http://hismart.us/faq";
 
-    public static final String CONTACT_US = "";
+    public static final String CONTACT_US = "http://hismart.us/contact";
 }

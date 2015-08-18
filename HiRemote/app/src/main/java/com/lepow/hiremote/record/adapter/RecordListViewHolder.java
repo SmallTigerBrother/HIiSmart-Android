@@ -18,15 +18,11 @@ public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 	@FindView(R.id.record_date)
 	TextView recordDate;
 	
-	@FindView(R.id.record_duration)
-	TextView recordTimeLength;
-	
 	@Override
 	public void fillData(ViewGroup parent, View convertView, RecordInfo itemData, int position)
 	{
 		recordName.setText(((RecordInfo)itemData).getTitle());
-		recordTimeLength.setText(((RecordInfo)itemData).getDuration() + "");
-		recordDate.setText(((RecordInfo)itemData).getDateString() + "");
+		recordDate.setText(((RecordInfo)itemData).getDateString());
 	}
 
 }

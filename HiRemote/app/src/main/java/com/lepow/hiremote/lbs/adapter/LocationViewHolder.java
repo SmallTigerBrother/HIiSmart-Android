@@ -7,16 +7,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lepow.hiremote.dialog.HRDialog;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.PinnedLocationMapActivity;
-import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
+import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
+import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.widget.swipelistview.SwipeListViewHolder;
 
 import butterknife.FindView;
@@ -27,9 +26,6 @@ import butterknife.OnClick;
  */
 public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
 {
-    @FindView(R.id.location_list_item_above)
-    RelativeLayout aboveLayout;
-
     @FindView(R.id.location_date)
     TextView locationDate;
 
@@ -146,7 +142,7 @@ public class LocationViewHolder extends SwipeListViewHolder<LocationInfo>
      */
     private void openEditLocationDialog()
     {
-        HRDialog dialog = new HRDialog(getContext());
+        HSAlertDialog dialog = new HSAlertDialog(getContext());
         dialog.setTitle(R.string.edit_location_title);
         //设置输入框
         final EditText editText = new EditText(getContext());

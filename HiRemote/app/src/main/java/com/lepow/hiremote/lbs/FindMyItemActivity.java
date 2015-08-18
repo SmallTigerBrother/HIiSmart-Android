@@ -29,7 +29,7 @@ public class FindMyItemActivity extends BaseActivity
     @FindView(R.id.device_avatar)
     CircleImageView deviceAvatarView;
 
-    @FindView(R.id.device_name)
+    @FindView(R.id.peripheral_name)
     TextView deviceName;
 
     @FindView(R.id.device_connect_status)

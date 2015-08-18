@@ -43,15 +43,26 @@ public class RecordDataManager
 	
 	public List<RecordInfo> findAllRecordsSortByTime(Context context)
 	{
-		try
-		{
-			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("time"));
-		}
-		catch (DbException e)
-		{
-			LOG.e(e);
-			return new ArrayList<RecordInfo>();
-		}
+		RecordInfo recordInfo = new RecordInfo();
+		recordInfo.setDuration(6000);
+		recordInfo.setFileName("test.aac");
+		recordInfo.setTimestamp(System.currentTimeMillis());
+		recordInfo.setTitle("New Record");
+
+		ArrayList<RecordInfo> recordInfos = new ArrayList<RecordInfo>();
+		recordInfos.add(recordInfo);
+
+		return recordInfos;
+
+//		try
+//		{
+//			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("time"));
+//		}
+//		catch (DbException e)
+//		{
+//			LOG.e(e);
+//			return new ArrayList<RecordInfo>();
+//		}
 	}
 
 	public List<RecordInfo> findAllRecordsSortByTime(Context context, String queryText)

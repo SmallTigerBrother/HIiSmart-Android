@@ -3,18 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/holo_green_light">
+    android:background="@color/default_green_bg">
 
     <Button
         android:id="@+id/get_start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
+        android:paddingTop="@dimen/margin_val_16px"
+        android:paddingBottom="@dimen/margin_val_16px"
+        android:layout_marginLeft="@dimen/margin_val_60px"
+        android:layout_marginRight="@dimen/margin_val_60px"
         android:layout_marginBottom="24dp"
         android:layout_marginTop="24dp"
         android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
+        android:background="@color/default_btn_bg"
         android:text="@string/start"/>
 
     <com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView
@@ -24,6 +27,4 @@
         android:layout_above="@+id/get_start_button">
     </com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView>
 
-
-    
 </RelativeLayout>

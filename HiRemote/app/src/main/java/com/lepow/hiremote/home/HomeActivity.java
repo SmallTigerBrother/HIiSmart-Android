@@ -1,26 +1,24 @@
 package com.lepow.hiremote.home;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.FindView;
-import butterknife.OnClick;
 
+import com.lepow.hiremote.R;
+import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.authorise.ProfileActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
-import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
+import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
+import com.lepow.hiremote.home.present.HomePresenter;
+import com.lepow.hiremote.home.present.IHomeView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.ServerUrls;
@@ -28,16 +26,19 @@ import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.SettingActivity;
 import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.upgrade.TGUpgradeManager;
+import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
-import com.lepow.hiremote.R;
-import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
-import com.lepow.hiremote.home.present.HomePresenter;
-import com.lepow.hiremote.home.present.IHomeView;
 import com.squareup.otto.Subscribe;
 
-public class HomeActivity extends BaseActivity implements IHomeView
+import java.util.HashMap;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.FindView;
+import butterknife.OnClick;
+
+public class HomeActivity extends BaseActivity implements IHomeView, View.OnClickListener
 {
 	@FindView(R.id.devices_viewpager)
 	DotIndicatorBannerPagerView<PeripheralInfo> bannerPagerView;
@@ -77,8 +78,6 @@ public class HomeActivity extends BaseActivity implements IHomeView
 
 	private HomePresenter presenter;
 
-	private List<PeripheralInfo> peripheralInfos;
-
 	private Button lastClickFunction;
 
 	private HashMap<Integer, Integer> defaultFunctionBtnResMap;
@@ -91,9 +90,11 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		getWindow().getDecorView().setBackgroundResource(R.drawable.home_page_bg);
+		setBarTitleText(getString(R.string.app_name));
+
 		ButterKnife.bind(this);
 
-		peripheralInfos = PeripheralDataManager.getAllPeripherals(this);
 		initViews();
 
 		presenter = new HomePresenter(this, this);
@@ -104,15 +105,25 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
 
 		presenter.register2Bus();
+	}
 
+	@Override
+	protected void initNavigationResource(TGNavigationBar navigationBar)
+	{
+		super.initNavigationResource(navigationBar);
+		navigationBar.setBackgroundColor(Color.TRANSPARENT);
+		navigationBar.getMiddleTextView().setTextColor(Color.WHITE);
 	}
 
 	private void initViews()
 	{
 		showRightBarButton(true);
 		getRightBarButton().setImageResource(R.drawable.add_device);
+		getRightBarButton().setOnClickListener(this);
+
 		showLeftBarButton(true);
 		getLeftBarButton().setImageResource(R.drawable.add_device);
+		getLeftBarButton().setOnClickListener(this);
 
 		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
@@ -125,20 +136,20 @@ public class HomeActivity extends BaseActivity implements IHomeView
 			@Override
 			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
 			{
-				TextView deviceName = (TextView) viewOfPage.findViewById(R.id.device_name);
+				TextView deviceName = (TextView) viewOfPage.findViewById(R.id.peripheral_name);
 				deviceName.setText(itemData.getPeripheralName());
 
-				TextView syncTimeView = (TextView) viewOfPage.findViewById(R.id.sync_time);
+				TextView syncTimeView = (TextView) viewOfPage.findViewById(R.id.peripheral_location);
 				syncTimeView.setText(itemData.getSyncTime() + "");
 			}
 		});
 
-		bannerPagerView.setData(peripheralInfos);
+		showFunctionBoard();
 	}
 
 	private void initFunctionBtnRes()
 	{
-		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image,R.drawable.location_button_bg);
+		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image, R.drawable.location_button_bg);
 	}
 
 	@Override
@@ -167,13 +178,11 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		switch (view.getId())
 		{
 			case R.id.common_function_btn:
-				functionBord.setVisibility(View.VISIBLE);
-				settingsBord.setVisibility(View.GONE);
+				showFunctionBoard();
 				break;
 
 			case R.id.common_settings_btn:
-				functionBord.setVisibility(View.GONE);
-				settingsBord.setVisibility(View.VISIBLE);
+				showSettingBoard();
 				break;
 
 			case R.id.notification_switch:
@@ -206,10 +215,33 @@ public class HomeActivity extends BaseActivity implements IHomeView
 		}
 	}
 
-	@Override
-	public void initDeviceBanner(List<PeripheralInfo> deviceInfos)
+	private void showFunctionBoard()
 	{
-		bannerPagerView.setData(deviceInfos);
+		functionBord.setVisibility(View.VISIBLE);
+		settingsBord.setVisibility(View.GONE);
+		functionBtn.setBackgroundColor(Color.GREEN);
+		functionBtn.setTextColor(Color.WHITE);
+
+		settingsBtn.setBackgroundColor(Color.WHITE);
+		settingsBtn.setTextColor(Color.GREEN);
+	}
+
+	private void showSettingBoard()
+	{
+		functionBord.setVisibility(View.GONE);
+		settingsBord.setVisibility(View.VISIBLE);
+
+		settingsBtn.setBackgroundColor(Color.GREEN);
+		settingsBtn.setTextColor(Color.WHITE);
+
+		functionBtn.setBackgroundColor(Color.WHITE);
+		functionBtn.setTextColor(Color.GREEN);
+	}
+
+	@Override
+	public void initDeviceBanner(List<PeripheralInfo> peripheralInfos)
+	{
+		bannerPagerView.setData(peripheralInfos);
 	}
 
 	@Override

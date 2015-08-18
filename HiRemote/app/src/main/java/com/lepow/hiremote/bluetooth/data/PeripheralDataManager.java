@@ -36,20 +36,13 @@ public class PeripheralDataManager
 			{
 				return getDefaultPeriperalInfos();
 			}
+			return peripheralInfos;
 		}
 		catch (DbException e)
 		{
 			LOG.e(e);
 			return  getDefaultPeriperalInfos();
 		}
-
-		List<PeripheralInfo> peripheralInfos = new ArrayList<PeripheralInfo>();
-		PeripheralInfo peripheralInfo = new PeripheralInfo();
-		peripheralInfo.setPeripheralName("My Bag");
-		peripheralInfo.setSyncTime(23424234);
-
-		peripheralInfos.add(peripheralInfo);
-		return peripheralInfos;
 	}
 
 	private static List<PeripheralInfo> getDefaultPeriperalInfos()

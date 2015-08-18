@@ -77,14 +77,14 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".lbs.PinnedLocationHistoryActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".lbs.PinnedLocationMapActivity"
             android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".record.VoiceMemosActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"></activity>
 
         <activity
             android:name="com.mn.tiger.upgrade.TGUpgradeDialogActivity"

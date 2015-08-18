@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+              android:background="@android:color/white"
     android:orientation="vertical" >
 
     <com.mn.tiger.widget.TGSearchView
         android:id="@+id/location_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="40dp" >
     </com.mn.tiger.widget.TGSearchView>
 
     <com.mn.tiger.widget.swipelistview.SwipeListView

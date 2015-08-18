@@ -5,8 +5,12 @@
     <color name="dialog_btn_press_color">#f6f6f6</color>
     <color name="dialog_btn_default_color">#ffffff</color>
     <color name="text_color_normal">#444444</color>
+    <color name="color_val_666666">#666666</color>
 
     <color name="color_val_c4c4c4">#c4c4c4</color>
     <color name="color_val_d9d9d9">#d9d9d9</color>
+    
+    <color name="default_green_bg">#4fc191</color>
+    <color name="default_btn_bg">#25ffffff</color>
 
 </resources>
