@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Build;
 
 import com.google.gson.Gson;
+import com.lepow.hiremote.authorise.HSAuthorizer;
+import com.lepow.hiremote.authorise.data.UserInfo;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.request.HttpType;
 import com.mn.tiger.request.TGHttpLoader;
@@ -14,6 +16,8 @@ import com.mn.tiger.utility.PackageUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * 网络请求类
@@ -38,8 +42,14 @@ public class HttpLoader<T> extends TGHttpLoader<T>
         this.addRequestParam("versionCode", PackageUtils.getPackageInfoByName(context,
                 context.getPackageName()).versionCode + "");
         this.addRequestParam("systemVersion", Build.VERSION.RELEASE);
+
         this.addProperty("Accept-Language", Commons.getSystemLanguage(context));
 
+        UserInfo userInfo = (UserInfo)HSAuthorizer.getUserInfo(context);
+        if(null != userInfo)
+        {
+            this.addProperty("Authorization", userInfo.getToken());
+        }
         super.execute(context, requestType, requestUrl, resultClsName, callback);
     }
 

@@ -115,6 +115,15 @@
             android:name=".lbs.FindMyItemActivity"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".authorise.LoginActivity"
+                  android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".authorise.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".authorise.ResetPasswordActivity"
+            android:screenOrientation="portrait"></activity>
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

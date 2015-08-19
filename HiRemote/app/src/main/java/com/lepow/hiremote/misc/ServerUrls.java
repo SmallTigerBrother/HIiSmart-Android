@@ -5,7 +5,7 @@ package com.lepow.hiremote.misc;
  */
 public class ServerUrls
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private static final String SERVER_URL = DEBUG ? "http://192.168.31.210:8090/lepow/api" : "http://app.lepow.net:8080/lepow/api";
 
@@ -18,4 +18,15 @@ public class ServerUrls
     public static final String SUPPORT_FAQ = "http://hismart.us/faq";
 
     public static final String CONTACT_US = "http://hismart.us/contact";
+
+    public static final String LOGIN = SERVER_URL + "/member/login";
+
+    public static final String REGISTER = SERVER_URL + "/member/register";
+
+    public static final String FACEBOOK_LOGIN = SERVER_URL + "/member/facebook/login";
+
+    public static final String LOGOUT = SERVER_URL + "/member/logout";
+
+    public static final String RESET_PASSWORD = SERVER_URL + "/member/findpwd";
+
 }

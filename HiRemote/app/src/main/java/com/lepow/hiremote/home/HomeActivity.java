@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.authorise.ProfileActivity;
+import com.lepow.hiremote.authorise.LoginActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.present.HomePresenter;
@@ -171,7 +171,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 		}
 		else if(view == getLeftBarButton())
 		{
-			startActivity(new Intent(this, ProfileActivity.class));
+			startActivity(new Intent(this, LoginActivity.class));
 			return;
 		}
 

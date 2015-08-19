@@ -80,4 +80,25 @@
     <string name="contact_us_tips">Didn\'t find your answer in FAQs. Reach out to us directly.</string>
     <string name="support_faq_tips">Need any help? We can help you.</string>
     <string name="add_new_device_tips">Include another HiSmart device by adding it here.</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_btn_text">Login</string>
+    <string name="account_can_not_be_null">Oops! Your account can not be null</string>
+
+    <string name="register_btn_text">Register new Account</string>
+    <string name="register_title">Register</string>
+    <string name="password_can_not_be_null_more_than_5_letter">Oops! Your passwor can not be null and more than 5 letters.</string>
+    <string name="email_invalid">Oops! Your email is invalid.l</string>
+    <string name="password_not_same">Oops! Please your double passwords are not the same.</string>
+
+    <string name="reset_password_title">Reset Password</string>
+
+    <string name="please_check_your_email_later">Please check your emaillater.</string>
+
+    <string name="reset_password_btn_text">Reset Password</string>
+
+    <string name="reset_password_email_hint">E-mail:</string>
+
+    <string name="reset_password_tips">We will send an email to your email box, you can reset your password by  the email.</string>
+
 </resources>

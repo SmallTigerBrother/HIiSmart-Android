@@ -1,6 +1,7 @@
 package com.lepow.hiremote.app;
 
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.view.View;
 
 import com.lepow.hiremote.R;
@@ -19,7 +20,7 @@ public class BaseActivity extends TGActionBarActivity
 	protected void initNavigationResource(TGNavigationBar navigationBar)
 	{
 		super.initNavigationResource(navigationBar);
-		navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
+		navigationBar.setBackgroundColor(Color.TRANSPARENT);
 		navigationBar.getLeftNaviButton().setImageResource(R.drawable.add_device);
 		navigationBar.getMiddleTextView().setTextColor(getResources().getColor(R.color.text_color_normal));
 		navigationBar.getLeftNaviButton().setOnClickListener(new View.OnClickListener()

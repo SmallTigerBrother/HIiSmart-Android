@@ -13,4 +13,6 @@
     <color name="default_green_bg">#4fc191</color>
     <color name="default_btn_bg">#25ffffff</color>
 
+    <color name="default_edittext_bg">#40ffffff</color>
+
 </resources>

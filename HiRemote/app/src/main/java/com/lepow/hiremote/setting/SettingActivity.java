@@ -10,6 +10,7 @@ import com.lepow.hiremote.app.WebViewActivity;
 import com.lepow.hiremote.bluetooth.ScanNewPeripheralActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
+import com.mn.tiger.widget.TGNavigationBar;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,6 +27,13 @@ public class SettingActivity extends BaseActivity
         setContentView(R.layout.setting_activity);
         setBarTitleText(getString(R.string.settings));
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void initNavigationResource(TGNavigationBar navigationBar)
+    {
+        super.initNavigationResource(navigationBar);
+        navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
     }
 
     @OnClick({R.id.add_new_peripheral, R.id.terms_conditions_layout, R.id.privacy_policy_layout, R.id.support_faq_layout, R.id.contact_us_layout})

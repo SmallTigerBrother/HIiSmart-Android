@@ -1,11 +1,21 @@
 package com.lepow.hiremote.authorise;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.home.HomeActivity;
+import com.lepow.hiremote.misc.ActivityResultCode;
+import com.lepow.hiremote.misc.IntentKeys;
+import com.mn.tiger.authorize.IAuthorizeCallback;
+import com.mn.tiger.authorize.TGAuthorizeResult;
+import com.mn.tiger.utility.ToastUtils;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -15,7 +25,7 @@ import butterknife.OnTextChanged;
 /**
  * Created by peng on 15/8/16.
  */
-public class LoginActivity extends BaseActivity
+public class LoginActivity extends BaseActivity implements IAuthorizeCallback
 {
     @FindView(R.id.login_account_input)
     EditText accountInputView;
@@ -28,18 +38,29 @@ public class LoginActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.default_green_bg));
         ButterKnife.bind(this);
+
+        setBarTitleText(getString(R.string.login_title));
+        getNavigationBar().getMiddleTextView().setTextColor(Color.WHITE);
     }
 
-    @OnClick({R.id.login_forget_password, R.id.login_next_btn})
+    @OnClick({R.id.login_forget_password, R.id.login_btn, R.id.login_register_btn})
     public void onClick(View view)
     {
         switch (view.getId())
         {
-            case R.id.login_next_btn:
+            case R.id.login_btn:
+                login();
                 break;
             case R.id.login_forget_password:
+                startResetPasswordActivity();
                 break;
+
+            case R.id.login_register_btn:
+                startRegisterActivity();
+                break;
+
             default:
                 break;
         }
@@ -50,8 +71,66 @@ public class LoginActivity extends BaseActivity
     {
     }
 
+    private void startResetPasswordActivity()
+    {
+        startActivity(new Intent(this, ResetPasswordActivity.class));
+    }
+
+    private void startRegisterActivity()
+    {
+        startActivityForResult(new Intent(this, RegisterActivity.class), 0);
+    }
+
     private void login()
     {
+        String account = accountInputView.getText().toString().trim();
+        if(TextUtils.isEmpty(account))
+        {
+            ToastUtils.showToast(this, R.string.account_can_not_be_null);
+            return;
+        }
 
+        String password = passwordInputView.getText().toString().trim();
+        if(TextUtils.isEmpty(password) || password.length() < 5)
+        {
+            ToastUtils.showToast(this, R.string.password_can_not_be_null_more_than_5_letter);
+            return;
+        }
+
+        new HSAuthorizer(this, account, password).executeAuthorize(this);
+
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(accountInputView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    public void onSuccess(TGAuthorizeResult tgAuthorizeResult)
+    {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onError(int i, String s, String s1)
+    {
+        //TODO 提示登陆失败
+    }
+
+    @Override
+    public void onCancel()
+    {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == ActivityResultCode.REGISTER_SUCCESS)
+        {
+            accountInputView.setText(data.getStringExtra(IntentKeys.USER_NAME));
+            passwordInputView.setText(data.getStringExtra(IntentKeys.PASSWORD));
+            login();
+        }
     }
 }

@@ -7,4 +7,5 @@ public class ActivityResultCode
 {
     public static final int DISCONNECT_LOCATION_HISTORY = 1000;
 
+    public static final int REGISTER_SUCCESS = 1001;
 }
