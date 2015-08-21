@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
@@ -19,6 +17,7 @@ import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.present.HomePresenter;
 import com.lepow.hiremote.home.present.IHomeView;
+import com.lepow.hiremote.home.widget.PeripheralStatusView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.ServerUrls;
@@ -130,17 +129,13 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 			@Override
 			public View initViewOfPage(Activity activity, PagerAdapter adapter, int viewType)
 			{
-				return LayoutInflater.from(HomeActivity.this).inflate(R.layout.device_banner_item, null);
+				return new PeripheralStatusView(activity);
 			}
 
 			@Override
 			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
 			{
-				TextView deviceName = (TextView) viewOfPage.findViewById(R.id.peripheral_name);
-				deviceName.setText(itemData.getPeripheralName());
-
-				TextView syncTimeView = (TextView) viewOfPage.findViewById(R.id.peripheral_location);
-				syncTimeView.setText(itemData.getSyncTime() + "");
+				((PeripheralStatusView)viewOfPage).setData(itemData);
 			}
 		});
 
@@ -219,11 +214,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 	{
 		functionBord.setVisibility(View.VISIBLE);
 		settingsBord.setVisibility(View.GONE);
-		functionBtn.setBackgroundColor(Color.GREEN);
+		functionBtn.setBackgroundColor(getResources().getColor(R.color.color_val_4fc191));
 		functionBtn.setTextColor(Color.WHITE);
 
-		settingsBtn.setBackgroundColor(Color.WHITE);
-		settingsBtn.setTextColor(Color.GREEN);
+		settingsBtn.setBackgroundResource(R.drawable.rectangle_4fc191_stroke_white_bg);
+		settingsBtn.setTextColor(getResources().getColor(R.color.color_val_4fc191));
 	}
 
 	private void showSettingBoard()
@@ -231,11 +226,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 		functionBord.setVisibility(View.GONE);
 		settingsBord.setVisibility(View.VISIBLE);
 
-		settingsBtn.setBackgroundColor(Color.GREEN);
+		settingsBtn.setBackgroundColor(getResources().getColor(R.color.color_val_4fc191));
 		settingsBtn.setTextColor(Color.WHITE);
 
-		functionBtn.setBackgroundColor(Color.WHITE);
-		functionBtn.setTextColor(Color.GREEN);
+		functionBtn.setBackgroundResource(R.drawable.rectangle_4fc191_stroke_white_bg);
+		functionBtn.setTextColor(getResources().getColor(R.color.color_val_4fc191));
 	}
 
 	@Override
