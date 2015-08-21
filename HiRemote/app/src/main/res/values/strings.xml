@@ -101,4 +101,7 @@
 
     <string name="reset_password_tips">We will send an email to your email box, you can reset your password by  the email.</string>
 
+    <string name="location_history">Location History</string>
+    <string name="disconnection_history">Disconnection History</string>
+
 </resources>

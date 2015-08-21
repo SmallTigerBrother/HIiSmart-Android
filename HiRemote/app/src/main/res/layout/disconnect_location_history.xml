@@ -5,12 +5,12 @@
               android:background="@android:color/white"
               android:orientation="vertical">
 
-    <com.mn.tiger.widget.swipelistview.SwipeListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/disconnect_location_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_val_20px"
         android:layout_marginRight="@dimen/margin_val_20px"
-        ></com.mn.tiger.widget.swipelistview.SwipeListView>
+        ></com.baoyz.swipemenulistview.SwipeMenuListView>
 
 </LinearLayout>
