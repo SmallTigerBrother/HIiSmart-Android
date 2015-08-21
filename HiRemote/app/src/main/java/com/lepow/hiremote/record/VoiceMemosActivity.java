@@ -11,6 +11,7 @@ import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.record.adapter.RecordListViewHolder;
 import com.lepow.hiremote.record.data.RecordInfo;
 import com.lepow.hiremote.record.data.RecordDataManager;
+import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
 
@@ -24,7 +25,7 @@ import butterknife.tiger.OnQueryText;
 /**
  * 录音历史记录界面
  */
-public class VoiceMemosActivity extends BaseActivity
+public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog.OnRecordModifyListener
 {
 	@FindView(R.id.record_search)
 	TGSearchView searchView;
@@ -34,8 +35,8 @@ public class VoiceMemosActivity extends BaseActivity
 
 	private TGListAdapter<RecordInfo> listAdapter;
 
-	private RecordPopupWindow recordPopupWindow;
-	
+	private RecordEditDialog recordEditDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -48,15 +49,23 @@ public class VoiceMemosActivity extends BaseActivity
 			R.layout.record_history_list_item, RecordListViewHolder.class);
 		listView.setAdapter(listAdapter);
 
-		recordPopupWindow = new RecordPopupWindow(this);
+		recordEditDialog = new RecordEditDialog(this);
+		recordEditDialog.setOnRecordModifyListener(this);
+	}
+
+	@Override
+	protected void initNavigationResource(TGNavigationBar navigationBar)
+	{
+		super.initNavigationResource(navigationBar);
+		navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
 	}
 
 	@OnItemClick(R.id.record_list_view)
 	public void onItemClick(AdapterView<?> adapterView, View convertView, int position)
 	{
 		//显示录音播放、编辑框
-		recordPopupWindow.setData((RecordInfo)listAdapter.getItem(position));
-		recordPopupWindow.showAsDropDown(searchView);
+		recordEditDialog.setData((RecordInfo)listAdapter.getItem(position));
+		recordEditDialog.show();
 	}
 
 	@OnQueryText(value = R.id.record_search, callback = OnQueryText.Callback.ON_QUERY_TEXT_SUBMIT)
@@ -68,5 +77,17 @@ public class VoiceMemosActivity extends BaseActivity
 			List<RecordInfo> recordInfos = RecordDataManager.getInstance().findAllRecordsSortByTime(this, queryText);
 			listAdapter.updateData(recordInfos);
 		}
+	}
+
+	@Override
+	public void onRecordModify(RecordInfo recordInfo)
+	{
+
+	}
+
+	@Override
+	public void onRecordDelete(RecordInfo recordInfo)
+	{
+
 	}
 }

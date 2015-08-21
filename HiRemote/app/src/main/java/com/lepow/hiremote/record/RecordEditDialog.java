@@ -1,16 +1,18 @@
 package com.lepow.hiremote.record;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.record.data.RecordInfo;
+import com.lepow.hiremote.widget.HSAlertDialog;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -18,9 +20,9 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 /**
- * Created by Dalang on 2015/7/26.
+ * Created by Dalang on 2015/8/20.
  */
-public class RecordPopupWindow extends PopupWindow
+public class RecordEditDialog extends HSAlertDialog
 {
     @FindView(R.id.record_name_edit)
     EditText recordNameEdit;
@@ -47,9 +49,9 @@ public class RecordPopupWindow extends PopupWindow
 
     private RecordInfo recordInfo;
 
-    private boolean isNameChanged;
+    private boolean isNameChanged = false;
 
-    public RecordPopupWindow(Context context)
+    public RecordEditDialog(Context context)
     {
         super(context);
 
@@ -57,14 +59,16 @@ public class RecordPopupWindow extends PopupWindow
         ButterKnife.bind(this, mainView);
 
         this.setContentView(mainView);
+        this.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
         this.setOnDismissListener(new OnDismissListener()
         {
             @Override
-            public void onDismiss()
+            public void onDismiss(DialogInterface dialog)
             {
-                if(isNameChanged)
+                if (isNameChanged)
                 {
-                    RecordPopupWindow.this.listener.onRecordModify(recordInfo);
+                    RecordEditDialog.this.listener.onRecordModify(recordInfo);
                 }
             }
         });
@@ -78,7 +82,7 @@ public class RecordPopupWindow extends PopupWindow
         recordLengthView.setText(data.getDurationString());
         recordCurrentLengthView.setText("0:00");
         recordSurplusLengthView.setText(data.getDurationString());
-}
+    }
 
     @OnClick({R.id.record_edit, R.id.record_delete,})
     public void onClick(View view)
@@ -102,9 +106,12 @@ public class RecordPopupWindow extends PopupWindow
     }
 
     @OnTextChanged(value = R.id.record_name_edit, callback = OnTextChanged.Callback.TEXT_CHANGED)
-    public void onTextChanged()
+    public void onTextChanged(CharSequence s, int start, int before, int count)
     {
-        this.isNameChanged = true;
+        if(!this.recordInfo.getTitle().equals(s.toString()))
+        {
+            this.isNameChanged = true;
+        }
     }
 
     public void setOnRecordModifyListener(OnRecordModifyListener listener)
@@ -112,11 +119,10 @@ public class RecordPopupWindow extends PopupWindow
         this.listener = listener;
     }
 
-    public static interface OnRecordModifyListener
+    public interface OnRecordModifyListener
     {
         void onRecordModify(RecordInfo recordInfo);
 
         void onRecordDelete(RecordInfo recordInfo);
     }
-
 }

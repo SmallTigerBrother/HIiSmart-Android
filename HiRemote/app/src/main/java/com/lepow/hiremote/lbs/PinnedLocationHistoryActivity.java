@@ -5,8 +5,9 @@ import android.os.Bundle;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.lbs.adapter.LocationViewHolder;
-import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
+import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
 import com.mn.tiger.widget.swipelistview.SwipeListView;
@@ -39,11 +40,19 @@ public class PinnedLocationHistoryActivity extends BaseActivity
 		listView.setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
 		listView.setSwipeOpenOnLongPress(true);
 
-		listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this),
+		listAdapter = new TGListAdapter<LocationInfo>(this, null,
 				R.layout.location_list_item, LocationViewHolder.class);
 		listView.setAdapter(listAdapter);
+//		listAdapter.updateData(LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this));
 	}
-	
+
+	@Override
+	protected void initNavigationResource(TGNavigationBar navigationBar)
+	{
+		super.initNavigationResource(navigationBar);
+		navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
+	}
+
 	/**
 	 * 搜索提交回调方法
 	 * @param queryText
