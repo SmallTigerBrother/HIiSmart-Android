@@ -83,7 +83,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 						return true;
 
 					case 1:
-						removeLocation((LocationInfo)listAdapter.getItem(position));
+						openDeleteConfirmDialog((LocationInfo) listAdapter.getItem(position));
 						return true;
 
 					default:
@@ -131,6 +131,36 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 			//更新列表内容
 			listAdapter.updateData(results);
 		}
+	}
+
+	private void openDeleteConfirmDialog(final LocationInfo locationInfo)
+	{
+		HSAlertDialog dialog = new HSAlertDialog(this);
+		dialog.setTitleVisibility(View.GONE);
+		dialog.setBodyText(getString(R.string.make_sure_you_delete_location));
+		//设置取消按钮
+		dialog.setLeftButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.dismiss();
+			}
+		});
+
+		//设置确定按钮
+		dialog.setRightButton(getString(R.string.confirm), new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				removeLocation(locationInfo);
+				//更新数据库
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 
 	/**

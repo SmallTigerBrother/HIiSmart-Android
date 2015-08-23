@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -21,13 +22,11 @@ import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.widget.HSAlertDialog;
+import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.adpter.TGListAdapter;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
-import butterknife.tiger.OnQueryText;
 
 /**
  * 断开连接的地址历史界面
@@ -79,7 +78,7 @@ public class DisconnectLocationHistory extends BaseActivity
                         return true;
 
                     case 1:
-                        removeLocation((LocationInfo) listAdapter.getItem(position));
+                        openDeleteConfirmDialog((LocationInfo) listAdapter.getItem(position));
                         return true;
 
                     default:
@@ -88,31 +87,46 @@ public class DisconnectLocationHistory extends BaseActivity
             }
         });
 
-
         listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this),
                 R.layout.location_list_item, LocationViewHolder.class);
         listView.setAdapter(listAdapter);
     }
 
-
-    /**
-     * 搜索提交回调方法
-     *
-     * @param queryText
-     */
-    @OnQueryText(R.id.location_search)
-    public void onSearchSubmit(CharSequence queryText)
+    @Override
+    protected void initNavigationResource(TGNavigationBar navigationBar)
     {
-        //根据关键字查找本地数据
-        List<LocationInfo> results = LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this, queryText.toString());
-        if (null == results || results.size() == 0)
+        super.initNavigationResource(navigationBar);
+        navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
+    }
+
+    private void openDeleteConfirmDialog(final LocationInfo locationInfo)
+    {
+        HSAlertDialog dialog = new HSAlertDialog(this);
+        dialog.setTitleVisibility(View.GONE);
+        dialog.setBodyText(getString(R.string.make_sure_you_delete_location));
+        //设置取消按钮
+        dialog.setLeftButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
         {
-            //TODO 显示未搜索到结果的提示界面
-        } else
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        //设置确定按钮
+        dialog.setRightButton(getString(R.string.confirm), new DialogInterface.OnClickListener()
         {
-            //更新列表内容
-            listAdapter.updateData(results);
-        }
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                removeLocation(locationInfo);
+                //更新数据库
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     /**
