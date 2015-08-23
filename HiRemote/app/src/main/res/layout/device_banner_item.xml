@@ -8,7 +8,6 @@
         android:id="@+id/peripheral_image"
         android:layout_width="@dimen/margin_val_160px"
         android:layout_height="@dimen/margin_val_160px"
-        android:src="@drawable/ic_launcher"
         android:layout_marginBottom="@dimen/margin_val_16px"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_val_10px"

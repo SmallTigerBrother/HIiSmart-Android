@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.utility.ToastUtils;
+import com.mn.tiger.widget.TGNavigationBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,13 @@ public class WebViewActivity extends BaseActivity
 		barTitle = getIntent().getStringExtra(IntentKeys.WEBVIEW_ACTIVITY_TITLE);
 		url = getIntent().getStringExtra(IntentKeys.URL);
 		setupViews();
+	}
+
+	@Override
+	protected void initNavigationResource(TGNavigationBar navigationBar)
+	{
+		super.initNavigationResource(navigationBar);
+		navigationBar.setBackgroundResource(R.drawable.navi_bar_bg);
 	}
 
 	private void setupViews()

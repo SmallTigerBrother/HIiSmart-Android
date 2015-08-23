@@ -57,6 +57,7 @@ public class RecordEditDialog extends HSAlertDialog
 
         View mainView = LayoutInflater.from(context).inflate(R.layout.edit_play_record_popview, null);
         ButterKnife.bind(this, mainView);
+        recordNameEdit.setEnabled(false);
 
         this.setContentView(mainView);
         this.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -94,7 +95,7 @@ public class RecordEditDialog extends HSAlertDialog
                 break;
 
             case R.id.record_delete:
-                this.listener.onRecordDelete(recordInfo);
+                openDeleteConfirmDialog(recordInfo);
                 break;
 
             case R.id.record_play_icon:
@@ -112,6 +113,36 @@ public class RecordEditDialog extends HSAlertDialog
         {
             this.isNameChanged = true;
         }
+    }
+
+    private void openDeleteConfirmDialog(final RecordInfo recordInfo)
+    {
+        HSAlertDialog dialog = new HSAlertDialog(getContext());
+        dialog.setTitleVisibility(View.GONE);
+        dialog.setBodyText(getContext().getString(R.string.make_sure_you_delete_location));
+        //设置取消按钮
+        dialog.setLeftButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        //设置确定按钮
+        dialog.setRightButton(getContext().getString(R.string.confirm), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                listener.onRecordDelete(recordInfo);
+                //更新数据库
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     public void setOnRecordModifyListener(OnRecordModifyListener listener)

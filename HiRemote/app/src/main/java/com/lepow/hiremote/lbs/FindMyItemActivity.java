@@ -11,6 +11,8 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
+import com.lepow.hiremote.lbs.api.AMapManager;
+import com.lepow.hiremote.lbs.api.IMapManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
@@ -45,6 +47,10 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 
     private PeripheralInfo deviceInfo;
 
+    private LocationInfo locationInfo;
+
+    private IMapManager mapManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -71,13 +77,19 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 //
 //        }
 
-        initMapView();
+        locationInfo = (LocationInfo)getIntent().getSerializableExtra(IntentKeys.LOCATION_INFO);
+
+        initMapView(savedInstanceState, locationInfo);
         HSApplication.getBus().register(this);
     }
 
-    private void initMapView()
+    private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
     {
+        mapManager = new AMapManager(this);
+        mapManager.init(savedInstanceState);
 
+        mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                locationInfo.getAddress());
     }
 
     @Override
@@ -127,9 +139,31 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        mapManager.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mapManager.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        mapManager.onPause();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
+        mapManager.onDestroy();
         HSApplication.getBus().unregister(this);
     }
 

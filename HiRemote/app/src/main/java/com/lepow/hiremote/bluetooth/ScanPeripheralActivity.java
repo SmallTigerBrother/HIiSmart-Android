@@ -51,6 +51,7 @@ public class ScanPeripheralActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scan_device_activity);
 		ButterKnife.bind(this);
+		getWindow().getDecorView().setBackgroundResource(R.color.default_green_bg);
 
 		HSApplication.getBus().register(this);
 

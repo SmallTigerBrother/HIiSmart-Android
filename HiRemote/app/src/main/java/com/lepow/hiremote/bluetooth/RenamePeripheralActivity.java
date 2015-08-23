@@ -38,6 +38,7 @@ public class RenamePeripheralActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rename_peripheral_activity);
         ButterKnife.bind(this);
+        getWindow().getDecorView().setBackgroundResource(R.color.default_green_bg);
 
         peripheralInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
 
