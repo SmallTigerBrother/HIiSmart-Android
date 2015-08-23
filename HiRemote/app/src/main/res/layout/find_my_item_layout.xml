@@ -8,11 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_val_30px">
 
             <com.mn.tiger.widget.imageview.CircleImageView
                 android:id="@+id/device_avatar"
@@ -26,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_val_40px"
+                android:layout_marginLeft="@dimen/margin_val_30px"
                 android:layout_toRightOf="@+id/device_avatar"
                 android:orientation="vertical">
 
@@ -40,7 +42,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="lepow"
-                        android:textSize="@dimen/text_size_30pt"/>
+                        android:textColor="@color/text_color_normal"
+                        android:textSize="@dimen/text_size_38pt"/>
 
                     <ImageView
                         android:id="@+id/device_connect_status"
@@ -58,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_val_20px"
                     android:text="langshanglu zhong "
+                    android:textColor="@color/text_color_normal"
                     android:textSize="@dimen/text_size_28pt"/>
 
             </LinearLayout>
@@ -68,15 +72,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_val_30px"
-            android:layout_marginLeft="@dimen/margin_val_60px"
-            android:layout_marginRight="@dimen/margin_val_60px"
-            android:layout_marginTop="@dimen/margin_val_30px">
+            android:layout_marginLeft="@dimen/margin_val_30px"
+            android:layout_marginRight="@dimen/margin_val_30px"
+            android:layout_marginTop="@dimen/margin_val_10px">
 
             <Button
                 android:id="@+id/buzz_my_item"
                 android:layout_width="@dimen/margin_val_300px"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textSize="@dimen/text_size_26pt"
+                android:background="@drawable/rectangle_3fbad0_stroke_white_bg"
+                android:textColor="@color/color_val_3fbad0"
                 android:text="@string/buzz_my_item"/>
 
             <Button
@@ -84,6 +91,10 @@
                 android:layout_width="@dimen/margin_val_300px"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_val_30px"
+                android:textSize="@dimen/text_size_26pt"
+                android:background="@drawable/rectangle_3fbad0_stroke_white_bg"
+                android:textColor="@color/color_val_3fbad0"
                 android:text="@string/stop"/>
 
         </RelativeLayout>
@@ -95,6 +106,7 @@
         android:id="@+id/mapview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_bright"
         android:layout_above="@+id/device_info_layout"></FrameLayout>
 
 </RelativeLayout>

@@ -3,7 +3,10 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:padding="@dimen/margin_val_40px">
+              android:paddingLeft="@dimen/margin_val_40px"
+              android:paddingRight="@dimen/margin_val_40px"
+              android:paddingTop="@dimen/margin_val_20px"
+              android:paddingBottom="@dimen/margin_val_20px">
 
     <EditText
         android:id="@+id/record_name_edit"
