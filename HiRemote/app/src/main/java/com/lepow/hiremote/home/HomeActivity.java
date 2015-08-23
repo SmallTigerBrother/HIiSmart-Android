@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.authorise.LoginActivity;
@@ -281,6 +282,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 	private void startCamera()
 	{
 		//TODO
+		startActivity(Camera.class);
 	}
 
 	@Override
