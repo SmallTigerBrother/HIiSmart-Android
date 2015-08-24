@@ -86,10 +86,13 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
     {
         mapManager = new AMapManager(this);
-        mapManager.init(savedInstanceState);
+        mapManager.init(mapContainer, savedInstanceState);
 
-        mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
-                locationInfo.getAddress());
+        if(null != locationInfo)
+        {
+            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                    locationInfo.getAddress());
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.lepow.hiremote.lbs.api;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.MapView;
@@ -25,10 +26,13 @@ public class AMapManager implements  IMapManager
     }
 
     @Override
-    public void init(Bundle savedInstanceState)
+    public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
         mapView = new MapView(activity);
         mapView.onCreate(savedInstanceState);
+
+        mapContainer.addView(mapView, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         aMap = mapView.getMap();
         setUpMap();

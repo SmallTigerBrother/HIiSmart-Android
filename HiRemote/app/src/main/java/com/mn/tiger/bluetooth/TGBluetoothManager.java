@@ -51,7 +51,7 @@ public class TGBluetoothManager
 
     public void stopScan()
     {
-        if(bluetoothAdapter.isDiscovering())
+        if(null != bluetoothAdapter && bluetoothAdapter.isDiscovering())
         {
 
         }

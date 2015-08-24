@@ -86,7 +86,7 @@
         android:id="@+id/not_found_peripheral_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_light"
+        android:background="@android:color/transparent"
         android:visibility="gone">
 
         <TextView
@@ -157,6 +157,7 @@
             android:layout_marginRight="@dimen/margin_val_40px"
             android:text="@string/cancel"
             android:textColor="@android:color/white"
+            android:background="@color/default_btn_bg"
             android:textSize="@dimen/text_size_30pt"/>
 
         <Button
@@ -170,6 +171,7 @@
             android:layout_marginRight="@dimen/margin_val_40px"
             android:text="@string/retry"
             android:textColor="@android:color/white"
+            android:background="@color/default_btn_bg"
             android:textSize="@dimen/text_size_30pt"/>
 
     </RelativeLayout>

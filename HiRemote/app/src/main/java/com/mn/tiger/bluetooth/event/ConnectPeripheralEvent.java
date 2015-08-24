@@ -14,7 +14,6 @@ public class ConnectPeripheralEvent
 
     public ConnectPeripheralEvent()
     {
-        this.state = state;
     }
 
     public void setPeripheralInfo(PeripheralInfo peripheralInfo)

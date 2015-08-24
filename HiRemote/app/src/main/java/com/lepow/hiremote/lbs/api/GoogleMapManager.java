@@ -2,6 +2,7 @@ package com.lepow.hiremote.lbs.api;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,11 +27,12 @@ public class GoogleMapManager implements IMapManager
     }
 
     @Override
-    public void init(Bundle savedInstanceState)
+    public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
         mapView = new MapView(activity);
         mapView.onCreate(savedInstanceState);
-
+        mapContainer.addView(mapView, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         googleMap = mapView.getMap();
     }
 
