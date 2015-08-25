@@ -2,6 +2,7 @@ package com.mn.tiger.bluetooth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by peng on 15/8/2.
@@ -10,7 +11,7 @@ public class TGBLEScanParameter
 {
     private List<TGBLEServiceParameter> serviceParameters;
 
-    private String peripheralUUID;
+    private UUID peripheralUUID;
 
     public TGBLEScanParameter()
     {
@@ -22,23 +23,46 @@ public class TGBLEScanParameter
         serviceParameters.add(serviceParameter);
     }
 
-    public void setPeripheralUUID(String peripheralUUID)
+    public void setPeripheralUUID(UUID peripheralUUID)
     {
         this.peripheralUUID = peripheralUUID;
     }
 
-    public String getPeripheralUUID()
+    public UUID getPeripheralUUID()
     {
         return peripheralUUID;
     }
 
+    public UUID[] getServiceUUIDs()
+    {
+        UUID[] uuids = new UUID[serviceParameters.size()];
+        for (int i = 0; i < serviceParameters.size(); i++)
+        {
+            uuids[i] = serviceParameters.get(i).getUUID();
+        }
+
+        return uuids;
+    }
+
     public static class TGBLEServiceParameter
     {
+        private UUID UUID;
+
         private List<TGBLECharacteristicParameter> characteristicParameters;
 
         public TGBLEServiceParameter()
         {
             this.characteristicParameters = new ArrayList<TGBLECharacteristicParameter>();
+        }
+
+        public java.util.UUID getUUID()
+        {
+            return UUID;
+        }
+
+        public void setUUID(java.util.UUID UUID)
+        {
+            this.UUID = UUID;
         }
 
         public void addCharacteristicParameter(TGBLECharacteristicParameter characteristicParameter)
@@ -49,18 +73,18 @@ public class TGBLEScanParameter
 
     public static class TGBLECharacteristicParameter
     {
-        private int UUID;
+        private UUID UUID;
 
         private List<Integer> values;
 
-        public int getUUID()
-        {
-            return UUID;
-        }
-
-        public void setUUID(int UUID)
+        public void setUUID(java.util.UUID UUID)
         {
             this.UUID = UUID;
+        }
+
+        public java.util.UUID getUUID()
+        {
+            return UUID;
         }
 
         public List<Integer> getValues()

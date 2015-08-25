@@ -63,10 +63,9 @@ public class ScanPeripheralActivity extends BaseActivity
 	{
 		scanningLayout.setVisibility(View.VISIBLE);
 		notFoundPeripheralLayout.setVisibility(View.GONE);
-
 	}
 
-	@OnClick({R.id.scan_device_cancel_btn, R.id.scan_device_retry_btn})
+	@OnClick({R.id.scan_device_cancel_btn, R.id.scan_device_retry_btn, R.id.not_found_peripheral_help})
 	public void onClick(View view)
 	{
 		switch (view.getId())
@@ -111,8 +110,7 @@ public class ScanPeripheralActivity extends BaseActivity
 
 			case Disconnect:
 				scanningLayout.setVisibility(View.GONE);
-				cancelBtn.setVisibility(View.VISIBLE);
-				retryBtn.setVisibility(View.VISIBLE);
+				notFoundPeripheralLayout.setVisibility(View.VISIBLE);
 				break;
 
 			case BluetoothOff:

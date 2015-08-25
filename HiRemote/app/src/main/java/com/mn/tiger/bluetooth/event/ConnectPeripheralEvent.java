@@ -1,7 +1,7 @@
 package com.mn.tiger.bluetooth.event;
 
-import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.mn.tiger.bluetooth.TGBluetoothManager.ConnectState;
+import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 
 /**
  * Created by peng on 15/8/15.
@@ -10,18 +10,18 @@ public class ConnectPeripheralEvent
 {
     private ConnectState state = ConnectState.Disconnect;
 
-    private PeripheralInfo peripheralInfo;
+    private TGBLEPeripheralInfo peripheralInfo;
 
     public ConnectPeripheralEvent()
     {
     }
 
-    public void setPeripheralInfo(PeripheralInfo peripheralInfo)
+    public void setPeripheralInfo(TGBLEPeripheralInfo peripheralInfo)
     {
         this.peripheralInfo = peripheralInfo;
     }
 
-    public PeripheralInfo getPeripheralInfo()
+    public TGBLEPeripheralInfo getPeripheralInfo()
     {
         return peripheralInfo;
     }

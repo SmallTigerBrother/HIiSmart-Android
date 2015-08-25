@@ -4,17 +4,18 @@ import com.mn.tiger.bluetooth.TGBluetoothManager;
 import com.mn.tiger.datastorage.db.annotation.Transient;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class TGBLEPeripheralInfo implements Serializable
 {
 	private int energy;
 	
 	private String peripheralName;
+
+	private UUID UUID;
 	
 	@Transient
 	private TGBluetoothManager.ConnectState state;
-
-	private String UUID;
 
 	public int getEnergy()
 	{
@@ -36,6 +37,15 @@ public class TGBLEPeripheralInfo implements Serializable
 		this.peripheralName = peripheralName;
 	}
 
+	public void setUUID(java.util.UUID UUID)
+	{
+		this.UUID = UUID;
+	}
+
+	public java.util.UUID getUUID()
+	{
+		return UUID;
+	}
 
 	public void setState(TGBluetoothManager.ConnectState state)
 	{
@@ -47,13 +57,4 @@ public class TGBLEPeripheralInfo implements Serializable
 		return state;
 	}
 
-	public String getUUID()
-	{
-		return UUID;
-	}
-
-	public void setUUID(String UUID)
-	{
-		this.UUID = UUID;
-	}
 }
