@@ -70,7 +70,7 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
                 //连接上一次连接的设备
                 if(null != getLastPeripheral())
                 {
-                    scanAndConnect2Peripheral(getLastPeripheral().getUUID());
+                    scanAndConnect2Peripheral(getLastPeripheral().getPeripheralName());
                 }
                 else
                 {
