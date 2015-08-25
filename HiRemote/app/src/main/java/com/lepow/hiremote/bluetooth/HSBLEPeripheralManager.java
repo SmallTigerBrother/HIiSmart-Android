@@ -7,7 +7,10 @@ import android.view.View;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.widget.HSAlertDialog;
+import com.mn.tiger.bluetooth.TGBLEScanParameter;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
+
+import java.util.UUID;
 
 /**
  * Created by peng on 15/8/15.
@@ -25,6 +28,25 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
                 if(null == instance)
                 {
                     instance = new HSBLEPeripheralManager();
+                    //设置蓝牙扫描参数
+                    TGBLEScanParameter scanParameter = new TGBLEScanParameter();
+
+                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter =
+                            new TGBLEScanParameter.TGBLEServiceParameter();
+                    serviceParameter.setUUID(UUID.fromString(""));
+                    scanParameter.addService(serviceParameter);
+
+                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_2 =
+                            new TGBLEScanParameter.TGBLEServiceParameter();
+                    serviceParameter_2.setUUID(UUID.fromString(""));
+                    scanParameter.addService(serviceParameter_2);
+
+                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_3 =
+                            new TGBLEScanParameter.TGBLEServiceParameter();
+                    serviceParameter_3.setUUID(UUID.fromString(""));
+                    scanParameter.addService(serviceParameter_3);
+
+                    instance.setScanParameter(scanParameter);
                 }
             }
         }
