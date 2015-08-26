@@ -73,14 +73,13 @@ public class RenamePeripheralActivity extends BaseActivity
         dialog.setTitleVisibility(View.GONE);
 
         final EditText renameView = new EditText(this);
-        renameView.setHint(renameHint);
+        renameView.setTextColor(getResources().getColor(R.color.text_color_normal));
+        renameView.setText(peripheralInfo.getPeripheralName());
+        int padding = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
+        renameView.setPadding(padding, padding, padding,padding);
 
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.leftMargin = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
-        layoutParams.rightMargin = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
-        layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
-        layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
         dialog.setBodyContentView(renameView, layoutParams);
 
         dialog.setLeftButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
@@ -98,12 +97,13 @@ public class RenamePeripheralActivity extends BaseActivity
             public void onClick(DialogInterface dialog, int which)
             {
                 String newName = renameView.getText().toString().trim();
-                if(!TextUtils.isEmpty(newName))
+                if (!TextUtils.isEmpty(newName))
                 {
                     renamePeripheralBtn.setText(newName);
                 }
                 dialog.dismiss();
             }
         });
+        dialog.show();
     }
 }

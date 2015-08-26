@@ -12,15 +12,14 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.text.TextUtils;
 
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
-import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.log.Logger;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by peng on 15/8/2.
@@ -28,6 +27,20 @@ import java.util.UUID;
 public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
 {
     private static final Logger LOG = Logger.getLogger(TGBluetoothManager.class);
+
+    public static final String ACTION_BLE_STATE_CHANGE = "ble_state_change";
+
+    public static final int BLE_STATE_CONNECTED = 1;
+
+    public static final int BLE_STATE_DISCONNECTED = 2;
+
+    public static final int BLE_STATE_NONSUPPORT = 3;
+
+    public static final int BLE_STATE_POWEROFF = 4;
+
+    private static final String PERIPHERAL_INFO_KEY = "peripheralInfo";
+
+    private static final String BLE_STATE_KEY = "ble_state";
 
     public static final int REQUEST_CODE_ENABLE_BT = 1001;
 
@@ -45,6 +58,8 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
 
     private String targetPeripheral = null;
 
+    private static Handler handler = new Handler();
+
     public static boolean isSupportBluetoothLowEnergy()
     {
         if(TGApplication.getInstance().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
@@ -52,7 +67,7 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
             return true;
         }
 
-        postEvent(ConnectState.Nonsupport, null);
+        sendBroadcast(BLE_STATE_NONSUPPORT, null);
         return false;
     }
 
@@ -66,13 +81,29 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
 
     public void scan()
     {
+        handler.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                stopScan();
+            }
+        }, SCAN_TIME_OUT);
+
         this.lastPeripheral = currentPeripheral;
         this.currentPeripheral = null;
         this.isScanning = true;
 
         if(null != bluetoothAdapter)
         {
-            bluetoothAdapter.startLeScan(scanParameter.getServiceUUIDs(), this);
+            if(null != scanParameter)
+            {
+                bluetoothAdapter.startLeScan(scanParameter.getServiceUUIDs(), this);
+            }
+            else
+            {
+                bluetoothAdapter.startLeScan(this);
+            }
         }
     }
 
@@ -111,26 +142,26 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
         if(TextUtils.isEmpty(targetPeripheral))
         {
             onDiscoveredTargetDevice(device);
-            stopScan();
         }
         else
         {
             if(targetPeripheral.equals(device.getName()))
             {
                 onDiscoveredTargetDevice(device);
-                stopScan();
             }
         }
     }
 
-    private void onDiscoveredTargetDevice(BluetoothDevice device)
+    private synchronized void onDiscoveredTargetDevice(BluetoothDevice device)
     {
-        BluetoothGatt bluetoothGatt = device.connectGatt(TGApplication.getInstance(), false,
-                bluetoothGattCallback);
-        bluetoothGatt.discoverServices();
-
-        currentPeripheral = new TGBLEPeripheralInfo();
-        currentPeripheral.setPeripheralName(device.getName());
+        if(null == currentPeripheral)
+        {
+            BluetoothGatt bluetoothGatt = device.connectGatt(TGApplication.getInstance(), false,
+                    bluetoothGattCallback);
+            currentPeripheral = new TGBLEPeripheralInfo();
+            currentPeripheral.setPeripheralName(device.getName());
+        }
+        stopScan();
     }
 
     public void turnOnBluetooth(Activity activity)
@@ -173,15 +204,20 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
                 List<BluetoothGattService> bleServiceList = gatt.getServices();
                 for (BluetoothGattService bleGattService: bleServiceList)
                 {
-
+                    List<BluetoothGattCharacteristic> characteristics = bleGattService.getCharacteristics();
+                    for (BluetoothGattCharacteristic characteristic : characteristics)
+                    {
+                        LOG.d("[Method:onServicesDiscovered] characteristicUUID  == " + characteristic.getUuid());
+                        gatt.readCharacteristic(characteristic);
+                    }
                 }
             }
 
-            BluetoothGattService gattService = gatt.getService(UUID.fromString(""));
-
-            BluetoothGattCharacteristic gattCharacteristic = gattService.getCharacteristic(UUID.fromString(""));
-
-            gatt.setCharacteristicNotification(gattCharacteristic, true);
+//            BluetoothGattService gattService = gatt.getService(UUID.fromString(""));
+//
+//            BluetoothGattCharacteristic gattCharacteristic = gattService.getCharacteristic(UUID.fromString(""));
+//
+//            gatt.setCharacteristicNotification(gattCharacteristic, true);
 
         }
 
@@ -195,57 +231,58 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
         }
 
         @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
+        public synchronized void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
         {
-            LOG.d("[Method:onServicesDiscovered] status == " + status + "  characteristic == " + characteristic.getUuid());
-            if(status == BluetoothGatt.GATT_SUCCESS)
-            {
-                String value = new String(characteristic.getValue());
-                LOG.d("[Method:onCharacteristicRead] value == " + value);
-            }
+            LOG.d("[Method:onCharacteristicRead] status == " + status + "  characteristic == " + characteristic.getUuid());
+            String value = new String(characteristic.getValue());
+            LOG.d("[Method:onCharacteristicRead] value == " + value);
         }
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
         {
             LOG.d("[Method:onCharacteristicWrite] status == " + status + "  characteristic == " + characteristic.getUuid());
-            if(status == BluetoothGatt.GATT_SUCCESS)
-            {
-                String value = new String(characteristic.getValue());
-                LOG.d("[Method:onCharacteristicWrite] value == " + value);
-            }
+            String value = new String(characteristic.getValue());
+            LOG.d("[Method:onCharacteristicWrite] value == " + value);
         }
 
         @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
+        public synchronized void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
         {
             switch (newState)
             {
                 case BluetoothProfile.STATE_CONNECTED:
-                    postEvent(ConnectState.Connected, currentPeripheral);
+                    gatt.discoverServices();
+                    sendBroadcast(BLE_STATE_CONNECTED, currentPeripheral);
                     break;
 
                 case BluetoothProfile.STATE_DISCONNECTED:
-                    postEvent(ConnectState.Disconnect, currentPeripheral);
+                    sendBroadcast(BLE_STATE_DISCONNECTED, currentPeripheral);
                     break;
             }
         }
 
     };
 
-    private static void postEvent(ConnectState state, TGBLEPeripheralInfo peripheralInfo)
+    private synchronized static void sendBroadcast(int bleState, TGBLEPeripheralInfo peripheralInfo)
     {
-        ConnectPeripheralEvent event = new ConnectPeripheralEvent();
-        event.setState(state);
-        event.setPeripheralInfo(peripheralInfo);
-        TGApplication.getBus().post(event);
+        if(null != peripheralInfo)
+        {
+            Intent intent = new Intent();
+            intent.setAction(ACTION_BLE_STATE_CHANGE);
+            intent.putExtra(BLE_STATE_KEY,bleState);
+            intent.putExtra(PERIPHERAL_INFO_KEY, peripheralInfo);
+            TGApplication.getInstance().sendBroadcast(intent);
+        }
     }
 
-    public static enum ConnectState
+    public static TGBLEPeripheralInfo getBLEPeripheralInfo(Intent data)
     {
-        Connected,
-        Nonsupport,
-        BluetoothOff,
-        Disconnect
+        return (TGBLEPeripheralInfo)data.getSerializableExtra(PERIPHERAL_INFO_KEY);
+    }
+
+    public static int getBLEState(Intent data)
+    {
+        return data.getIntExtra(BLE_STATE_KEY, BLE_STATE_DISCONNECTED);
     }
 }

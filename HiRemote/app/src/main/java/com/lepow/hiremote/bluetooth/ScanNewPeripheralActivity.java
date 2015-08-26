@@ -9,16 +9,5 @@ import com.squareup.otto.Subscribe;
  */
 public class ScanNewPeripheralActivity extends ScanPeripheralActivity
 {
-    @Subscribe
-    public void onConnectDevice(final ConnectPeripheralEvent event)
-    {
-        if(event.getState() == TGBluetoothManager.ConnectState.Disconnect)
-        {
-            HSBLEPeripheralManager.getInstance().showNotFoundNewDeviceDialog(this);
-            return;
-        }
-
-        super.onConnectDevice(event);
-    }
 
 }

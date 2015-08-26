@@ -1,7 +1,6 @@
 package com.lepow.hiremote.bluetooth.data;
 
 import com.lepow.hiremote.lbs.data.LocationInfo;
-import com.mn.tiger.bluetooth.TGBluetoothManager;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.datastorage.db.annotation.Transient;
 
@@ -20,9 +19,6 @@ public class PeripheralInfo implements Serializable
 	private String peripheralName;
 	
 	private long syncTime;
-
-	@Transient
-	private TGBluetoothManager.ConnectState state = TGBluetoothManager.ConnectState.Disconnect;
 
 	@Transient
 	private LocationInfo location;
@@ -77,16 +73,6 @@ public class PeripheralInfo implements Serializable
 		this.syncTime = syncTime;
 	}
 
-	public void setState(TGBluetoothManager.ConnectState state)
-	{
-		this.state = state;
-	}
-
-	public TGBluetoothManager.ConnectState getState()
-	{
-		return state;
-	}
-
 	public void setLocation(LocationInfo location)
 	{
 		this.location = location;
@@ -112,7 +98,6 @@ public class PeripheralInfo implements Serializable
 		PeripheralInfo peripheralInfo = new PeripheralInfo();
 		peripheralInfo.setPeripheralName(blePeripheralInfo.getPeripheralName());
 		peripheralInfo.setEnergy(blePeripheralInfo.getEnergy());
-		peripheralInfo.setState(blePeripheralInfo.getState());
 
 		return peripheralInfo;
 	}

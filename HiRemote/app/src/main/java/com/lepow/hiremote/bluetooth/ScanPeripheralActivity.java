@@ -1,6 +1,9 @@
 package com.lepow.hiremote.bluetooth;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,14 +13,13 @@ import android.widget.RelativeLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.app.WebViewActivity;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
-import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
-import com.squareup.otto.Subscribe;
+import com.mn.tiger.bluetooth.TGBluetoothManager;
+import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -45,6 +47,46 @@ public class ScanPeripheralActivity extends BaseActivity
 
 	protected static Handler handler = new Handler();
 
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			int bleState = TGBluetoothManager.getBLEState(intent);
+			final TGBLEPeripheralInfo peripheralInfo = TGBluetoothManager.getBLEPeripheralInfo(intent);
+			switch (bleState)
+			{
+				case TGBluetoothManager.BLE_STATE_CONNECTED:
+					connectSuccessLayout.setVisibility(View.VISIBLE);
+					scanningLayout.setVisibility(View.GONE);
+					handler.postDelayed(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							gotoRenamePeripheralActivity(PeripheralInfo.fromBLEPeripheralInfo(peripheralInfo));
+							finish();
+						}
+					}, 1000);
+					break;
+				case TGBluetoothManager.BLE_STATE_DISCONNECTED:
+					scanningLayout.setVisibility(View.GONE);
+					notFoundPeripheralLayout.setVisibility(View.VISIBLE);
+					break;
+
+				case TGBluetoothManager.BLE_STATE_NONSUPPORT:
+					HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
+					break;
+
+				case TGBluetoothManager.BLE_STATE_POWEROFF:
+					HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -53,8 +95,9 @@ public class ScanPeripheralActivity extends BaseActivity
 		ButterKnife.bind(this);
 		getWindow().getDecorView().setBackgroundResource(R.color.default_green_bg);
 
-		HSApplication.getBus().register(this);
-
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(TGBluetoothManager.ACTION_BLE_STATE_CHANGE);
+		this.registerReceiver(broadcastReceiver, intentFilter);
 		//开始扫描设备
 		scanDevice();
 	}
@@ -63,6 +106,7 @@ public class ScanPeripheralActivity extends BaseActivity
 	{
 		scanningLayout.setVisibility(View.VISIBLE);
 		notFoundPeripheralLayout.setVisibility(View.GONE);
+		HSBLEPeripheralManager.getInstance().scanAndConnect2Peripheral();
 	}
 
 	@OnClick({R.id.scan_device_cancel_btn, R.id.scan_device_retry_btn, R.id.not_found_peripheral_help})
@@ -83,42 +127,6 @@ public class ScanPeripheralActivity extends BaseActivity
 				intent.putExtra(IntentKeys.WEBVIEW_ACTIVITY_TITLE, getString(R.string.support));
 				intent.putExtra(IntentKeys.URL, ServerUrls.SUPPORT_FAQ);
 				startActivity(intent);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	@Subscribe
-	public void onConnectDevice(final ConnectPeripheralEvent event)
-	{
-		switch (event.getState())
-		{
-			case Connected:
-				connectSuccessLayout.setVisibility(View.VISIBLE);
-				handler.postDelayed(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						gotoRenamePeripheralActivity(event.getPeripheralInfo());
-						finish();
-					}
-				}, 2000);
-				break;
-
-			case Disconnect:
-				scanningLayout.setVisibility(View.GONE);
-				notFoundPeripheralLayout.setVisibility(View.VISIBLE);
-				break;
-
-			case BluetoothOff:
-				HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(this);
-				break;
-
-			case Nonsupport:
-				HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(this);
 				break;
 
 			default:
@@ -152,15 +160,14 @@ public class ScanPeripheralActivity extends BaseActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		HSApplication.getBus().unregister(this);
 		//界面被销毁时，停止扫描蓝牙设备
 		HSBLEPeripheralManager.getInstance().stopScan();
+		this.unregisterReceiver(broadcastReceiver);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		HSBLEPeripheralManager.getInstance().onActivityResult(requestCode,resultCode,data);
 	}
 
 }

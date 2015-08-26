@@ -14,7 +14,6 @@ import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.authorise.LoginActivity;
-import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.present.HomePresenter;
 import com.lepow.hiremote.home.present.IHomeView;
@@ -24,12 +23,10 @@ import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.ServerUrls;
 import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.SettingActivity;
-import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
-import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -103,8 +100,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
 		//检测更新
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
-
-		presenter.register2Bus();
 	}
 
 	@Override
@@ -283,33 +278,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 	{
 		//TODO
 		startActivity(Camera.class);
-	}
-
-	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
-		presenter.unregisterFromBus();
-	}
-
-	@Subscribe
-	public void onConnectDevice(final ConnectPeripheralEvent event)
-	{
-		switch (event.getState())
-		{
-			case Connected:
-				break;
-
-			case Disconnect:
-				break;
-
-			case BluetoothOff:
-				HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(this);
-				break;
-
-			default:
-				break;
-		}
 	}
 
 }

@@ -5,8 +5,6 @@ import android.app.Activity;
 import com.lepow.hiremote.app.AppSettings;
 import com.lepow.hiremote.app.Presenter;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
-import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
-import com.squareup.otto.Subscribe;
 
 public class HomePresenter extends Presenter
 {
@@ -17,26 +15,6 @@ public class HomePresenter extends Presenter
 		super(activity);
 		this.view = view;
 	}
-
-	@Subscribe
-	public void onConnectDevice(ConnectPeripheralEvent event)
-	{
-		switch (event.getState())
-		{
-			case Connected:
-				break;
-
-			case Disconnect:
-				break;
-
-			case BluetoothOff:
-				break;
-
-			default:
-				break;
-		}
-	}
-
 
 	public void initDevicesAndSettings()
 	{

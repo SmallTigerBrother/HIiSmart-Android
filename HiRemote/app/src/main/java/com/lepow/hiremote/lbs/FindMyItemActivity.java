@@ -16,10 +16,8 @@ import com.lepow.hiremote.lbs.api.IMapManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
-import com.mn.tiger.bluetooth.event.ConnectPeripheralEvent;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -80,7 +78,6 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         locationInfo = (LocationInfo)getIntent().getSerializableExtra(IntentKeys.LOCATION_INFO);
 
         initMapView(savedInstanceState, locationInfo);
-        HSApplication.getBus().register(this);
     }
 
     private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
@@ -125,22 +122,6 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Subscribe
-    public void onConnectDevice(ConnectPeripheralEvent event)
-    {
-        switch (event.getState())
-        {
-            case Connected:
-                break;
-
-            case Disconnect:
-                break;
-
-            default:
-                break;
-        }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
@@ -167,7 +148,6 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         super.onDestroy();
         mapManager.onDestroy();
-        HSApplication.getBus().unregister(this);
     }
 
     @Override

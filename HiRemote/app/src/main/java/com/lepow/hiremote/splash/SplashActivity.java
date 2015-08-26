@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.home.HomeActivity;
+import com.lepow.hiremote.bluetooth.ScanPeripheralActivity;
 import com.lepow.hiremote.splash.data.IntroductionInfo;
 import com.mn.tiger.system.AppConfigs;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
@@ -100,7 +100,7 @@ public class SplashActivity extends BaseActivity
 				@Override
 				public void run()
 				{
-					startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+					startActivity(new Intent(SplashActivity.this, ScanPeripheralActivity.class));
 					finish();
 				}
 			}, 2000);
@@ -129,7 +129,7 @@ public class SplashActivity extends BaseActivity
 	@OnClick(R.id.get_start_button)
 	public void onClick(View view)
 	{
-		startActivity(new Intent(this, HomeActivity.class));
+		startActivity(new Intent(this, ScanPeripheralActivity.class));
 		this.finish();
 	}
 }
