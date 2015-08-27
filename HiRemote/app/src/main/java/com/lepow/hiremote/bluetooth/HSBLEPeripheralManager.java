@@ -1,7 +1,9 @@
 package com.lepow.hiremote.bluetooth;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothGatt;
 import android.content.DialogInterface;
+import android.os.Message;
 import android.view.View;
 
 import com.lepow.hiremote.R;
@@ -9,11 +11,35 @@ import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
 
+import java.util.UUID;
+
 /**
  * Created by peng on 15/8/15.
  */
 public class HSBLEPeripheralManager extends TGBluetoothManager
 {
+    public static final String POWER_SERVICE_UUID = "0000180f-0000-1000-8000-00805f9b34fb";
+
+    public static final String POWER_CHARACTERISTIC_UUID = "00002a19-0000-1000-8000-00805f9b34fb";
+
+    public static final String DISCONNECT_ALARM_SERVICE_UUID = "00001803-0000-1000-8000-00805f9b34fb";
+
+    public static final String DISCONNECT_ALARM_CHARACTERISTIC_UUID = "00002a06-0000-1000-8000-00805f9b34fb";
+
+    public static final String ALARM_IMMEDIATELY_SERVICE_UUID = "00001802-0000-1000-8000-00805f9b34fb";
+
+    public static final String ALARM_IMMEDIATELY_CHARACTERISTIC_UUID = "00002a06-0000-1000-8000-00805f9b34fb";
+
+    public static final String FIND_PHONE_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
+
+    public static final String FIND_PHONE_CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
+
+    private static final int MESSAGE_LISTEN_FIND_PHONE = 0x0002;
+
+    private static final int MESSAGE_READ_DISCONNECTED_ALARM = 0x0003;
+
+    private static final int MESSAGE_POWER = 0x0004;
+
     private static HSBLEPeripheralManager instance;
 
     public static HSBLEPeripheralManager getInstance()
@@ -50,6 +76,29 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
         return instance;
     }
 
+    @Override
+    protected void handleMessage(Message msg)
+    {
+        super.handleMessage(msg);
+
+        switch (msg.what)
+        {
+            case MESSAGE_LISTEN_FIND_PHONE:
+                listenFindPhone();
+                break;
+
+            case MESSAGE_READ_DISCONNECTED_ALARM:
+                readDisconnectAlarm();
+                break;
+
+            case MESSAGE_POWER:
+                readAndListenPower();
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * 扫描设备，并自动连接第一个设备
      */
@@ -61,6 +110,54 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
     public void scanAndConnect2NewPeripheral()
     {
 
+    }
+
+    @Override
+    protected void onServicesDiscovered(BluetoothGatt gatt, int status)
+    {
+        if(status == BluetoothGatt.GATT_SUCCESS)
+        {
+            //读取电量
+//            readAndListenPower();
+
+            //监听硬件长按寻找手机事件
+            handler.sendEmptyMessage(MESSAGE_LISTEN_FIND_PHONE);
+            //读取设备断开响铃设置
+            handler.sendEmptyMessage(MESSAGE_READ_DISCONNECTED_ALARM);
+
+            handler.sendEmptyMessage(MESSAGE_POWER);
+//            readDisconnectAlarm();
+        }
+    }
+
+    public void readAndListenPower()
+    {
+        readCharacteristic(UUID.fromString(HSBLEPeripheralManager.POWER_SERVICE_UUID),
+                UUID.fromString(HSBLEPeripheralManager.POWER_CHARACTERISTIC_UUID));
+    }
+
+    private void readDisconnectAlarm()
+    {
+        readCharacteristic(UUID.fromString(HSBLEPeripheralManager.DISCONNECT_ALARM_SERVICE_UUID),
+                UUID.fromString(HSBLEPeripheralManager.DISCONNECT_ALARM_CHARACTERISTIC_UUID));
+    }
+
+    private void listenFindPhone()
+    {
+        listenCharacteristic(UUID.fromString(HSBLEPeripheralManager.FIND_PHONE_SERVICE_UUID),
+                UUID.fromString(HSBLEPeripheralManager.FIND_PHONE_CHARACTERISTIC_UUID));
+    }
+
+    public void turnOnAlarmImmediately()
+    {
+        writeCharacteristic(UUID.fromString(ALARM_IMMEDIATELY_SERVICE_UUID),
+                UUID.fromString(ALARM_IMMEDIATELY_CHARACTERISTIC_UUID), (byte)2);
+    }
+
+    public void turnOffAlarmImmediately()
+    {
+        writeCharacteristic(UUID.fromString(ALARM_IMMEDIATELY_SERVICE_UUID),
+                UUID.fromString(ALARM_IMMEDIATELY_CHARACTERISTIC_UUID), (byte)0);
     }
 
     /**

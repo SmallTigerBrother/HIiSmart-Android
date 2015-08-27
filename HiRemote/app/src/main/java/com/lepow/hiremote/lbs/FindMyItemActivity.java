@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.app.HSApplication;
+import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.lbs.api.AMapManager;
 import com.lepow.hiremote.lbs.api.IMapManager;
@@ -112,9 +112,12 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         switch (view.getId())
         {
             case R.id.buzz_my_item:
+                HSBLEPeripheralManager.getInstance().turnOnAlarmImmediately();
+//                HSBLEPeripheralManager.getInstance().readAndListenPower();
                 break;
 
             case R.id.stop_buzz:
+                HSBLEPeripheralManager.getInstance().turnOffAlarmImmediately();
                 break;
 
             default:
