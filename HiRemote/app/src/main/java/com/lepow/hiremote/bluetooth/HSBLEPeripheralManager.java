@@ -2,12 +2,15 @@ package com.lepow.hiremote.bluetooth;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Message;
 import android.view.View;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.HSApplication;
+import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
 
@@ -18,6 +21,8 @@ import java.util.UUID;
  */
 public class HSBLEPeripheralManager extends TGBluetoothManager
 {
+    private static final String FIND_PHONE_CHARACTERISTIC_VALUE_KEY = "find_phone_characteristic_value";
+
     public static final String POWER_SERVICE_UUID = "0000180f-0000-1000-8000-00805f9b34fb";
 
     public static final String POWER_CHARACTERISTIC_UUID = "00002a19-0000-1000-8000-00805f9b34fb";
@@ -33,6 +38,16 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
     public static final String FIND_PHONE_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
 
     public static final String FIND_PHONE_CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
+
+    /**
+     * 短按找手机按钮（圆点）的值
+     */
+    public static final int FIND_PHONE_CHARACTERISTIC_VALUE = 1;
+
+    /**
+     * 长按找手机按钮（圆点）的值
+     */
+    public static final int FIND_PHONE_CHARACTERISTIC_VALUE_LONG = 2;
 
     private static final int MESSAGE_LISTEN_FIND_PHONE = 0x0002;
 
@@ -120,14 +135,24 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
             //读取电量
 //            readAndListenPower();
 
-            //监听硬件长按寻找手机事件
+            //监听硬件寻找手机事件
             handler.sendEmptyMessage(MESSAGE_LISTEN_FIND_PHONE);
             //读取设备断开响铃设置
-            handler.sendEmptyMessage(MESSAGE_READ_DISCONNECTED_ALARM);
+//            handler.sendEmptyMessage(MESSAGE_READ_DISCONNECTED_ALARM);
 
-            handler.sendEmptyMessage(MESSAGE_POWER);
+//            handler.sendEmptyMessage(MESSAGE_POWER);
 //            readDisconnectAlarm();
         }
+    }
+
+    @Override
+    protected void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
+    {
+        super.onCharacteristicChanged(gatt, characteristic);
+
+        Intent intent = new Intent(IntentAction.ACTION_FIND_PHONE);
+        intent.putExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, (int)characteristic.getValue()[0]);
+        HSApplication.getInstance().sendBroadcast(intent);
     }
 
     public void readAndListenPower()
@@ -151,13 +176,18 @@ public class HSBLEPeripheralManager extends TGBluetoothManager
     public void turnOnAlarmImmediately()
     {
         writeCharacteristic(UUID.fromString(ALARM_IMMEDIATELY_SERVICE_UUID),
-                UUID.fromString(ALARM_IMMEDIATELY_CHARACTERISTIC_UUID), (byte)2);
+                UUID.fromString(ALARM_IMMEDIATELY_CHARACTERISTIC_UUID), (byte) 2);
     }
 
     public void turnOffAlarmImmediately()
     {
         writeCharacteristic(UUID.fromString(ALARM_IMMEDIATELY_SERVICE_UUID),
                 UUID.fromString(ALARM_IMMEDIATELY_CHARACTERISTIC_UUID), (byte)0);
+    }
+
+    public int getValueOfCharacteristic(Intent data)
+    {
+        return data.getIntExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, -1);
     }
 
     /**

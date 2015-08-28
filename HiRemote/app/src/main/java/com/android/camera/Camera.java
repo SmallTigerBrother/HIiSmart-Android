@@ -77,6 +77,8 @@ import com.android.camera.ui.GLRootView;
 import com.android.camera.ui.HeadUpDisplay;
 import com.android.camera.ui.ZoomControllerListener;
 import com.lepow.hiremote.R;
+import com.lepow.hiremote.app.HSApplication;
+import com.lepow.hiremote.misc.IntentAction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -273,6 +275,16 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
             }
         }
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            mShutterButton.callShutterButtonFocus(true);
+            mShutterButton.performClick();
+        }
+    };
 
     private void resetExposureCompensation() {
         String value = mPreferences.getString(CameraSettings.KEY_EXPOSURE,
@@ -955,6 +967,19 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
         } catch (InterruptedException ex) {
             // ignore
         }
+
+        registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_CAPTURE));
+
+        ((HSApplication)HSApplication.getInstance()).setCaptureMode();
+    }
+
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+        ((HSApplication)HSApplication.getInstance()).resetMode();
     }
 
     private void changeHeadUpDisplayState() {

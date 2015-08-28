@@ -102,7 +102,9 @@ public class ShutterButton extends ImageView {
         }
     }
 
-    private void callShutterButtonFocus(boolean pressed) {
+
+
+    public void callShutterButtonFocus(boolean pressed) {
         if (mListener != null) {
             mListener.onShutterButtonFocus(this, pressed);
         }

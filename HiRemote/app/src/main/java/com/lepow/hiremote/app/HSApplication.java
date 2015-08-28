@@ -8,6 +8,16 @@ import com.mn.tiger.app.TGApplication;
 
 public class HSApplication extends TGApplication
 {
+    public static final int MODE_LOCATE = 1;
+
+    public static final int MODE_CAPTURE = 2;
+
+    public static final int MODE_RECORD= 3;
+
+    private int mode = MODE_LOCATE;
+
+    private int lastMode = MODE_LOCATE;
+
     @Override
     public void onCreate()
     {
@@ -19,5 +29,28 @@ public class HSApplication extends TGApplication
 
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());
         TGUpgradeManager.setCheckUpgradeHttpLoader(httpLoader);
+
+        initMode();
+    }
+
+    private void initMode()
+    {
+
+    }
+
+    public void setCaptureMode()
+    {
+        this.lastMode = this.mode;
+        this.mode = MODE_CAPTURE;
+    }
+
+    public void resetMode()
+    {
+        this.mode = lastMode;
+    }
+
+    public int getMode()
+    {
+        return mode;
     }
 }

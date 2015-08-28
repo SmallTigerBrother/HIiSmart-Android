@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.bluetooth.ScanPeripheralActivity;
+import com.lepow.hiremote.service.BackgroundService;
 import com.lepow.hiremote.splash.data.IntroductionInfo;
 import com.mn.tiger.system.AppConfigs;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
@@ -105,6 +106,8 @@ public class SplashActivity extends BaseActivity
 				}
 			}, 2000);
 		}
+
+		startService(new Intent(this, BackgroundService.class));
 	}
 	
 	/**

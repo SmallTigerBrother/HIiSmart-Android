@@ -275,6 +275,7 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
             //监听characteristic的值变化
             LOG.d("[Method:onCharacteristicChanged]  characteristic == " + characteristic.getUuid() +
                     " value == " + characteristic.getValue()[0]);
+            TGBluetoothManager.this.onCharacteristicChanged(gatt, characteristic);
         }
 
         @Override
@@ -309,6 +310,11 @@ public class TGBluetoothManager implements BluetoothAdapter.LeScanCallback
     };
 
     protected void onServicesDiscovered(BluetoothGatt gatt, int status)
+    {
+
+    }
+
+    protected void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
     {
 
     }
