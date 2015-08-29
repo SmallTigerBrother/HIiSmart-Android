@@ -132,8 +132,6 @@
         <activity android:name=".authorise.ResetPasswordActivity"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".bluetooth.DeviceScanActivity"></activity>
-
         <service android:name=".service.BackgroundService" android:enabled="true" android:exported="true"></service>
 
         <receiver android:name="com.android.camera.CameraButtonIntentReceiver">
