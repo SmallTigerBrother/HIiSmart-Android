@@ -1,12 +1,15 @@
 package com.lepow.hiremote.record.data;
 
 import android.content.Context;
+import android.os.Environment;
 
+import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
 import com.mn.tiger.datastorage.db.sqlite.Selector;
 import com.mn.tiger.log.Logger;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,5 +107,10 @@ public class RecordDataManager
 		{
 			LOG.e(e);
 		}
+	}
+
+	public static String getRecordFilePath(String fileName)
+	{
+		return TGApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_MUSIC) + File.separator + fileName;
 	}
 }

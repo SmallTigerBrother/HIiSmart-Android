@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -14,14 +15,14 @@ import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.authorise.LoginActivity;
+import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
-import com.lepow.hiremote.home.present.HomePresenter;
-import com.lepow.hiremote.home.present.IHomeView;
 import com.lepow.hiremote.home.widget.PeripheralStatusView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.ServerUrls;
 import com.lepow.hiremote.record.VoiceMemosActivity;
+import com.lepow.hiremote.setting.AppSettings;
 import com.lepow.hiremote.setting.SettingActivity;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.TGNavigationBar;
@@ -29,13 +30,13 @@ import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity implements IHomeView, View.OnClickListener
+public class HomeActivity extends BaseActivity implements View.OnClickListener
 {
 	@FindView(R.id.devices_viewpager)
 	DotIndicatorBannerPagerView<PeripheralInfo> bannerPagerView;
@@ -73,8 +74,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 	@FindView(R.id.play_sound_switch)
 	Switch playSoundSwitch;
 
-	private HomePresenter presenter;
-
 	private Button lastClickFunction;
 
 	private HashMap<Integer, Integer> defaultFunctionBtnResMap;
@@ -93,10 +92,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 		ButterKnife.bind(this);
 
 		initViews();
-
-		presenter = new HomePresenter(this, this);
-
-		presenter.initDevicesAndSettings();
 
 		//检测更新
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
@@ -131,23 +126,25 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 			@Override
 			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
 			{
-				((PeripheralStatusView)viewOfPage).setData(itemData);
+				((PeripheralStatusView) viewOfPage).setData(itemData);
 			}
 		});
 
 		showFunctionBoard();
+
+		bannerPagerView.setData(PeripheralDataManager.getAllPeripherals(this));
+		initSettingsBoard();
+	}
+
+	private void initSettingsBoard()
+	{
+		notificationSwitch.setChecked(AppSettings.isPushNotificationSettingOn(this));
+		voiceSwitch.setChecked(AppSettings.getMode() == AppSettings.MODE_RECORD);
 	}
 
 	private void initFunctionBtnRes()
 	{
 		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image, R.drawable.location_button_bg);
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent)
-	{
-		super.onNewIntent(intent);
-
 	}
 
 	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch,
@@ -177,11 +174,9 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 				break;
 
 			case R.id.notification_switch:
-				presenter.turnOnOrOffNotificationSetting();
 				break;
 
 			case R.id.voice_switch:
-				presenter.turnOnOrOffVoiceSetting();
 				break;
 
 			case R.id.function_pinned_location_image:
@@ -203,6 +198,29 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
 			default:
 				break; 
+		}
+	}
+
+	@OnCheckedChanged({R.id.notification_switch, R.id.voice_switch})
+	void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	{
+		switch (buttonView.getId())
+		{
+			case R.id.voice_switch:
+				if(isChecked)
+				{
+					AppSettings.switchToRecordMode();
+				}
+				else
+				{
+					AppSettings.switchToLocateMode();
+				}
+				break;
+			case R.id.notification_switch:
+				AppSettings.setPushNotificationSetting(this, isChecked);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -229,36 +247,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 		functionBtn.setTextColor(getResources().getColor(R.color.color_val_4fc191));
 	}
 
-	@Override
-	public void initDeviceBanner(List<PeripheralInfo> peripheralInfos)
-	{
-		bannerPagerView.setData(peripheralInfos);
-	}
-
-	@Override
-	public void turnOnNotificationSetting()
-	{
-		notificationSwitch.setChecked(true);
-	}
-
-	@Override
-	public void turnOffNotificationSetting()
-	{
-		notificationSwitch.setChecked(false);
-	}
-
-	@Override
-	public void turnOnVoiceSetting()
-	{
-		voiceSwitch.setChecked(true);
-	}
-
-	@Override
-	public void turnOffVoiceSetting()
-	{
-		voiceSwitch.setChecked(false);
-	}
-
 	private void startPinnedLocationHistoryActivity()
 	{
 		startActivity(new Intent(this, PinnedLocationHistoryActivity.class));
@@ -276,7 +264,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
 	private void startCamera()
 	{
-		//TODO
 		startActivity(Camera.class);
 	}
 

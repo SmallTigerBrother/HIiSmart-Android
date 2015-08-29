@@ -13,6 +13,10 @@ public class RecordInfo implements Serializable
 
 	private int _id;
 
+	private static final int SYNC_FALSE = 0;
+
+	private static final int SYNC_TRUE = 1;
+
 	/**
 	 * 用户ID
 	 */
@@ -44,9 +48,9 @@ public class RecordInfo implements Serializable
 	private String fileName;
 
 	/**
-	 * 同步状态
+	 * 同步状态,
 	 */
-	private int sync;
+	private int sync = SYNC_FALSE;
 
 	/**
 	 * 录音文件下载地址

@@ -9,7 +9,17 @@ import android.os.IBinder;
 
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
+import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
+import com.lepow.hiremote.record.data.RecordDataManager;
+import com.lepow.hiremote.record.data.RecordInfo;
+import com.lepow.hiremote.setting.AppSettings;
+import com.mn.tiger.location.ILocationManager;
+import com.mn.tiger.location.TGLocation;
+import com.mn.tiger.location.TGLocationManager;
+import com.mn.tiger.log.Logger;
+import com.mn.tiger.media.TGAudioPlayer;
+import com.mn.tiger.media.TGRecorder;
 
 /**
  * 后台运行的Service，随应用启动；连接蓝牙设备后，服务激活
@@ -19,6 +29,8 @@ import com.lepow.hiremote.misc.IntentAction;
  */
 public class BackgroundService extends Service
 {
+	private static final Logger LOG = Logger.getLogger(BackgroundService.class);
+
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -29,16 +41,19 @@ public class BackgroundService extends Service
 			{
 				case HSBLEPeripheralManager.FIND_PHONE_CHARACTERISTIC_VALUE:
 
-					switch (((HSApplication)HSApplication.getInstance()).getMode())
+					switch (AppSettings.getMode())
 					{
-						case HSApplication.MODE_LOCATE:
-
+						case AppSettings.MODE_LOCATE:
+							//定位
+							requestLocation();
 							break;
-						case HSApplication.MODE_CAPTURE:
+						case AppSettings.MODE_CAPTURE:
+							//拍照
 							sendBroadcast(new Intent(IntentAction.ACTION_CAPTURE));
 							break;
-						case HSApplication.MODE_RECORD:
-
+						case AppSettings.MODE_RECORD:
+							//录音
+							toggleRecord();
 							break;
 
 						default:
@@ -48,6 +63,7 @@ public class BackgroundService extends Service
 					break;
 
 				case HSBLEPeripheralManager.FIND_PHONE_CHARACTERISTIC_VALUE_LONG:
+					startAlarm();
 					break;
 
 				default:
@@ -80,5 +96,79 @@ public class BackgroundService extends Service
 	{
 		super.onDestroy();
 		unregisterReceiver(broadcastReceiver);
+	}
+
+	/**
+	 * 请求定位
+	 */
+	private void requestLocation()
+	{
+		TGLocationManager locationManager = TGLocationManager.getInstance();
+		locationManager.setLocationListener(new ILocationManager.ILocationListener()
+		{
+			@Override
+			public void onReceiveLocation(TGLocation location)
+			{
+				LocationInfo locationInfo = LocationInfo.fromLocation(location);
+				LOG.d("[Method:onReceiveLocation] " + locationInfo.getAddress());
+			}
+		});
+
+		locationManager.requestLocationUpdates();
+	}
+
+	/**
+	 * 开始/停止录音
+	 */
+	private void toggleRecord()
+	{
+		final TGRecorder recorder = TGRecorder.getInstance();
+		if(recorder.isRecording())
+		{
+			recorder.stop();
+		}
+		else
+		{
+			final long time = System.currentTimeMillis();
+			final String fileName = time + ".mp3";
+
+			recorder.start(RecordDataManager.getRecordFilePath(fileName), new TGRecorder.OnRecordListener()
+			{
+				@Override
+				public void onRecordStart(String outputFilePath)
+				{
+				}
+
+				@Override
+				public void onRecording(String outputFilePath, int duration)
+				{
+				}
+
+				@Override
+				public void onRecordStop(String outputFilePath)
+				{
+					RecordInfo recordInfo = new RecordInfo();
+					recordInfo.setFileName(fileName);
+					recordInfo.setTimestamp(time);
+					recordInfo.setPeripheralUUID("");
+					recordInfo.setTitle("New Record");
+					RecordDataManager.getInstance().saveRecord(BackgroundService.this, recordInfo);
+
+					//通知录音列表界面更新
+					HSApplication.getBus().post(recordInfo);
+				}
+			});
+		}
+	}
+
+	/**
+	 * 播放警报
+	 */
+	private void startAlarm()
+	{
+		if(!TGAudioPlayer.getInstance().isPlaying())
+		{
+			TGAudioPlayer.getInstance().start("");
+		}
 	}
 }

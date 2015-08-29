@@ -20,6 +20,6 @@ public interface ILocationManager
     {
         BaiDu,
         Google,
-        Unknown
+        AMap
     }
 }

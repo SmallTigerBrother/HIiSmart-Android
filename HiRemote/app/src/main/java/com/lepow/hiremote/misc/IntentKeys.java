@@ -26,4 +26,5 @@ public class IntentKeys
 
 	public static final String PASSWORD = "";
 
+	public static final String RECORD_INFO = "record_info";
 }

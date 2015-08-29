@@ -8,12 +8,14 @@ import android.widget.ListView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.record.adapter.RecordListViewHolder;
 import com.lepow.hiremote.record.data.RecordInfo;
 import com.lepow.hiremote.record.data.RecordDataManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -51,6 +53,8 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 
 		recordEditDialog = new RecordEditDialog(this);
 		recordEditDialog.setOnRecordModifyListener(this);
+
+		HSApplication.getBus().register(this);
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 	public void onItemClick(AdapterView<?> adapterView, View convertView, int position)
 	{
 		//显示录音播放、编辑框
-		recordEditDialog.setData((RecordInfo)listAdapter.getItem(position));
+		recordEditDialog.setData((RecordInfo) listAdapter.getItem(position));
 		recordEditDialog.show();
 	}
 
@@ -82,12 +86,30 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 	@Override
 	public void onRecordModify(RecordInfo recordInfo)
 	{
-
+		List<RecordInfo> listItems = listAdapter.getListItems();
+		int index = listItems.indexOf(recordInfo);
+		listItems.set(index, recordInfo);
+		listAdapter.updateData(listItems);
 	}
 
 	@Override
 	public void onRecordDelete(RecordInfo recordInfo)
 	{
+		listAdapter.removeItem(recordInfo);
+	}
 
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		HSApplication.getBus().unregister(this);
+	}
+
+	@Subscribe
+	public void onNewRecord(RecordInfo recordInfo)
+	{
+		List<RecordInfo> listItems = listAdapter.getListItems();
+		listItems.add(0, recordInfo);
+		listAdapter.updateData(listItems);
 	}
 }

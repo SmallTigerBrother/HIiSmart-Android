@@ -62,6 +62,8 @@ public class TGRecorder
 
     public void start(String outputFilePath, OnRecordListener listener)
     {
+        LOG.d("[Method:start] filePath ==  " + outputFilePath);
+
         this.currentRecordFilePath = outputFilePath;
         this.onRecordListener = listener;
 
@@ -110,16 +112,24 @@ public class TGRecorder
 
     public void stop()
     {
-        mp3Recorder.stop();
-        if(null != onRecordListener)
+        LOG.d("[Method:stop]");
+        if(null != mp3Recorder)
         {
-            onRecordListener.onRecordStop(currentRecordFilePath);
+            mp3Recorder.stop();
+            if(null != onRecordListener)
+            {
+                onRecordListener.onRecordStop(currentRecordFilePath);
+            }
         }
     }
 
     public boolean isRecording()
     {
-        return mp3Recorder.isRecording();
+        if(null != mp3Recorder)
+        {
+            return mp3Recorder.isRecording();
+        }
+        return false;
     }
 
     public static interface OnRecordListener
