@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.czt.mp3recorder.MP3Recorder;
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.bluetooth.TGBluetoothManager;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.utility.FileUtils;
 
@@ -71,78 +72,85 @@ public class TGRecorder
         this.onRecordListener = listener;
 
         mp3Recorder = new MP3Recorder(FileUtils.createFile(outputFilePath));
-        try
+        if(TGBluetoothManager.isBlueToothHeadsetConnected())
         {
-            if(!audioManager.isBluetoothScoAvailableOffCall())
-            {
-                LOG.e("[Method:start] not support bluetooth record");
-                return;
-            }
+            startRecordUseByToothHeadSet();
+        }
+        else
+        {
+            executeRecord();
+        }
+    }
 
-            if(audioManager.isBluetoothScoOn())
+    private void startRecordUseByToothHeadSet()
+    {
+        LOG.e("[Method:startRecordUseByToothHeadSet]");
+        if(!audioManager.isBluetoothScoAvailableOffCall())
+        {
+            LOG.e("[Method:startRecordUseByToothHeadSet] not support bluetooth record");
+            return;
+        }
+
+        if(audioManager.isBluetoothScoOn())
+        {
+            executeRecord();
+        }
+        else
+        {
+            TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
             {
-                executeRecord();
-            }
-            else
-            {
-                TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
+                @Override
+                public void onReceive(Context context, Intent intent)
                 {
-                    @Override
-                    public void onReceive(Context context, Intent intent)
+                    int state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1);
                     {
-                        int state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1);
+                        if(state == AudioManager.SCO_AUDIO_STATE_CONNECTED)
                         {
-                            if(state == AudioManager.SCO_AUDIO_STATE_CONNECTED)
-                            {
-                                try
-                                {
-                                    audioManager.setBluetoothScoOn(true);
-                                    executeRecord();
-                                    TGApplication.getInstance().unregisterReceiver(this);
-                                }
-                                catch (IOException e)
-                                {
-                                    LOG.e(e);
-                                }
-                            }
+                            audioManager.setBluetoothScoOn(true);
+                            executeRecord();
+                            TGApplication.getInstance().unregisterReceiver(this);
                         }
                     }
-                }, new IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED));
+                }
+            }, new IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED));
 
-                audioManager.startBluetoothSco();
+            audioManager.startBluetoothSco();
+        }
+    }
+
+    private void executeRecord()
+    {
+        LOG.e("[Method:executeRecord]");
+        try
+        {
+            mp3Recorder.start();
+            if(null != onRecordListener)
+            {
+                onRecordListener.onRecordStart(currentRecordFilePath);
             }
+            recordDuration = 0;
+            timeHandler.postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    recordDuration += DURATION_INTERVAL;
+                    if (null != onRecordListener)
+                    {
+                        onRecordListener.onRecording(currentRecordFilePath, recordDuration);
+                    }
+
+                    if(isRecording())
+                    {
+                        timeHandler.postDelayed(this, DURATION_INTERVAL);
+                    }
+                }
+            }, DURATION_INTERVAL);
         }
         catch (IOException e)
         {
             LOG.e(e);
         }
-    }
-
-    private void executeRecord() throws IOException
-    {
-        mp3Recorder.start();
-        if(null != onRecordListener)
-        {
-            onRecordListener.onRecordStart(currentRecordFilePath);
-        }
-        recordDuration = 0;
-        timeHandler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                recordDuration += DURATION_INTERVAL;
-                if (null != onRecordListener)
-                {
-                    onRecordListener.onRecording(currentRecordFilePath, recordDuration);
-                }
-
-                if(isRecording())
-                {
-                    timeHandler.postDelayed(this, DURATION_INTERVAL);
-                }
-            }
-        }, DURATION_INTERVAL);
     }
 
     public void stop()
@@ -151,8 +159,12 @@ public class TGRecorder
         if(null != mp3Recorder)
         {
             mp3Recorder.stop();
-            audioManager.setBluetoothScoOn(false);
-            audioManager.stopBluetoothSco();
+            if(TGBluetoothManager.isBlueToothHeadsetConnected())
+            {
+                audioManager.setBluetoothScoOn(false);
+                audioManager.stopBluetoothSco();
+            }
+
             if(null != onRecordListener)
             {
                 onRecordListener.onRecordStop(currentRecordFilePath);
@@ -168,6 +180,7 @@ public class TGRecorder
         }
         return false;
     }
+
 
     public static interface OnRecordListener
     {
