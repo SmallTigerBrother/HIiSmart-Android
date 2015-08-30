@@ -36,5 +36,6 @@ dependencies {
     compile 'com.czt.mp3recorder:library:1.0@aar'
     compile files('libs/AMap_Services_V2.5.0.jar')
     compile files('libs/Android_2DMapApi_V2.5.0.jar')
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile project(':tiger')
 }
