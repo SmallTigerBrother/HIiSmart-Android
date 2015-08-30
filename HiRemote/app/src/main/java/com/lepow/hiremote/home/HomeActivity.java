@@ -1,7 +1,10 @@
 package com.lepow.hiremote.home;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -15,11 +18,13 @@ import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.authorise.LoginActivity;
+import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.widget.PeripheralStatusView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
+import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.misc.ServerUrls;
 import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.AppSettings;
@@ -80,6 +85,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 	private HashMap<Integer, Integer> highlightFunctionBtnResMap;
 
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			if(intent.getAction().equals(IntentAction.ACTION_READ_PERIPHERAL_POWER))
+			{
+				playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().getValueOfDisconnectedAlarmCharacteristic(intent));
+			}
+			else if(intent.getAction().equals(IntentAction.ACTION_READ_DISCONNECTED_ALARM))
+			{
+
+			}
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -95,6 +116,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 		//检测更新
 		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
+		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
+		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
 	}
 
 	@Override
@@ -134,6 +157,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 		bannerPagerView.setData(PeripheralDataManager.getAllPeripherals(this));
 		initSettingsBoard();
+
+		playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
 	}
 
 	private void initSettingsBoard()
@@ -173,12 +198,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 				showSettingBoard();
 				break;
 
-			case R.id.notification_switch:
-				break;
-
-			case R.id.voice_switch:
-				break;
-
 			case R.id.function_pinned_location_image:
 				pinnedLocationImg.setPressed(true);
 				startPinnedLocationHistoryActivity();
@@ -201,7 +220,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		}
 	}
 
-	@OnCheckedChanged({R.id.notification_switch, R.id.voice_switch})
+	@OnCheckedChanged({R.id.notification_switch, R.id.voice_switch, R.id.play_sound_switch})
 	void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 	{
 		switch (buttonView.getId())
@@ -219,6 +238,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 			case R.id.notification_switch:
 				AppSettings.setPushNotificationSetting(this, isChecked);
 				break;
+
+			case R.id.play_sound_switch:
+				if(isChecked)
+				{
+					HSBLEPeripheralManager.getInstance().turnOnAlarmOfDisconnected();
+				}
+				else
+				{
+					HSBLEPeripheralManager.getInstance().turnOffAlarmOfDisconnected();
+				}
+				break;
+
 			default:
 				break;
 		}

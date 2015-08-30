@@ -9,5 +9,9 @@ public class IntentAction
 
     public static final String ACTION_CAPTURE = "capture";
 
-    public static final String ACTION_NEW_RECORD = "new_record";
+    public static final String ACTION_READ_DISCONNECTED_ALARM =
+            "read_disconnected_alarm";
+
+    public static final String ACTION_READ_PERIPHERAL_POWER =
+            "read_peripheral_power";
 }

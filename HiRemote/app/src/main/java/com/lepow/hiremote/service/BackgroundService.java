@@ -36,7 +36,7 @@ public class BackgroundService extends Service
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			int characteristicValue = HSBLEPeripheralManager.getInstance().getValueOfCharacteristic(intent);
+			int characteristicValue = HSBLEPeripheralManager.getInstance().getValueOfFindPhoneCharacteristic(intent);
 			switch (characteristicValue)
 			{
 				case HSBLEPeripheralManager.FIND_PHONE_CHARACTERISTIC_VALUE:

@@ -78,7 +78,7 @@ public class ScanPeripheralActivity extends BaseActivity
 					HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
 					break;
 
-				case TGBLEManager.BLE_STATE_POWEROFF:
+				case TGBLEManager.BLE_STATE_POWER_OFF:
 					HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
 					break;
 				default:

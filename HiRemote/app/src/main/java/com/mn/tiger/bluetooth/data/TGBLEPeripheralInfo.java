@@ -1,6 +1,7 @@
 package com.mn.tiger.bluetooth.data;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class TGBLEPeripheralInfo implements Serializable
@@ -10,6 +11,8 @@ public class TGBLEPeripheralInfo implements Serializable
 	private String peripheralName;
 
 	private UUID UUID;
+
+	private HashMap<String, Object> values = new HashMap<String, Object>();
 	
 	public int getEnergy()
 	{
@@ -41,4 +44,14 @@ public class TGBLEPeripheralInfo implements Serializable
 		return UUID;
 	}
 
+	public void putValue(String key, Object value)
+	{
+		values.put(key, value);
+	}
+
+	public Object getValue(String key, Object defaultValue)
+	{
+		Object value = values.get(key);
+		return null != value ? value : defaultValue;
+	}
 }
