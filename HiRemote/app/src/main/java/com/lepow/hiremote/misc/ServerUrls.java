@@ -5,7 +5,7 @@ package com.lepow.hiremote.misc;
  */
 public class ServerUrls
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static final String SERVER_URL = DEBUG ? "http://192.168.31.210:8090/lepow/api" : "http://app.lepow.net:8080/lepow/api";
 
