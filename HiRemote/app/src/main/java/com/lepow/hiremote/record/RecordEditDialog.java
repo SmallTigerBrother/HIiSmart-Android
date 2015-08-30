@@ -139,6 +139,7 @@ public class RecordEditDialog extends HSAlertDialog
                 listener.onRecordDelete(recordInfo);
                 //更新数据库
                 dialog.dismiss();
+                RecordEditDialog.this.dismiss();
             }
         });
 
