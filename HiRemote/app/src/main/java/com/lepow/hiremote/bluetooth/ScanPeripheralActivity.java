@@ -18,7 +18,7 @@ import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
-import com.mn.tiger.bluetooth.TGBluetoothManager;
+import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 
 import butterknife.ButterKnife;
@@ -52,11 +52,11 @@ public class ScanPeripheralActivity extends BaseActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			int bleState = TGBluetoothManager.getBLEState(intent);
-			final TGBLEPeripheralInfo peripheralInfo = TGBluetoothManager.getBLEPeripheralInfo(intent);
+			int bleState = TGBLEManager.getBLEState(intent);
+			final TGBLEPeripheralInfo peripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
 			switch (bleState)
 			{
-				case TGBluetoothManager.BLE_STATE_CONNECTED:
+				case TGBLEManager.BLE_STATE_CONNECTED:
 					connectSuccessLayout.setVisibility(View.VISIBLE);
 					scanningLayout.setVisibility(View.GONE);
 					handler.postDelayed(new Runnable()
@@ -69,16 +69,16 @@ public class ScanPeripheralActivity extends BaseActivity
 						}
 					}, 1000);
 					break;
-				case TGBluetoothManager.BLE_STATE_DISCONNECTED:
+				case TGBLEManager.BLE_STATE_DISCONNECTED:
 					scanningLayout.setVisibility(View.GONE);
 					notFoundPeripheralLayout.setVisibility(View.VISIBLE);
 					break;
 
-				case TGBluetoothManager.BLE_STATE_NONSUPPORT:
+				case TGBLEManager.BLE_STATE_NONSUPPORT:
 					HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
 					break;
 
-				case TGBluetoothManager.BLE_STATE_POWEROFF:
+				case TGBLEManager.BLE_STATE_POWEROFF:
 					HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
 					break;
 				default:
@@ -96,7 +96,7 @@ public class ScanPeripheralActivity extends BaseActivity
 		getWindow().getDecorView().setBackgroundResource(R.color.default_green_bg);
 
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(TGBluetoothManager.ACTION_BLE_STATE_CHANGE);
+		intentFilter.addAction(TGBLEManager.ACTION_BLE_STATE_CHANGE);
 		this.registerReceiver(broadcastReceiver, intentFilter);
 		//开始扫描设备
 		scanDevice();

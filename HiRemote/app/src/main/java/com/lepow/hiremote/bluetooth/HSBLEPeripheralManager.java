@@ -12,14 +12,14 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
-import com.mn.tiger.bluetooth.TGBluetoothManager;
+import com.mn.tiger.bluetooth.TGBLEManager;
 
 import java.util.UUID;
 
 /**
  * Created by peng on 15/8/15.
  */
-public class HSBLEPeripheralManager extends TGBluetoothManager
+public class HSBLEPeripheralManager extends TGBLEManager
 {
     private static final String FIND_PHONE_CHARACTERISTIC_VALUE_KEY = "find_phone_characteristic_value";
 
