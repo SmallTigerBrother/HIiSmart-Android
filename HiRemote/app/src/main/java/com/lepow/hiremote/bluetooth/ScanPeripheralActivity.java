@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.WebViewActivity;
+import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
@@ -59,6 +60,7 @@ public class ScanPeripheralActivity extends BaseActivity
 				case TGBLEManager.BLE_STATE_CONNECTED:
 					connectSuccessLayout.setVisibility(View.VISIBLE);
 					scanningLayout.setVisibility(View.GONE);
+					PeripheralDataManager.savePeripheral(ScanPeripheralActivity.this, PeripheralInfo.fromBLEPeripheralInfo(peripheralInfo));
 					handler.postDelayed(new Runnable()
 					{
 						@Override
@@ -99,13 +101,14 @@ public class ScanPeripheralActivity extends BaseActivity
 		intentFilter.addAction(TGBLEManager.ACTION_BLE_STATE_CHANGE);
 		this.registerReceiver(broadcastReceiver, intentFilter);
 		//开始扫描设备
+
+		scanningLayout.setVisibility(View.VISIBLE);
+		notFoundPeripheralLayout.setVisibility(View.GONE);
 		scanDevice();
 	}
 
 	protected void scanDevice()
 	{
-		scanningLayout.setVisibility(View.VISIBLE);
-		notFoundPeripheralLayout.setVisibility(View.GONE);
 		HSBLEPeripheralManager.getInstance().scanAndConnect2Peripheral();
 	}
 
@@ -119,6 +122,8 @@ public class ScanPeripheralActivity extends BaseActivity
 				break;
 
 			case R.id.scan_device_retry_btn:
+				scanningLayout.setVisibility(View.VISIBLE);
+				notFoundPeripheralLayout.setVisibility(View.GONE);
 				scanDevice();
 				break;
 

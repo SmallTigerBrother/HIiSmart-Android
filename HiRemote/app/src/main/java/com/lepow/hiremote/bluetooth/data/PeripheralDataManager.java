@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
+import com.mn.tiger.datastorage.db.sqlite.WhereBuilder;
 import com.mn.tiger.log.Logger;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class PeripheralDataManager
 		return TGDBManager.create(context, DB_NAME, DB_VERSION, null);
 	}
 
-	public static List<PeripheralInfo> getAllPeripherals(Context context)
+	public static List<PeripheralInfo> getAllPeripherals(Context context, PeripheralInfo connectedPeripheral)
 	{
 		try
 		{
@@ -36,7 +37,21 @@ public class PeripheralDataManager
 			{
 				return getDefaultPeriperalInfos();
 			}
-			return peripheralInfos;
+			else
+			{
+				if(null != connectedPeripheral)
+				{
+					for(int i = 0 ; i < peripheralInfos.size(); i++)
+					{
+						if(peripheralInfos.get(i).getUUID().equals(connectedPeripheral.getUUID()))
+						{
+							peripheralInfos.set(i, connectedPeripheral);
+							break;
+						}
+					}
+				}
+				return peripheralInfos;
+			}
 		}
 		catch (DbException e)
 		{
@@ -54,13 +69,24 @@ public class PeripheralDataManager
 
 	public static void savePeripheral(Context context, PeripheralInfo peripheralInfo)
 	{
-		try
+		if(null != peripheralInfo)
 		{
-			getDBManager(context).saveOrUpdate(peripheralInfo);
-		}
-		catch (DbException e)
-		{
-			LOG.e(e);
+			try
+			{
+				PeripheralInfo savedPeripheral = getDBManager(context).findFirst(peripheralInfo.getClass(), WhereBuilder.b("uuid", "=", peripheralInfo.getUUID()));
+				if(null == savedPeripheral)
+				{
+					getDBManager(context).save(peripheralInfo);
+				}
+				else
+				{
+					getDBManager(context).update(peripheralInfo, WhereBuilder.b("uuid", "=", peripheralInfo.getUUID()));
+				}
+			}
+			catch (DbException e)
+			{
+				LOG.e(e);
+			}
 		}
 	}
 

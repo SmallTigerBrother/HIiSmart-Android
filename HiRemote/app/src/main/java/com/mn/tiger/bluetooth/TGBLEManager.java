@@ -192,6 +192,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void scan()
     {
+        LOG.d("[Method:scan]");
         if(!bluetoothAdapter.isEnabled())
         {
             sendBroadcast(BLE_STATE_POWER_OFF, null);
@@ -209,6 +210,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
             @Override
             public void run()
             {
+                sendBroadcast(BLE_STATE_DISCONNECTED, currentPeripheral);
                 stopScan();
             }
         }, SCAN_TIME_OUT);

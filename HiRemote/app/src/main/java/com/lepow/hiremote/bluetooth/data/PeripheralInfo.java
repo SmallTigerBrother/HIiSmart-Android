@@ -23,6 +23,9 @@ public class PeripheralInfo implements Serializable
 	@Transient
 	private LocationInfo location;
 
+	@Transient
+	private boolean connected = false;
+
 	public int get_id()
 	{
 		return _id;
@@ -91,6 +94,16 @@ public class PeripheralInfo implements Serializable
 	public void setUUID(String UUID)
 	{
 		this.UUID = UUID;
+	}
+
+	public boolean isConnected()
+	{
+		return connected;
+	}
+
+	public void setConnected(boolean connected)
+	{
+		this.connected = connected;
 	}
 
 	public static PeripheralInfo fromBLEPeripheralInfo(TGBLEPeripheralInfo blePeripheralInfo)

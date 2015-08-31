@@ -25,16 +25,23 @@ import com.lepow.hiremote.home.widget.PeripheralStatusView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
 import com.lepow.hiremote.misc.IntentAction;
+import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
+import com.lepow.hiremote.notification.NotificationManager;
 import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.AppSettings;
 import com.lepow.hiremote.setting.SettingActivity;
+import com.mn.tiger.bluetooth.TGBLEManager;
+import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
+import com.mn.tiger.log.Logger;
+import com.mn.tiger.notification.TGNotificationBuilder;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -43,6 +50,8 @@ import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener
 {
+	private static final Logger LOG = Logger.getLogger(HomeActivity.class);
+
 	@FindView(R.id.devices_viewpager)
 	DotIndicatorBannerPagerView<PeripheralInfo> bannerPagerView;
 
@@ -81,6 +90,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 	private Button lastClickFunction;
 
+	private PeripheralInfo connectedPeripheral;
+
 	private HashMap<Integer, Integer> defaultFunctionBtnResMap;
 
 	private HashMap<Integer, Integer> highlightFunctionBtnResMap;
@@ -92,12 +103,53 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		{
 			if(intent.getAction().equals(IntentAction.ACTION_READ_PERIPHERAL_POWER))
 			{
-				playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().getValueOfDisconnectedAlarmCharacteristic(intent));
+				connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
+						HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+				LOG.d("Peripheral power ");
+				PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+				onPeripheralChanged();
 			}
 			else if(intent.getAction().equals(IntentAction.ACTION_READ_DISCONNECTED_ALARM))
 			{
-
+				playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().getValueOfDisconnectedAlarmCharacteristic(intent));
 			}
+			else if(intent.getAction().equals(TGBLEManager.ACTION_BLE_STATE_CHANGE))
+			{
+				int bleState = TGBLEManager.getBLEState(intent);
+				final TGBLEPeripheralInfo peripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
+				switch (bleState)
+				{
+					case TGBLEManager.BLE_STATE_CONNECTED:
+						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
+								HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+						onPeripheralChanged();
+						break;
+					case TGBLEManager.BLE_STATE_DISCONNECTED:
+						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
+								HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+						onPeripheralChanged();
+						showDisconnectedNotification();
+						break;
+
+					case TGBLEManager.BLE_STATE_NONSUPPORT:
+						HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(HomeActivity.this);
+						break;
+
+					default:
+						break;
+				}
+			}
+		}
+
+		private void showDisconnectedNotification()
+		{
+			TGNotificationBuilder builder = new TGNotificationBuilder(HomeActivity.this);
+			builder.setContentTitle("提示");
+			builder.setContentText("aaaaaaaaa");
+			builder.setSmallIcon(R.drawable.add_device);
+			NotificationManager.getInstanse().showNotification(HomeActivity.this, 0 ,builder);
 		}
 	};
 
@@ -111,6 +163,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		setBarTitleText(getString(R.string.app_name));
 
 		ButterKnife.bind(this);
+
+		connectedPeripheral = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
 
 		initViews();
 
@@ -155,10 +209,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 		showFunctionBoard();
 
-		bannerPagerView.setData(PeripheralDataManager.getAllPeripherals(this));
 		initSettingsBoard();
 
+		onPeripheralChanged();
+	}
+
+	private void onPeripheralChanged()
+	{
 		playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
+		List<PeripheralInfo> peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral);
+		bannerPagerView.setData(PeripheralDataManager.getAllPeripherals(this, connectedPeripheral));
+		if(null != connectedPeripheral)
+		{
+			bannerPagerView.setCurrentPage(peripheralInfos.indexOf(connectedPeripheral));
+		}
 	}
 
 	private void initSettingsBoard()
@@ -170,6 +234,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	private void initFunctionBtnRes()
 	{
 		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image, R.drawable.location_button_bg);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent)
+	{
+		super.onNewIntent(intent);
+		connectedPeripheral = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+		onPeripheralChanged();
 	}
 
 	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch,

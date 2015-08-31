@@ -200,7 +200,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
             HSApplication.getInstance().sendBroadcast(intent);
 
             //保存属性值
-            getCurrentPeripheral().putValue(POWER_CHARACTERISTIC_VALUE_KEY, (int)characteristic.getValue()[0]);
+            getCurrentPeripheral().setEnergy ((int)characteristic.getValue()[0]);
 
             //读取设备断开响铃设置
             handler.sendEmptyMessage(MESSAGE_READ_DISCONNECTED_ALARM);

@@ -5,5 +5,9 @@ package com.lepow.hiremote.bluetooth;
  */
 public class ScanNewPeripheralActivity extends ScanPeripheralActivity
 {
-
+    @Override
+    protected void scanDevice()
+    {
+        HSBLEPeripheralManager.getInstance().scanAndConnect2NewPeripheral();
+    }
 }

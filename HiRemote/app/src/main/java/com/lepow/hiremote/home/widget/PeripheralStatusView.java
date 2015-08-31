@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
+import com.lepow.hiremote.widget.CircleProgressBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
 import butterknife.ButterKnife;
@@ -19,6 +20,9 @@ import butterknife.FindView;
  */
 public class PeripheralStatusView extends LinearLayout
 {
+    @FindView(R.id.peripheral_power)
+    CircleProgressBar powerlProgressBar;
+
     @FindView(R.id.peripheral_image)
     CircleImageView peripheralImageView;
 
@@ -54,7 +58,7 @@ public class PeripheralStatusView extends LinearLayout
         this.peripheralInfo = peripheralInfo;
 
         peripheralNameView.setText(peripheralInfo.getPeripheralName());
-//        peripheralLocationView.setText(peripheralInfo.getLocation().getAddress());
+        powerlProgressBar.setProgress(peripheralInfo.getEnergy());
         //TODO 设置电量
     }
 
