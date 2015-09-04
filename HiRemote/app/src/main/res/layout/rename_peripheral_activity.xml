@@ -9,7 +9,7 @@
         android:layout_marginTop="@dimen/margin_val_120px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/camera_default"
+        android:src="@drawable/icon_device"
         android:layout_centerHorizontal="true"/>
 
     <TextView

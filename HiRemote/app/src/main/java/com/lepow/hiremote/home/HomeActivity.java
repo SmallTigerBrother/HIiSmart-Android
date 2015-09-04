@@ -185,7 +185,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	private void initViews()
 	{
 		showRightBarButton(true);
-		getRightBarButton().setImageResource(R.drawable.add_device);
+		getRightBarButton().setImageResource(R.drawable.navi_setting);
 		getRightBarButton().setOnClickListener(this);
 
 		showLeftBarButton(true);
@@ -370,4 +370,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		startActivity(Camera.class);
 	}
 
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		unregisterReceiver(broadcastReceiver);
+	}
 }

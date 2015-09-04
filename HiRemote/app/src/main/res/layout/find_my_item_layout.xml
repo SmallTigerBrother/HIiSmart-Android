@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/camera_selected"/>
+                android:src="@drawable/icon_device"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,6 +43,7 @@
                         android:layout_height="wrap_content"
                         android:text="lepow"
                         android:textColor="@color/text_color_normal"
+                        android:layout_gravity="bottom"
                         android:textSize="@dimen/text_size_38pt"/>
 
                     <ImageView
@@ -51,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/margin_val_40px"
-                        android:src="@drawable/add_device"/>
+                        android:src="@drawable/connect_rssi_yes"/>
 
                 </LinearLayout>
 

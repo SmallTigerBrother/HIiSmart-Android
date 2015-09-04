@@ -16,18 +16,23 @@
             android:id="@+id/peripheral_power"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            circle:progressDirection="-1"
             circle:min="0"
             circle:max="100"
-            circle:startAngle="0"
-            circle:progressBarColor="@android:color/black"
+            circle:startAngle="-90"
+            circle:progressBarColor="@color/default_green_bg"
             circle:progressBarThickness="@dimen/margin_val_16px"
-            circle:text=""
-            />
+            circle:progressBarAlpha="100"
+            circle:progressBarBackgroundColor="@android:color/white"
+            circle:progressBarBackgroundThickness="@dimen/margin_val_16px"
+            circle:progressBarBackgroundAlpha="100"
+            circle:text=""/>
 
         <com.mn.tiger.widget.imageview.CircleImageView
             android:id="@+id/peripheral_image"
             android:layout_width="@dimen/margin_val_144px"
             android:layout_height="@dimen/margin_val_144px"
+            android:src="@drawable/icon_device"
             android:layout_centerInParent="true"/>
 
 

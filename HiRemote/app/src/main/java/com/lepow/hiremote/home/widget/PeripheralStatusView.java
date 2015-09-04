@@ -59,7 +59,6 @@ public class PeripheralStatusView extends LinearLayout
 
         peripheralNameView.setText(peripheralInfo.getPeripheralName());
         powerlProgressBar.setProgress(peripheralInfo.getEnergy());
-        //TODO 设置电量
     }
 
     public void setPeripheralEnergy(int energy)

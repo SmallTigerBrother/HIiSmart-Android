@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_val_16px"
-            android:drawableLeft="@drawable/add_device"
+            android:drawableLeft="@drawable/location_icon"
             android:drawablePadding="@dimen/margin_val_10px"
             android:textColor="@color/color_val_c4c4c4"
             android:textSize="@dimen/text_size_26pt"/>

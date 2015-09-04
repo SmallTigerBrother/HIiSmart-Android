@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
@@ -75,6 +76,7 @@ public class RenamePeripheralActivity extends BaseActivity
         final EditText renameView = new EditText(this);
         renameView.setTextColor(getResources().getColor(R.color.text_color_normal));
         renameView.setText(peripheralInfo.getPeripheralName());
+        renameView.setSelection(peripheralInfo.getPeripheralName().length());
         int padding = getResources().getDimensionPixelSize(R.dimen.margin_val_20px);
         renameView.setPadding(padding, padding, padding,padding);
 
@@ -101,6 +103,8 @@ public class RenamePeripheralActivity extends BaseActivity
                 {
                     renamePeripheralBtn.setText(newName);
                 }
+                peripheralInfo.setPeripheralName(newName);
+                PeripheralDataManager.savePeripheral(RenamePeripheralActivity.this, peripheralInfo);
                 dialog.dismiss();
             }
         });

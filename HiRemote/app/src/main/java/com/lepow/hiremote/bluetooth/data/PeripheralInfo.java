@@ -1,6 +1,8 @@
 package com.lepow.hiremote.bluetooth.data;
 
+import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.datastorage.db.annotation.Transient;
 
@@ -10,13 +12,9 @@ public class PeripheralInfo implements Serializable
 {
 	private int _id;
 
-	private String UUID = "";
-
 	private int energy;
 	
-	private String peripheralImage;
-	
-	private String peripheralName;
+	private String peripheralName = "";
 	
 	private long syncTime;
 
@@ -25,6 +23,8 @@ public class PeripheralInfo implements Serializable
 
 	@Transient
 	private boolean connected = false;
+
+	private String macAddress = "";
 
 	public int get_id()
 	{
@@ -44,16 +44,6 @@ public class PeripheralInfo implements Serializable
 	public void setEnergy(int energy)
 	{
 		this.energy = energy;
-	}
-
-	public String getPeripheralImage()
-	{
-		return peripheralImage;
-	}
-
-	public void setPeripheralImage(String peripheralImage)
-	{
-		this.peripheralImage = peripheralImage;
 	}
 
 	public String getPeripheralName()
@@ -86,16 +76,15 @@ public class PeripheralInfo implements Serializable
 		return location;
 	}
 
-	public String getUUID()
+	public void setMacAddress(String macAddress)
 	{
-		return UUID;
+		this.macAddress = macAddress;
 	}
 
-	public void setUUID(String UUID)
+	public String getMacAddress()
 	{
-		this.UUID = UUID;
+		return macAddress;
 	}
-
 	public boolean isConnected()
 	{
 		return connected;
@@ -108,21 +97,28 @@ public class PeripheralInfo implements Serializable
 
 	public static PeripheralInfo fromBLEPeripheralInfo(TGBLEPeripheralInfo blePeripheralInfo)
 	{
-		PeripheralInfo peripheralInfo = new PeripheralInfo();
-		peripheralInfo.setPeripheralName(blePeripheralInfo.getPeripheralName());
-		peripheralInfo.setEnergy(blePeripheralInfo.getEnergy());
+		if(null != blePeripheralInfo)
+		{
+			PeripheralInfo peripheralInfo = PeripheralDataManager.findPeripheral(TGApplication.getInstance(), blePeripheralInfo.getMacAddress());
+			if(peripheralInfo.equals(NULL_OBJECT))
+			{
+				peripheralInfo = new PeripheralInfo();
+				peripheralInfo.setPeripheralName(blePeripheralInfo.getPeripheralName());
+				peripheralInfo.setMacAddress(blePeripheralInfo.getMacAddress());
+			}
 
-		return peripheralInfo;
+			peripheralInfo.setEnergy(blePeripheralInfo.getEnergy());
+			peripheralInfo.setConnected(true);
+			return peripheralInfo;
+		}
+		else
+		{
+			return  NULL_OBJECT;
+		}
 	}
 
-	public static PeripheralInfo NULL_OBJECT = new PeripheralInfo()
+	public static final PeripheralInfo NULL_OBJECT = new PeripheralInfo()
 	{
-		@Override
-		public String getUUID()
-		{
-			return super.getUUID();
-		}
-
 		@Override
 		public int getEnergy()
 		{
@@ -132,13 +128,7 @@ public class PeripheralInfo implements Serializable
 		@Override
 		public String getPeripheralName()
 		{
-			return "无设备";
-		}
-
-		@Override
-		public String getPeripheralImage()
-		{
-			return "add_device";
+			return TGApplication.getInstance().getString(R.string.no_device);
 		}
 	};
 }

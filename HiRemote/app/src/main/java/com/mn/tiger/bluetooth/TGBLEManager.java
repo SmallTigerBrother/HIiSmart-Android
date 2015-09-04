@@ -302,6 +302,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     bluetoothGattCallback);
             currentPeripheral = new TGBLEPeripheralInfo();
             currentPeripheral.setPeripheralName(device.getName());
+            currentPeripheral.setMacAddress(bluetoothGatt.getDevice().getAddress());
         }
 
         handler.sendEmptyMessage(MESSAGE_STOP_SCAN);
@@ -411,7 +412,10 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     break;
 
                 case BluetoothProfile.STATE_DISCONNECTED:
-                    sendBroadcast(BLE_STATE_DISCONNECTED, currentPeripheral);
+
+                    lastPeripheral = currentPeripheral;
+                    currentPeripheral = null;
+                    sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
                     break;
             }
         }

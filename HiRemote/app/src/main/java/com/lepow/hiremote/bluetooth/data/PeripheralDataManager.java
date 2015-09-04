@@ -1,6 +1,7 @@
 package com.lepow.hiremote.bluetooth.data;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
@@ -37,21 +38,7 @@ public class PeripheralDataManager
 			{
 				return getDefaultPeriperalInfos();
 			}
-			else
-			{
-				if(null != connectedPeripheral)
-				{
-					for(int i = 0 ; i < peripheralInfos.size(); i++)
-					{
-						if(peripheralInfos.get(i).getUUID().equals(connectedPeripheral.getUUID()))
-						{
-							peripheralInfos.set(i, connectedPeripheral);
-							break;
-						}
-					}
-				}
-				return peripheralInfos;
-			}
+			return peripheralInfos;
 		}
 		catch (DbException e)
 		{
@@ -73,14 +60,14 @@ public class PeripheralDataManager
 		{
 			try
 			{
-				PeripheralInfo savedPeripheral = getDBManager(context).findFirst(peripheralInfo.getClass(), WhereBuilder.b("uuid", "=", peripheralInfo.getUUID()));
+				PeripheralInfo savedPeripheral = getDBManager(context).findFirst(peripheralInfo.getClass(), WhereBuilder.b("macAddress", "=", peripheralInfo.getMacAddress()));
 				if(null == savedPeripheral)
 				{
 					getDBManager(context).save(peripheralInfo);
 				}
 				else
 				{
-					getDBManager(context).update(peripheralInfo, WhereBuilder.b("uuid", "=", peripheralInfo.getUUID()));
+					getDBManager(context).update(peripheralInfo, WhereBuilder.b("macAddress", "=", peripheralInfo.getMacAddress()));
 				}
 			}
 			catch (DbException e)
@@ -88,6 +75,23 @@ public class PeripheralDataManager
 				LOG.e(e);
 			}
 		}
+	}
+
+	public static PeripheralInfo findPeripheral(Context context, String macAddress)
+	{
+		if(!TextUtils.isEmpty(macAddress))
+		{
+			try
+			{
+				PeripheralInfo savedPeripheral = getDBManager(context).findFirst(PeripheralInfo.class, WhereBuilder.b("macAddress", "=", macAddress));
+				return savedPeripheral != null ? savedPeripheral : PeripheralInfo.NULL_OBJECT;
+			}
+			catch (DbException e)
+			{
+				LOG.e(e);
+			}
+		}
+		return PeripheralInfo.NULL_OBJECT;
 	}
 
 }

@@ -51,7 +51,7 @@ public class ScanPeripheralActivity extends BaseActivity
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
 	{
 		@Override
-		public void onReceive(Context context, Intent intent)
+		public void onReceive(final Context context, Intent intent)
 		{
 			int bleState = TGBLEManager.getBLEState(intent);
 			final TGBLEPeripheralInfo peripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
@@ -66,7 +66,7 @@ public class ScanPeripheralActivity extends BaseActivity
 						@Override
 						public void run()
 						{
-							gotoRenamePeripheralActivity(PeripheralInfo.fromBLEPeripheralInfo(peripheralInfo));
+							gotoRenamePeripheralActivity(PeripheralDataManager.findPeripheral(context, peripheralInfo.getMacAddress()));
 							finish();
 						}
 					}, 1000);

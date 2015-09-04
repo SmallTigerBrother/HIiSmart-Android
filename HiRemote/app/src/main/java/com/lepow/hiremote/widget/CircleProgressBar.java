@@ -91,7 +91,7 @@ public class CircleProgressBar extends View
             min = typedArray.getInt(R.styleable.CircleProgressBar_min, min);
             max = typedArray.getInt(R.styleable.CircleProgressBar_max, max);
             alpha = typedArray.getFloat(R.styleable.CircleProgressBar_progressBarAlpha, alpha);
-            direction = typedArray.getInt(R.styleable.CircleProgressBar_direction, direction);
+            direction = typedArray.getInt(R.styleable.CircleProgressBar_progressDirection, direction);
             startAngle = typedArray.getInt(R.styleable.CircleProgressBar_startAngle, startAngle);
             backgroundAlpha = typedArray.getFloat(R.styleable.CircleProgressBar_progressBarBackgroundAlpha, backgroundAlpha);
             backgroundColor = typedArray.getInt(R.styleable.CircleProgressBar_progressBarBackgroundColor, backgroundColor);

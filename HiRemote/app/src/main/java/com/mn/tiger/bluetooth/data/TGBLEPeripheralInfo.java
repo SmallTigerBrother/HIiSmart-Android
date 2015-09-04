@@ -2,7 +2,6 @@ package com.mn.tiger.bluetooth.data;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class TGBLEPeripheralInfo implements Serializable
 {
@@ -10,7 +9,7 @@ public class TGBLEPeripheralInfo implements Serializable
 	
 	private String peripheralName;
 
-	private UUID UUID;
+	private String macAddress;
 
 	private HashMap<String, Object> values = new HashMap<String, Object>();
 	
@@ -34,14 +33,14 @@ public class TGBLEPeripheralInfo implements Serializable
 		this.peripheralName = peripheralName;
 	}
 
-	public void setUUID(java.util.UUID UUID)
+	public void setMacAddress(String macAddress)
 	{
-		this.UUID = UUID;
+		this.macAddress = macAddress;
 	}
 
-	public java.util.UUID getUUID()
+	public String getMacAddress()
 	{
-		return UUID;
+		return macAddress;
 	}
 
 	public void putValue(String key, Object value)
