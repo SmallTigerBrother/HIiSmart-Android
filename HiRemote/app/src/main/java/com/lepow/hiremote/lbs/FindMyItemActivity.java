@@ -110,18 +110,16 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         mapManager = new AMapManager(this);
         mapManager.init(mapContainer, savedInstanceState);
-        if(null != locationInfo)
+        if(null == locationInfo)
         {
             locationInfo = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this).get(0);
-            if(null != locationInfo)
-            {
-                //            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
-                //                    locationInfo.getAddress());
+        }
 
-                mapManager.addMarker(Double.valueOf(22.61667), Double.valueOf(114.06667),
-                        "上海");
-                mapManager.centerTo(Double.valueOf(22.61667), Double.valueOf(114.06667));
-            }
+        if(null != locationInfo)
+        {
+            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                    locationInfo.getAddress());
+            mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
         }
     }
 

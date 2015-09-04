@@ -65,6 +65,8 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		ButterKnife.bind(this);
 		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_PINNED_LOCATION));
 
+		searchView.setQueryTextColor(getResources().getColor(R.color.text_color_normal));
+
 		listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
 		listView.setMenuCreator(new SwipeMenuCreator()
 		{
@@ -142,6 +144,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		if(null == results || results.size() == 0)
 		{
 			//TODO 显示未搜索到结果的提示界面
+			listAdapter.updateData(results);
 		}
 		else
 		{

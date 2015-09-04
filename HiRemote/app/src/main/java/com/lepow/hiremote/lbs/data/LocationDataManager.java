@@ -107,7 +107,7 @@ public class LocationDataManager
 			return getLocationDBManager(context).findAll(Selector
 					.from(LocationInfo.class)
 					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
-					.orderBy("timestamp")
+					.orderBy("timestamp", true)
 					.and("address", "like", queryText)
 					.or("remark", "like", queryText));
 		}
@@ -151,7 +151,7 @@ public class LocationDataManager
 			return getLocationDBManager(context).findAll(Selector
 					.from(LocationInfo.class)
 					.where("dataType", "=", LocationInfo.DATA_TYPE_DISCONNECT_LOCATION)
-					.orderBy("timestamp"));
+					.orderBy("timestamp", true));
 		}
 		catch (DbException e)
 		{
@@ -167,7 +167,7 @@ public class LocationDataManager
 			return getLocationDBManager(context).findFirst(Selector
 					.from(LocationInfo.class)
 					.where("dataType", "=", LocationInfo.DATA_TYPE_DISCONNECT_LOCATION)
-					.orderBy("timestamp"));
+					.orderBy("timestamp", true));
 		}
 		catch (DbException e)
 		{
@@ -183,7 +183,7 @@ public class LocationDataManager
 			return getLocationDBManager(context).findAll(Selector
 					.from(LocationInfo.class)
 					.where("dataType", "=", LocationInfo.DATA_TYPE_DISCONNECT_LOCATION)
-					.orderBy("timestamp")
+					.orderBy("timestamp", true)
 					.and("address", "like", queryText)
 					.or("remark", "like", queryText));
 		}
