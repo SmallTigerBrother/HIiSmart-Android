@@ -21,7 +21,7 @@ public class BaseActivity extends TGActionBarActivity
 	{
 		super.initNavigationResource(navigationBar);
 		navigationBar.setBackgroundColor(Color.TRANSPARENT);
-		navigationBar.getLeftNaviButton().setImageResource(R.drawable.add_device);
+		navigationBar.getLeftNaviButton().setImageResource(R.drawable.navi_back);
 		navigationBar.getMiddleTextView().setTextColor(getResources().getColor(R.color.text_color_normal));
 		navigationBar.getLeftNaviButton().setOnClickListener(new View.OnClickListener()
 		{
