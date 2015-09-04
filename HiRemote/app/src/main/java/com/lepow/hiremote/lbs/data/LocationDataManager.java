@@ -1,10 +1,12 @@
 package com.lepow.hiremote.lbs.data;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
 import com.mn.tiger.datastorage.db.sqlite.Selector;
+import com.mn.tiger.datastorage.db.sqlite.WhereBuilder;
 import com.mn.tiger.log.Logger;
 
 import java.util.ArrayList;
@@ -74,18 +76,6 @@ public class LocationDataManager
 
 	public List<LocationInfo> findAllPinnedLocationSortByTime(Context context)
 	{
-//		ArrayList<LocationInfo> locationInfos = new ArrayList<LocationInfo>();
-//
-//		for (int i = 0; i < 20; i++)
-//		{
-//			LocationInfo locationInfo = new LocationInfo();
-//			locationInfo.setAddress("广东省深圳市南山区龙珠大道72号");
-//			locationInfo.setTimestamp(System.currentTimeMillis());
-//			locationInfos.add(locationInfo);
-//		}
-//
-//		return locationInfos;
-
 		try
 		{
 			return getLocationDBManager(context).findAll(Selector
@@ -104,12 +94,20 @@ public class LocationDataManager
 	{
 		try
 		{
-			return getLocationDBManager(context).findAll(Selector
-					.from(LocationInfo.class)
-					.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
-					.orderBy("timestamp", true)
-					.and("address", "like", queryText)
-					.or("remark", "like", queryText));
+			if(TextUtils.isEmpty(queryText))
+			{
+				return getLocationDBManager(context).findAll(Selector
+						.from(LocationInfo.class)
+						.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
+						.orderBy("timestamp", true));
+			}
+			else
+			{
+				return getLocationDBManager(context).findAll(Selector
+						.from(LocationInfo.class)
+						.where("dataType", "=", LocationInfo.DATA_TYPE_PINNED_LOCATION)
+						.orderBy("timestamp", true).and(WhereBuilder.b("address", "like", "%" + queryText + "%").or("remark", "like", "%" + queryText + "%")));
+			}
 		}
 		catch (DbException e)
 		{

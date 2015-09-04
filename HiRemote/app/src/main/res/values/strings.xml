@@ -103,6 +103,7 @@
     <string name="reset_password_tips">We will send an email to your email box, you can reset your password by  the email.</string>
 
     <string name="location_history">Location History</string>
+    <string name="location">Location</string>
     <string name="disconnection_history">Disconnection History</string>
     <string name="make_sure_you_delete_location">Do you make sure that you want to delete this location</string>
     <string name="find_my_item_title">Find My Item</string>

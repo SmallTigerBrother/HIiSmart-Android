@@ -76,4 +76,10 @@ public class GoogleMapManager implements IMapManager
         Marker marker = googleMap.addMarker(markerOptions);
         marker.showInfoWindow();
     }
+
+    @Override
+    public void showMyLocation()
+    {
+
+    }
 }

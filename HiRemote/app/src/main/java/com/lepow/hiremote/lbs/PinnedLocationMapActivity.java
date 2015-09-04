@@ -7,7 +7,6 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.lbs.api.AMapManager;
 import com.lepow.hiremote.lbs.api.IMapManager;
-import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.widget.TGNavigationBar;
@@ -34,6 +33,7 @@ public class PinnedLocationMapActivity extends BaseActivity
 		
 		ButterKnife.bind(this);
 
+		setBarTitleText(getString(R.string.location_history));
 		initMapView(savedInstanceState, locationInfo);
 	}
 
@@ -48,6 +48,7 @@ public class PinnedLocationMapActivity extends BaseActivity
 					locationInfo.getAddress());
 			mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
 		}
+		mapManager.showMyLocation();
 	}
 
 	@Override

@@ -110,10 +110,6 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         mapManager = new AMapManager(this);
         mapManager.init(mapContainer, savedInstanceState);
-        if(null == locationInfo)
-        {
-            locationInfo = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this).get(0);
-        }
 
         if(null != locationInfo)
         {
