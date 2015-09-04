@@ -20,5 +20,7 @@
 
     <color name="recording_time_elapsed_text">#FFFFFFFF</color>
     <color name="recording_time_remaining_text">#FFFF0033</color>
+    <color name="energy_yellow">#ff00ff</color>
+    <color name="energy_red">#ff0000</color>
 
 </resources>

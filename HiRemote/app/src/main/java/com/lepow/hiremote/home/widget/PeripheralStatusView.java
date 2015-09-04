@@ -58,7 +58,22 @@ public class PeripheralStatusView extends LinearLayout
         this.peripheralInfo = peripheralInfo;
 
         peripheralNameView.setText(peripheralInfo.getPeripheralName());
-        powerlProgressBar.setProgress(peripheralInfo.getEnergy());
+
+        int energy = peripheralInfo.getEnergy();
+        if(energy <= 30)
+        {
+            powerlProgressBar.setColor(getResources().getColor(R.color.energy_red));
+        }
+        else if(energy <= 60)
+        {
+            powerlProgressBar.setColor(getResources().getColor(R.color.energy_yellow));
+        }
+        else
+        {
+            powerlProgressBar.setColor(getResources().getColor(R.color.default_green_bg));
+        }
+
+        powerlProgressBar.setProgress(energy);
     }
 
     public void setPeripheralEnergy(int energy)
