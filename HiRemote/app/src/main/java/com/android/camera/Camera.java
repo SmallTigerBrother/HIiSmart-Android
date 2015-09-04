@@ -50,7 +50,6 @@ import android.os.Message;
 import android.os.MessageQueue;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -2237,36 +2236,6 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
                 getString(R.string.confirm_restore_title),
                 getString(R.string.confirm_restore_message),
                 runnable);
-    }
-}
-
-class FocusRectangle extends View {
-
-    @SuppressWarnings("unused")
-    private static final String TAG = "FocusRectangle";
-
-    public FocusRectangle(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    private void setDrawable(int resid) {
-        setBackgroundDrawable(getResources().getDrawable(resid));
-    }
-
-    public void showStart() {
-        setDrawable(R.drawable.focus_focusing);
-    }
-
-    public void showSuccess() {
-        setDrawable(R.drawable.focus_focused);
-    }
-
-    public void showFail() {
-        setDrawable(R.drawable.focus_focus_failed);
-    }
-
-    public void clear() {
-        setBackgroundDrawable(null);
     }
 }
 
