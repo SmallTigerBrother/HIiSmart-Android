@@ -1,5 +1,7 @@
 package com.lepow.hiremote.lbs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +15,11 @@ import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.lbs.api.AMapManager;
 import com.lepow.hiremote.lbs.api.IMapManager;
+import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
+import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
@@ -43,11 +47,28 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     @FindView(R.id.mapview_container)
     FrameLayout mapContainer;
 
-    private PeripheralInfo deviceInfo;
+    PeripheralInfo peripheralInfo;
 
     private LocationInfo locationInfo;
 
     private IMapManager mapManager;
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int bleState = TGBLEManager.getBLEState(intent);
+            switch (bleState)
+            {
+                case TGBLEManager.BLE_STATE_CONNECTED:
+                case TGBLEManager.BLE_STATE_DISCONNECTED:
+                    initPeripheralStatusView();
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -57,38 +78,50 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         ButterKnife.bind(this);
         setBarTitleText(getString(R.string.find_my_item_title));
         showRightBarButton(true);
-        getRightBarButton().setImageResource(R.drawable.add_device);
+        getRightBarButton().setText(getString(R.string.history));
         getRightBarButton().setOnClickListener(this);
 
-        deviceInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+        initPeripheralStatusView();
 
-//        deviceAvatarView.setImageResource(CR.getDrawableId(this, deviceInfo.getPeripheralImage()));
-//        deviceName.setText(deviceInfo.getPeripheralName());
-//        deviceLocationView.setText(deviceInfo.getLocation().getAddress());
-
-//        if(deviceInfo.getState() == TGBluetoothManager.ConnectState.Connected)
-//        {
-//
-//        }
-//        else
-//        {
-//
-//        }
-
-        locationInfo = (LocationInfo)getIntent().getSerializableExtra(IntentKeys.LOCATION_INFO);
-
+        locationInfo = LocationDataManager.getInstance().findLatestDisconnectedLocation(this);
         initMapView(savedInstanceState, locationInfo);
+    }
+
+    private void initPeripheralStatusView()
+    {
+        peripheralInfo = PeripheralInfo.fromBLEPeripheralInfo(HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+
+        deviceName.setText(peripheralInfo.getPeripheralName());
+        deviceLocationView.setText("");
+
+        if(peripheralInfo.isConnected())
+        {
+            deviceAvatarView.setImageResource(R.drawable.icon_device);
+            connectStatusView.setImageResource(R.drawable.connect_rssi_yes);
+        }
+        else
+        {
+            deviceAvatarView.setImageResource(R.drawable.icon_device_disconnected);
+            connectStatusView.setImageResource(R.drawable.connect_rssi_no);
+        }
     }
 
     private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
     {
         mapManager = new AMapManager(this);
         mapManager.init(mapContainer, savedInstanceState);
-
         if(null != locationInfo)
         {
-            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
-                    locationInfo.getAddress());
+            locationInfo = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this).get(0);
+            if(null != locationInfo)
+            {
+                //            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                //                    locationInfo.getAddress());
+
+                mapManager.addMarker(Double.valueOf(22.61667), Double.valueOf(114.06667),
+                        "上海");
+                mapManager.centerTo(Double.valueOf(22.61667), Double.valueOf(114.06667));
+            }
         }
     }
 

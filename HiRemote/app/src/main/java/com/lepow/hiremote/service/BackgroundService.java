@@ -9,6 +9,7 @@ import android.os.IBinder;
 
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
+import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.record.data.RecordDataManager;
@@ -110,7 +111,11 @@ public class BackgroundService extends Service
 			public void onReceiveLocation(TGLocation location)
 			{
 				LocationInfo locationInfo = LocationInfo.fromLocation(location);
+				LocationDataManager.getInstance().savePinnedLocation(BackgroundService.this, locationInfo);
 				LOG.d("[Method:onReceiveLocation] " + locationInfo.getAddress());
+
+				Intent intent = new Intent(IntentAction.ACTION_PINNED_LOCATION);
+				sendBroadcast(intent);
 			}
 		});
 

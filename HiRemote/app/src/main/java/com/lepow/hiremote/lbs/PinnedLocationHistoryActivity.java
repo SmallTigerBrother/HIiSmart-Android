@@ -1,7 +1,10 @@
 package com.lepow.hiremote.lbs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import com.lepow.hiremote.lbs.adapter.LocationViewHolder;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
+import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.widget.TGNavigationBar;
@@ -42,6 +46,15 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 	SwipeMenuListView listView;
 	
 	private TGListAdapter<LocationInfo> listAdapter;
+
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			listAdapter.updateData(LocationDataManager.getInstance().findAllPinnedLocationSortByTime(PinnedLocationHistoryActivity.this));
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -50,6 +63,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		setContentView(R.layout.pinned_location_history);
 		setBarTitleText(getString(R.string.location_history));
 		ButterKnife.bind(this);
+		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_PINNED_LOCATION));
 
 		listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
 		listView.setMenuCreator(new SwipeMenuCreator()
@@ -58,13 +72,13 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 			public void create(SwipeMenu swipeMenu)
 			{
 				SwipeMenuItem editItem = new SwipeMenuItem(PinnedLocationHistoryActivity.this);
-				editItem.setIcon(R.drawable.add_device);
+				editItem.setIcon(R.drawable.location_edit);
 				editItem.setBackground(new ColorDrawable(getResources().getColor(R.color.color_val_d9d9d9)));
 				editItem.setWidth(getResources().getDimensionPixelSize(R.dimen.margin_val_120px));
 				swipeMenu.addMenuItem(editItem);
 
 				SwipeMenuItem deleteItem = new SwipeMenuItem(PinnedLocationHistoryActivity.this);
-				deleteItem.setIcon(R.drawable.add_device);
+				deleteItem.setIcon(R.drawable.location_trash);
 				deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.color_val_d9d9d9)));
 				deleteItem.setWidth(getResources().getDimensionPixelSize(R.dimen.margin_val_120px));
 				swipeMenu.addMenuItem(deleteItem);
@@ -95,6 +109,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		listAdapter = new TGListAdapter<LocationInfo>(this,
 				LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this),
 				R.layout.location_list_item, LocationViewHolder.class);
+		listAdapter.setStrictlyReuse(true);
 		listView.setAdapter(listAdapter);
 
 		listView.setOnItemClickListener(this);
@@ -110,7 +125,9 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
-
+		Intent intent = new Intent(this, PinnedLocationMapActivity.class);
+		intent.putExtra(IntentKeys.LOCATION_INFO, (LocationInfo)listAdapter.getItem(position));
+		startActivity(intent);
 	}
 
 	/**
@@ -225,6 +242,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		editText.setBackgroundColor(Color.TRANSPARENT);
 		editText.setTextColor(getResources().getColor(R.color.text_color_normal));
 		editText.setText(locationInfo.getAddress());
+		editText.setSelection(locationInfo.getAddress().length());
 		ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		editText.setPadding(getResources().getDimensionPixelSize(R.dimen.margin_val_20px),
@@ -275,4 +293,10 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		dialog.show();
 	}
 
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		this.unregisterReceiver(broadcastReceiver);
+	}
 }

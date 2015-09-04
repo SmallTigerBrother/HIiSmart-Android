@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
@@ -16,6 +18,7 @@ import com.amap.api.maps2d.model.MarkerOptions;
 public class AMapManager implements  IMapManager
 {
     private MapView mapView;
+
     private AMap aMap;
 
     private Activity activity;
@@ -40,7 +43,7 @@ public class AMapManager implements  IMapManager
 
     private void setUpMap()
     {
-        //TODO 初始化地图
+        aMap.setMyLocationEnabled(true);
     }
 
     public void addMarker(double latitude, double langitude, String title)
@@ -52,6 +55,13 @@ public class AMapManager implements  IMapManager
         Marker marker = aMap.addMarker(markerOptions);
 
         marker.showInfoWindow();
+    }
+
+    @Override
+    public void centerTo(double latitude, double longitude)
+    {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 17);
+        aMap.moveCamera(cameraUpdate);
     }
 
     @Override

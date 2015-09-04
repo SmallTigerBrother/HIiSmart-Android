@@ -28,12 +28,12 @@ public class LocationInfo implements Serializable
 	/**
 	 * 用户Id
 	 */
-	private String userId;
+	private String userId = "";
 
 	/**
 	 * 蓝牙模块UUID
 	 */
-	private String peripheralUUID;
+	private String peripheralUUID = "";
 
 	/**
 	 * 定位时间
@@ -48,22 +48,22 @@ public class LocationInfo implements Serializable
 	/**
 	 * 经度
 	 */
-	private String latitude;
+	private String latitude ="";
 
 	/**
 	 * 纬度
 	 */
-	private String longitude;
+	private String longitude = "";
 
 	/**
 	 * 地址信息
 	 */
-	private String address;
+	private String address = "";
 
 	/**
 	 * 备注
 	 */
-	private String remark;
+	private String remark = "";
 
 	/**
 	 * 数据类型

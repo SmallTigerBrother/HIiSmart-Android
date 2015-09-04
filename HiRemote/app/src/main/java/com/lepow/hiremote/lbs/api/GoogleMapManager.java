@@ -37,6 +37,12 @@ public class GoogleMapManager implements IMapManager
     }
 
     @Override
+    public void centerTo(double latitude, double longitude)
+    {
+
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState)
     {
         mapView.onSaveInstanceState(outState);

@@ -27,8 +27,11 @@ public class AMapLocationManager implements ILocationManager
         @Override
         public void onLocationChanged(final AMapLocation aMapLocation)
         {
-            LOG.d("[Method:onLocationChanged] Provider == " + aMapLocation.getProvider());
+            LOG.d("[Method:onLocationChanged] Provider == " + aMapLocation.getProvider() + "  lat == " +
+                    aMapLocation.getLatitude() + "  lng == " + aMapLocation.getLongitude());
 
+            final TGLocation tgLocation = TGLocation.initWith(aMapLocation);
+            tgLocation.setTime(System.currentTimeMillis());
             if(aMapLocation.getProvider() == LocationManagerProxy.GPS_PROVIDER)
             {
                 //使用高德地址解析功能在进行解析地址
@@ -40,8 +43,7 @@ public class AMapLocationManager implements ILocationManager
                         LOG.d("[Method:onGeoCodingSuccess]");
                         if(null != listener)
                         {
-                            TGLocation tgLocation = TGLocation.initWith(aMapLocation);
-                            tgLocation.setTime(System.currentTimeMillis());
+
                             if(result.getResults().size() > 0)
                             {
                                 AddressResult addressResult = result.getResults().get(0);
@@ -61,7 +63,7 @@ public class AMapLocationManager implements ILocationManager
             }
             else
             {
-                listener.onReceiveLocation(TGLocation.initWith(aMapLocation));
+                listener.onReceiveLocation(tgLocation);
             }
         }
 

@@ -19,4 +19,6 @@ public interface IMapManager
     void onPause();
 
     void addMarker(double latitude, double langitude, String title);
+
+    void centerTo(double latitude, double longitude);
 }
