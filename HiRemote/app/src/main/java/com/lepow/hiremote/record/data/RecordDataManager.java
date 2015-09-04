@@ -46,19 +46,9 @@ public class RecordDataManager
 	
 	public List<RecordInfo> findAllRecordsSortByTime(Context context)
 	{
-//		RecordInfo recordInfo = new RecordInfo();
-//		recordInfo.setDuration(6000);
-//		recordInfo.setFileName("test.aac");
-//		recordInfo.setTimestamp(System.currentTimeMillis());
-//		recordInfo.setTitle("New Record");
-//
-//		ArrayList<RecordInfo> recordInfos = new ArrayList<RecordInfo>();
-//		recordInfos.add(recordInfo);
-//
-//		return recordInfos;
 		try
 		{
-			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("time"));
+			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp"));
 		}
 		catch (DbException e)
 		{
@@ -71,8 +61,8 @@ public class RecordDataManager
 	{
 		try
 		{
-			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("time")
-					.and("name", "like", queryText));
+			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp")
+					.and("name", "like", "%" + queryText + "%"));
 		}
 		catch (DbException e)
 		{

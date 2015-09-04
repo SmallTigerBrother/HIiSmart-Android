@@ -47,6 +47,8 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 		setBarTitleText(getString(R.string.voice_memo));
 		ButterKnife.bind(this);
 
+		searchView.setQueryTextColor(getResources().getColor(R.color.text_color_normal));
+
 		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstance().findAllRecordsSortByTime(this),
 			R.layout.record_history_list_item, RecordListViewHolder.class);
 		listView.setAdapter(listAdapter);
