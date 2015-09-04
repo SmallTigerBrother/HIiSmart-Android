@@ -34,6 +34,8 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
 
     <!-- 这个权限用于进行网络定位-->
@@ -156,6 +158,10 @@
                   android:clearTaskOnLaunch="true"
                   android:taskAffinity="android.task.camcorder">
         </activity>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="5ff07ccc07223944400879bad95e1b42"/>
 
     </application>
 
