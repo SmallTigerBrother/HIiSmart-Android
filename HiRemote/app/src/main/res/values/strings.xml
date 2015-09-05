@@ -47,12 +47,12 @@
     <string name="contact_us">Contact Us</string>
     <string name="support_faq">Support and FAQs</string>
     <string name="retry">Retry</string>
-    <string name="open_bluetooth_now">立刻开启</string>
+    <string name="open_bluetooth_now">Turn On</string>
     <string name="bluetooth_off_tips">Turn on Bluetooth...</string>
     <string name="nonsupport_bluetooth_tips">Oops! Your device is not support Bluetooth 4.0!</string>
     <string name="not_found_new_peripheral_tips">Oops! Can not find new peripheral! Do you want to connect the old one?</string>
     <string name="buzz_my_item">Buzz my item</string>
-    <string name="connect_old_peripheral">连接旧设备</string>
+    <string name="connect_old_peripheral">Connect to last device</string>
     <string name="oops">Oops.</string>
     <string name="not_found_peripheral_tips">It looks like we can\'t find it, let\'t try again!</string>
     <string name="have_a_problem">have a problem</string>

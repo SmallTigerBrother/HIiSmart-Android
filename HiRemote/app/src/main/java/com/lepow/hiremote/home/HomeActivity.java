@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.Button;
@@ -96,6 +97,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 	private HashMap<Integer, Integer> highlightFunctionBtnResMap;
 
+	private Handler handler = new Handler();
+
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -116,19 +119,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 			else if(intent.getAction().equals(TGBLEManager.ACTION_BLE_STATE_CHANGE))
 			{
 				int bleState = TGBLEManager.getBLEState(intent);
-				final TGBLEPeripheralInfo peripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
+				TGBLEPeripheralInfo tgblePeripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
 				switch (bleState)
 				{
 					case TGBLEManager.BLE_STATE_CONNECTED:
-						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
-								HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(tgblePeripheralInfo);
 						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+						connectedPeripheral.setConnected(true);
 						onPeripheralChanged();
 						break;
 					case TGBLEManager.BLE_STATE_DISCONNECTED:
-						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
-								HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
-						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+						connectedPeripheral = PeripheralInfo.NULL_OBJECT;
 						onPeripheralChanged();
 						showDisconnectedNotification();
 						break;
@@ -149,7 +150,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 			builder.setContentTitle("提示");
 			builder.setContentText("aaaaaaaaa");
 			builder.setSmallIcon(R.drawable.add_device);
-			NotificationManager.getInstanse().showNotification(HomeActivity.this, 0 ,builder);
+			builder.setClass(HomeActivity.class);
+			NotificationManager.getInstanse().showNotification(HomeActivity.this, 0, builder);
 		}
 	};
 
@@ -164,14 +166,26 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 		ButterKnife.bind(this);
 
-		connectedPeripheral = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+		PeripheralInfo peripheralInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+		connectedPeripheral = null != peripheralInfo ? peripheralInfo : PeripheralInfo.NULL_OBJECT;
 
 		initViews();
 
-		//检测更新
-		TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
-		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
-		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
+		handler.postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				//检测更新
+				TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
+				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
+				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
+				registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
+
+				//读取蓝牙设备特征值
+				HSBLEPeripheralManager.getInstance().readAllCharacteristics();
+			}
+		}, 1000);
 	}
 
 	@Override
@@ -218,8 +232,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	{
 		playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
 		List<PeripheralInfo> peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral);
-		bannerPagerView.setData(PeripheralDataManager.getAllPeripherals(this, connectedPeripheral));
-		if(null != connectedPeripheral)
+		bannerPagerView.setData(peripheralInfos);
+		if(!connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 		{
 			bannerPagerView.setCurrentPage(peripheralInfos.indexOf(connectedPeripheral));
 		}
@@ -240,7 +254,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	protected void onNewIntent(Intent intent)
 	{
 		super.onNewIntent(intent);
-		connectedPeripheral = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+		PeripheralInfo peripheralInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
+		connectedPeripheral = null != peripheralInfo ? peripheralInfo : PeripheralInfo.NULL_OBJECT;
+
 		onPeripheralChanged();
 	}
 

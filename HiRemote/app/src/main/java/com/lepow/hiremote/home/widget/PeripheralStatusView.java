@@ -1,6 +1,7 @@
 package com.lepow.hiremote.home.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import butterknife.FindView;
 public class PeripheralStatusView extends LinearLayout
 {
     @FindView(R.id.peripheral_power)
-    CircleProgressBar powerlProgressBar;
+    CircleProgressBar powerProgressBar;
 
     @FindView(R.id.peripheral_image)
     CircleImageView peripheralImageView;
@@ -56,24 +57,32 @@ public class PeripheralStatusView extends LinearLayout
     public void setData(PeripheralInfo peripheralInfo)
     {
         this.peripheralInfo = peripheralInfo;
-
-        peripheralNameView.setText(peripheralInfo.getPeripheralName());
-
         int energy = peripheralInfo.getEnergy();
-        if(energy <= 30)
+
+        if(peripheralInfo.isConnected())
         {
-            powerlProgressBar.setColor(getResources().getColor(R.color.energy_red));
-        }
-        else if(energy <= 60)
-        {
-            powerlProgressBar.setColor(getResources().getColor(R.color.energy_yellow));
+            peripheralImageView.setImageResource(R.drawable.icon_device);
+            if(energy <= 30)
+            {
+                powerProgressBar.setColor(getResources().getColor(R.color.energy_red));
+            }
+            else if(energy <= 60)
+            {
+                powerProgressBar.setColor(getResources().getColor(R.color.energy_yellow));
+            }
+            else
+            {
+                powerProgressBar.setColor(getResources().getColor(R.color.default_green_bg));
+            }
         }
         else
         {
-            powerlProgressBar.setColor(getResources().getColor(R.color.default_green_bg));
+            peripheralImageView.setImageResource(R.drawable.icon_device_disconnected);
+            powerProgressBar.setColor(Color.BLACK);
         }
 
-        powerlProgressBar.setProgress(energy);
+        peripheralNameView.setText(peripheralInfo.getPeripheralName());
+        powerProgressBar.setProgress(energy);
     }
 
     public void setPeripheralEnergy(int energy)

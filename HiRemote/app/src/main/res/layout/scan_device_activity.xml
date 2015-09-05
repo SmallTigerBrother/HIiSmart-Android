@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_val_120px"
+            android:layout_marginTop="@dimen/margin_val_86px"
             android:text="@string/add_a_hismart"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_40pt"/>

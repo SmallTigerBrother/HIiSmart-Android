@@ -3,7 +3,7 @@ package com.mn.tiger.bluetooth.data;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class TGBLEPeripheralInfo implements Serializable
+public class TGBLEPeripheralInfo implements Serializable, Cloneable
 {
 	private int energy;
 	
@@ -52,5 +52,16 @@ public class TGBLEPeripheralInfo implements Serializable
 	{
 		Object value = values.get(key);
 		return null != value ? value : defaultValue;
+	}
+
+	@Override
+	public Object clone()
+	{
+		TGBLEPeripheralInfo tgblePeripheralInfo = new TGBLEPeripheralInfo();
+		tgblePeripheralInfo.energy = this.energy;
+		tgblePeripheralInfo.peripheralName = this.peripheralName;
+		tgblePeripheralInfo.macAddress = this.macAddress;
+		tgblePeripheralInfo.values = this.values;
+		return tgblePeripheralInfo;
 	}
 }

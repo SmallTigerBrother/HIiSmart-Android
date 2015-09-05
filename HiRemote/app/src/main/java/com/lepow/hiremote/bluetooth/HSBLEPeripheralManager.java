@@ -17,6 +17,7 @@ import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.log.Logger;
+import com.mn.tiger.utility.ToastUtils;
 
 import java.util.UUID;
 
@@ -148,6 +149,20 @@ public class HSBLEPeripheralManager extends TGBLEManager
 
     }
 
+    public void readAllCharacteristics()
+    {
+        try
+        {
+            Thread.sleep(3000);
+            //读取电量
+            handler.sendEmptyMessage(MESSAGE_READ_POWER);
+        }
+        catch (InterruptedException e)
+        {
+            LOG.e(e);
+        }
+    }
+
     @Override
     protected void onServicesDiscovered(BluetoothGatt gatt, int status)
     {
@@ -155,16 +170,6 @@ public class HSBLEPeripheralManager extends TGBLEManager
         {
             //监听硬件寻找手机事件
             handler.sendEmptyMessage(MESSAGE_LISTEN_FIND_PHONE);
-            try
-            {
-                Thread.sleep(3000);
-                //读取电量
-                handler.sendEmptyMessage(MESSAGE_READ_POWER);
-            }
-            catch (InterruptedException e)
-            {
-                LOG.e(e);
-            }
         }
     }
 
@@ -354,21 +359,22 @@ public class HSBLEPeripheralManager extends TGBLEManager
         HSAlertDialog dialog = new HSAlertDialog(activity);
         dialog.setTitleVisibility(View.GONE);
         dialog.setBodyText(activity.getString(R.string.bluetooth_off_tips));
-        dialog.setLeftButton(activity.getString(R.string.settings), new DialogInterface.OnClickListener()
+        dialog.setLeftButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
                 dialog.dismiss();
-                HSBLEPeripheralManager.this.turnOnBluetooth(activity);
             }
         });
-        dialog.setRightButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener()
+        dialog.setRightButton(activity.getString(R.string.open_bluetooth_now), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
                 dialog.dismiss();
+                HSBLEPeripheralManager.this.turnOnBluetoothInBackground();
+                ToastUtils.showToast(activity, R.string.bluetooth_off_tips);
             }
         });
         dialog.show();

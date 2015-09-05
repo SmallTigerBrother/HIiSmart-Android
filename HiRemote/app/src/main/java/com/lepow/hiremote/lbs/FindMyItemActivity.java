@@ -3,6 +3,7 @@ package com.lepow.hiremote.lbs;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -83,6 +84,8 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 
         initPeripheralStatusView();
 
+        registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
+
         locationInfo = LocationDataManager.getInstance().findLatestDisconnectedLocation(this);
         initMapView(savedInstanceState, locationInfo);
     }
@@ -140,7 +143,6 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         {
             case R.id.buzz_my_item:
                 HSBLEPeripheralManager.getInstance().turnOnAlarmImmediately();
-//                HSBLEPeripheralManager.getInstance().readAndListenPower();
                 break;
 
             case R.id.stop_buzz:
@@ -178,6 +180,7 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         super.onDestroy();
         mapManager.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
     @Override

@@ -38,7 +38,24 @@ public class PeripheralDataManager
 			{
 				return getDefaultPeriperalInfos();
 			}
-			return peripheralInfos;
+			else
+			{
+				if(null != connectedPeripheral)
+				{
+					for (int i = 0; i < peripheralInfos.size(); i++)
+					{
+						PeripheralInfo peripheralInfo = peripheralInfos.get(i);
+						if(peripheralInfo.getMacAddress().equals(connectedPeripheral.getMacAddress()))
+						{
+							connectedPeripheral.setEnergy(peripheralInfo.getEnergy());
+							connectedPeripheral.setPeripheralName(peripheralInfo.getPeripheralName());
+							peripheralInfos.set(i, connectedPeripheral);
+						}
+					}
+				}
+
+				return peripheralInfos;
+			}
 		}
 		catch (DbException e)
 		{
@@ -56,7 +73,7 @@ public class PeripheralDataManager
 
 	public static void savePeripheral(Context context, PeripheralInfo peripheralInfo)
 	{
-		if(null != peripheralInfo)
+		if(null != peripheralInfo && !peripheralInfo.equals(PeripheralInfo.NULL_OBJECT))
 		{
 			try
 			{
@@ -67,6 +84,10 @@ public class PeripheralDataManager
 				}
 				else
 				{
+					if(peripheralInfo.getEnergy() == 0)
+					{
+						peripheralInfo.setEnergy(savedPeripheral.getEnergy());
+					}
 					getDBManager(context).update(peripheralInfo, WhereBuilder.b("macAddress", "=", peripheralInfo.getMacAddress()));
 				}
 			}

@@ -19,7 +19,6 @@ import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
 import com.mn.tiger.bluetooth.TGBLEManager;
-import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -47,19 +46,20 @@ public class ScanPeripheralActivity extends BaseActivity
 		public void onReceive(final Context context, Intent intent)
 		{
 			int bleState = TGBLEManager.getBLEState(intent);
-			final TGBLEPeripheralInfo peripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
+			final PeripheralInfo peripheralInfo = PeripheralInfo.fromBLEPeripheralInfo(TGBLEManager.getBLEPeripheralInfo(intent));
 			switch (bleState)
 			{
 				case TGBLEManager.BLE_STATE_CONNECTED:
 					connectSuccessLayout.setVisibility(View.VISIBLE);
 					scanningLayout.setVisibility(View.GONE);
-					PeripheralDataManager.savePeripheral(ScanPeripheralActivity.this, PeripheralInfo.fromBLEPeripheralInfo(peripheralInfo));
+					peripheralInfo.setConnected(true);
+					PeripheralDataManager.savePeripheral(ScanPeripheralActivity.this, peripheralInfo);
 					handler.postDelayed(new Runnable()
 					{
 						@Override
 						public void run()
 						{
-							gotoRenamePeripheralActivity(PeripheralDataManager.findPeripheral(context, peripheralInfo.getMacAddress()));
+							gotoRenamePeripheralActivity(peripheralInfo);
 							finish();
 						}
 					}, 1000);
@@ -69,12 +69,16 @@ public class ScanPeripheralActivity extends BaseActivity
 					notFoundPeripheralLayout.setVisibility(View.VISIBLE);
 					break;
 
-				case TGBLEManager.BLE_STATE_NONSUPPORT:
+				case TGBLEManager.BLE_STATE_POWER_OFF:
 					HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
 					break;
 
-				case TGBLEManager.BLE_STATE_POWER_OFF:
+				case TGBLEManager.BLE_STATE_NONSUPPORT:
 					HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
+					break;
+				case TGBLEManager.BLE_STATE_POWER_ON:
+					scanningLayout.setVisibility(View.VISIBLE);
+					notFoundPeripheralLayout.setVisibility(View.GONE);
 					break;
 				default:
 					break;
@@ -94,7 +98,6 @@ public class ScanPeripheralActivity extends BaseActivity
 		intentFilter.addAction(TGBLEManager.ACTION_BLE_STATE_CHANGE);
 		this.registerReceiver(broadcastReceiver, intentFilter);
 		//开始扫描设备
-
 		scanningLayout.setVisibility(View.VISIBLE);
 		notFoundPeripheralLayout.setVisibility(View.GONE);
 		scanDevice();

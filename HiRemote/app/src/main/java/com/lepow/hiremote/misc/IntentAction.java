@@ -16,4 +16,6 @@ public class IntentAction
             "read_peripheral_power";
 
     public static final String ACTION_PINNED_LOCATION = "pinned_location";
+
+    public static final String ACTION_DISCONNECTED_LOCATION = "disconnected_location";
 }
