@@ -78,11 +78,17 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 	public void onSearchTextSubmit()
 	{
 		String queryText = searchView.getQueryText();
+		List<RecordInfo> recordInfos = null;
 		if(!TextUtils.isEmpty(queryText))
 		{
-			List<RecordInfo> recordInfos = RecordDataManager.getInstance().findAllRecordsSortByTime(this, queryText);
-			listAdapter.updateData(recordInfos);
+			recordInfos = RecordDataManager.getInstance().findAllRecordsSortByTime(this, queryText);
 		}
+		else
+		{
+			recordInfos = RecordDataManager.getInstance().findAllRecordsSortByTime(this);
+		}
+
+		listAdapter.updateData(recordInfos);
 	}
 
 	@Override

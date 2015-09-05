@@ -12,7 +12,7 @@
         android:id="@+id/download_package_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/download_progress_drawable"
+        android:progressDrawable="@drawable/progress_drawable"
         style="@android:style/Widget.ProgressBar.Horizontal"/>
 
 </LinearLayout>

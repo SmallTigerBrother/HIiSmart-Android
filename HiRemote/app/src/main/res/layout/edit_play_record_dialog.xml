@@ -8,8 +8,8 @@
               android:paddingTop="@dimen/margin_val_20px"
               android:paddingBottom="@dimen/margin_val_20px">
 
-    <EditText
-        android:id="@+id/record_name_edit"
+    <TextView
+        android:id="@+id/record_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -57,7 +57,7 @@
             android:id="@+id/record_play_icon"
             android:layout_width="@dimen/margin_val_40px"
             android:layout_height="@dimen/margin_val_40px"
-            android:src="@drawable/add_device"
+            android:src="@drawable/voice_play"
             android:layout_gravity="center_vertical"/>
 
         <TextView
@@ -76,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_val_10px"
-            style="@android:style/Widget.ProgressBar.Horizontal"/>
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_drawable"/>
 
         <TextView
             android:id="@+id/record_play_surplus_length"
@@ -102,7 +103,7 @@
             android:layout_width="@dimen/margin_val_40px"
             android:layout_height="@dimen/margin_val_40px"
             android:layout_alignParentRight="true"
-            android:src="@drawable/add_device"/>
+            android:src="@drawable/location_trash"/>
 
         <ImageView
             android:id="@+id/record_edit"
@@ -110,7 +111,7 @@
             android:layout_height="@dimen/margin_val_40px"
             android:layout_toLeftOf="@+id/record_delete"
             android:layout_marginRight="@dimen/margin_val_40px"
-            android:src="@drawable/add_device"/>
+            android:src="@drawable/location_edit"/>
 
     </RelativeLayout>
 

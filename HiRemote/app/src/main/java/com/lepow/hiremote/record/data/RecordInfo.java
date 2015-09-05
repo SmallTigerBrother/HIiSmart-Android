@@ -1,8 +1,6 @@
 package com.lepow.hiremote.record.data;
 
-import java.io.File;
 import java.io.Serializable;
-import java.util.Calendar;
 
 /**
  * 录音数据
@@ -40,7 +38,7 @@ public class RecordInfo implements Serializable
 	/**
 	 * 录音时长
 	 */
-	private long duration;
+	private int duration;
 
 	/**
 	 * 录音本地文件名称
@@ -92,32 +90,19 @@ public class RecordInfo implements Serializable
 		return timestamp;
 	}
 	
-	public String getDateString()
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(timestamp);
-		return calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.YEAR ) +
-				"    " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
-	}
-	
-	public long getDuration()
+	public int getDuration()
 	{
 		return duration;
 	}
 	
-	public void setDuration(long duration)
+	public void setDuration(int duration)
 	{
 		this.duration = duration;
 	}
 
-	public String getDurationString()
+	public String getRecordFilePath()
 	{
-		return duration + "";
-	}
-	
-	public File getRecordFile()
-	{
-		return null;
+		return RecordDataManager.getRecordFilePath(fileName);
 	}
 
 	public String getUserId()

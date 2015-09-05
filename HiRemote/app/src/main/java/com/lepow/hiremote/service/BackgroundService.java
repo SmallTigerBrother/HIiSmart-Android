@@ -150,13 +150,14 @@ public class BackgroundService extends Service
 				}
 
 				@Override
-				public void onRecordStop(String outputFilePath)
+				public void onRecordStop(String outputFilePath, int duration)
 				{
 					RecordInfo recordInfo = new RecordInfo();
 					recordInfo.setFileName(fileName);
 					recordInfo.setTimestamp(time);
 					recordInfo.setPeripheralUUID("");
 					recordInfo.setTitle("New Record");
+					recordInfo.setDuration(duration);
 					RecordDataManager.getInstance().saveRecord(BackgroundService.this, recordInfo);
 
 					//通知录音列表界面更新

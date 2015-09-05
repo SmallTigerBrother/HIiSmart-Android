@@ -34,7 +34,7 @@ public class TGRecorder
 
     private OnRecordListener onRecordListener;
 
-    private int recordDuration;
+    private long startTime;
 
     private static final int DURATION_INTERVAL = 200;
 
@@ -128,16 +128,15 @@ public class TGRecorder
             {
                 onRecordListener.onRecordStart(currentRecordFilePath);
             }
-            recordDuration = 0;
+            startTime = System.currentTimeMillis();
             timeHandler.postDelayed(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    recordDuration += DURATION_INTERVAL;
                     if (null != onRecordListener)
                     {
-                        onRecordListener.onRecording(currentRecordFilePath, recordDuration);
+                        onRecordListener.onRecording(currentRecordFilePath, (int)(System.currentTimeMillis() - startTime));
                     }
 
                     if(isRecording())
@@ -167,8 +166,10 @@ public class TGRecorder
 
             if(null != onRecordListener)
             {
-                onRecordListener.onRecordStop(currentRecordFilePath);
+                onRecordListener.onRecordStop(currentRecordFilePath,  (int)(System.currentTimeMillis() - startTime));
             }
+
+            startTime = 0;
         }
     }
 
@@ -181,13 +182,12 @@ public class TGRecorder
         return false;
     }
 
-
     public static interface OnRecordListener
     {
         void onRecordStart(String outputFilePath);
 
         void onRecording(String outputFilePath, int duration);
 
-        void onRecordStop(String outputFilePath);
+        void onRecordStop(String outputFilePath, int duration);
     }
 }

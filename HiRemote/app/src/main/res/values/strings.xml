@@ -109,6 +109,7 @@
     <string name="find_my_item_title">Find My Item</string>
     <string name="history">History</string>
     <string name="no_device">No Device</string>
+    <string name="change_name">Change Name</string>
 
     <!-- title for the dialog showing the error of camera hardware -->
     <string name="camera_error_title">Camera error</string>

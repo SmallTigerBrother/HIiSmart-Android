@@ -16,13 +16,15 @@ public class TGAudioPlayer
 
     private static Handler timeHandler;
 
-    private int progress = 0;
+    private int playDuration = 0;
 
     private MediaPlayer mediaPlayer;
 
     private OnPlayListener onPlayListener;
 
     private String currentDataSource = "";
+
+    private int PROGRESS_TIME_INTERVAL = 200;
 
     public static TGAudioPlayer getInstance()
     {
@@ -54,7 +56,20 @@ public class TGAudioPlayer
     {
         this.currentDataSource = dataSource;
         this.onPlayListener = listener;
-        progress = 0;
+        playDuration = 0;
+        //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+        {
+            @Override
+            public void onCompletion(MediaPlayer mp)
+            {
+                if(null != onPlayListener)
+                {
+                    onPlayListener.onPlayComplete(currentDataSource);
+                }
+            }
+        });
+
         try
         {
             mediaPlayer.reset(); //重置多媒体
@@ -62,43 +77,30 @@ public class TGAudioPlayer
             mediaPlayer.prepare();//准备播放
             mediaPlayer.start();//开始播放
 
-            if(null != onPlayListener)
-            {
-                onPlayListener.onPlayStart(currentDataSource);
-            }
-
-            //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-            {
-                @Override
-                public void onCompletion(MediaPlayer mp)
-                {
-                    if(null != onPlayListener)
-                    {
-                        onPlayListener.onPlayComplete(currentDataSource);
-                    }
-                }
-            });
-
-            final int updateProgressTimeLength = mediaPlayer.getDuration() / 100;
+            final int audioDuration = mediaPlayer.getDuration();
 
             timeHandler.postDelayed(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    progress++;
-                    if (null != onPlayListener)
+                    playDuration += PROGRESS_TIME_INTERVAL;
+                    if (null != onPlayListener && playDuration <= audioDuration)
                     {
-                        onPlayListener.onPlaying(currentDataSource, progress);
+                        onPlayListener.onPlaying(currentDataSource, playDuration, audioDuration);
                     }
 
-                    if(progress < 100)
+                    if(playDuration < audioDuration)
                     {
-                        timeHandler.postDelayed(this,updateProgressTimeLength);
+                        timeHandler.postDelayed(this, PROGRESS_TIME_INTERVAL);
                     }
                 }
-            }, updateProgressTimeLength);
+            },  PROGRESS_TIME_INTERVAL);
+
+            if(null != onPlayListener)
+            {
+                onPlayListener.onPlayStart(currentDataSource);
+            }
         }
         catch (Exception e)
         {
@@ -131,7 +133,7 @@ public class TGAudioPlayer
         if(mediaPlayer.isPlaying())
         {
             mediaPlayer.stop();
-            progress = 0;
+            playDuration = 0;
             if(null != onPlayListener)
             {
                 onPlayListener.onPlayStop(currentDataSource);
@@ -148,7 +150,7 @@ public class TGAudioPlayer
     {
         void onPlayStart(String dataSource);
 
-        void onPlaying(String dataSource, int progress);
+        void onPlaying(String dataSource, int playDuration, int audioDuration);
 
         void onPlayPause(String dataSource);
 

@@ -48,7 +48,7 @@ public class RecordDataManager
 	{
 		try
 		{
-			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp"));
+			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp", true));
 		}
 		catch (DbException e)
 		{
@@ -61,8 +61,8 @@ public class RecordDataManager
 	{
 		try
 		{
-			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp")
-					.and("name", "like", "%" + queryText + "%"));
+			return getDBManager(context).findAll(Selector.from(RecordInfo.class).orderBy("timestamp", true)
+					.where("title", "like", "%" + queryText + "%"));
 		}
 		catch (DbException e)
 		{
