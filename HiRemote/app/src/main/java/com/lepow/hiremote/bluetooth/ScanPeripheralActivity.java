@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -31,12 +30,6 @@ import butterknife.OnClick;
  */
 public class ScanPeripheralActivity extends BaseActivity
 {
-	@FindView(R.id.scan_device_cancel_btn)
-	Button cancelBtn;
-
-	@FindView(R.id.scan_device_retry_btn)
-	Button retryBtn;
-
 	@FindView(R.id.scaning_layout)
 	RelativeLayout scanningLayout;
 

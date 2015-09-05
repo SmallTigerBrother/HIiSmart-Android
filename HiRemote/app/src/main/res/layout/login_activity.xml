@@ -63,6 +63,7 @@
         android:text="@string/register_btn_text"
         android:textSize="@dimen/text_size_30pt"
         android:textColor="@android:color/white"
+        android:textAllCaps="false"
         android:background="@color/default_btn_bg"/>
 
     <Button
@@ -76,6 +77,7 @@
         android:textColor="@android:color/white"
         android:text="Facebook"
         android:textSize="@dimen/text_size_30pt"
+        android:textAllCaps="false"
         android:layout_marginRight="@dimen/margin_val_86px"/>
 
     <Button
@@ -88,6 +90,7 @@
         android:layout_marginRight="@dimen/margin_val_40px"
         android:text="@string/login_btn_text"
         android:textSize="@dimen/text_size_30pt"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:background="@color/default_btn_bg"/>
 

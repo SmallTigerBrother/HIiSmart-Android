@@ -34,12 +34,12 @@
 
         <ImageView
             android:id="@+id/scan_device_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/margin_val_500px"
+            android:layout_height="@dimen/margin_val_500px"
             android:layout_below="@+id/scan_device_tips"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_val_60px"
-            android:src="@drawable/camera_default"/>
+            android:src="@drawable/sanning_intro"/>
 
         <TextView
             android:id="@+id/scan_device_progress"
@@ -64,10 +64,10 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/margin_val_260px"
+            android:layout_height="@dimen/margin_val_260px"
             android:layout_centerInParent="true"
-            android:src="@drawable/camera_default"/>
+            android:src="@drawable/connected_success"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -158,6 +158,7 @@
             android:text="@string/cancel"
             android:textColor="@android:color/white"
             android:background="@color/default_btn_bg"
+            android:textAllCaps="false"
             android:textSize="@dimen/text_size_30pt"/>
 
         <Button
@@ -172,6 +173,7 @@
             android:text="@string/retry"
             android:textColor="@android:color/white"
             android:background="@color/default_btn_bg"
+            android:textAllCaps="false"
             android:textSize="@dimen/text_size_30pt"/>
 
     </RelativeLayout>

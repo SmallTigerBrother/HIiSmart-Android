@@ -1,6 +1,7 @@
 package com.lepow.hiremote.authorise;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -50,6 +51,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterCallback
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.default_green_bg));
         ButterKnife.bind(this);
         setBarTitleText(getString(R.string.register_btn_text));
+        getNavigationBar().getMiddleTextView().setTextColor(Color.WHITE);
         authorizer = new HSAuthorizer(this, null, null);
     }
 

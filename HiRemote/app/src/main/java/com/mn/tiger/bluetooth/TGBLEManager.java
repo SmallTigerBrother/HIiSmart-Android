@@ -237,6 +237,8 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void stopScan()
     {
+        LOG.d("[Method:stopScan]");
+
         this.targetPeripheral = null;
         this.isScanning = false;
         if(null != bluetoothAdapter)

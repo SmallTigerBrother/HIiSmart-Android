@@ -157,7 +157,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
             handler.sendEmptyMessage(MESSAGE_LISTEN_FIND_PHONE);
             try
             {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
                 //读取电量
                 handler.sendEmptyMessage(MESSAGE_READ_POWER);
             }
