@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -244,7 +245,9 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements Adapt
 		final EditText editText = new EditText(this);
 		editText.setBackgroundColor(Color.TRANSPARENT);
 		editText.setTextColor(getResources().getColor(R.color.text_color_normal));
-		editText.setText(locationInfo.getAddress());
+		String address = TextUtils.isEmpty(locationInfo.getRemark()) ? locationInfo.getAddress() : locationInfo.getRemark();
+		editText.setText(address);
+		editText.setSelection(address.length());
 		editText.setSelection(locationInfo.getAddress().length());
 		ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -46,20 +47,20 @@ public class DisconnectLocationHistory extends BaseActivity
         setBarTitleText(getString(R.string.disconnection_history));
         ButterKnife.bind(this);
 
-        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
+        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         listView.setMenuCreator(new SwipeMenuCreator()
         {
             @Override
             public void create(SwipeMenu swipeMenu)
             {
                 SwipeMenuItem editItem = new SwipeMenuItem(DisconnectLocationHistory.this);
-                editItem.setIcon(R.drawable.add_device);
+                editItem.setIcon(R.drawable.location_edit);
                 editItem.setBackground(new ColorDrawable(getResources().getColor(R.color.color_val_d9d9d9)));
                 editItem.setWidth(getResources().getDimensionPixelSize(R.dimen.margin_val_120px));
                 swipeMenu.addMenuItem(editItem);
 
                 SwipeMenuItem deleteItem = new SwipeMenuItem(DisconnectLocationHistory.this);
-                deleteItem.setIcon(R.drawable.add_device);
+                deleteItem.setIcon(R.drawable.location_trash);
                 deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.color_val_d9d9d9)));
                 deleteItem.setWidth(getResources().getDimensionPixelSize(R.dimen.margin_val_120px));
                 swipeMenu.addMenuItem(deleteItem);
@@ -89,6 +90,7 @@ public class DisconnectLocationHistory extends BaseActivity
 
         listAdapter = new TGListAdapter<LocationInfo>(this, LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this),
                 R.layout.location_list_item, LocationViewHolder.class);
+        listAdapter.setStrictlyReuse(true);
         listView.setAdapter(listAdapter);
     }
 
@@ -190,7 +192,9 @@ public class DisconnectLocationHistory extends BaseActivity
         final EditText editText = new EditText(this);
         editText.setBackgroundColor(Color.TRANSPARENT);
         editText.setTextColor(getResources().getColor(R.color.text_color_normal));
-        editText.setText(locationInfo.getAddress());
+        String address = TextUtils.isEmpty(locationInfo.getRemark()) ? locationInfo.getAddress() : locationInfo.getRemark();
+        editText.setText(address);
+        editText.setSelection(address.length());
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         editText.setPadding(getResources().getDimensionPixelSize(R.dimen.margin_val_20px),
