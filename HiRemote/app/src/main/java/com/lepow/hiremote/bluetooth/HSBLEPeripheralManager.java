@@ -16,6 +16,7 @@ import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.bluetooth.TGBLEManager;
+import com.mn.tiger.bluetooth.TGBLEScanParameter;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.utility.ToastUtils;
 
@@ -60,11 +61,11 @@ public class HSBLEPeripheralManager extends TGBLEManager
      */
     public static final int FIND_PHONE_CHARACTERISTIC_VALUE_LONG = 2;
 
-    private static final int MESSAGE_LISTEN_FIND_PHONE = 0x0002;
+    private static final int MESSAGE_LISTEN_FIND_PHONE = 0x1002;
 
-    private static final int MESSAGE_READ_DISCONNECTED_ALARM = 0x0003;
+    private static final int MESSAGE_READ_DISCONNECTED_ALARM = 0x1003;
 
-    private static final int MESSAGE_READ_POWER = 0x0004;
+    private static final int MESSAGE_READ_POWER = 0x1004;
 
     private static HSBLEPeripheralManager instance;
 
@@ -78,24 +79,19 @@ public class HSBLEPeripheralManager extends TGBLEManager
                 {
                     instance = new HSBLEPeripheralManager();
                     //设置蓝牙扫描参数
-//                    TGBLEScanParameter scanParameter = new TGBLEScanParameter();
-//
-//                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter =
-//                            new TGBLEScanParameter.TGBLEServiceParameter();
-//                    serviceParameter.setUUID(UUID.fromString(""));
-//                    scanParameter.addService(serviceParameter);
-//
-//                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_2 =
-//                            new TGBLEScanParameter.TGBLEServiceParameter();
-//                    serviceParameter_2.setUUID(UUID.fromString(""));
-//                    scanParameter.addService(serviceParameter_2);
-//
-//                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_3 =
-//                            new TGBLEScanParameter.TGBLEServiceParameter();
-//                    serviceParameter_3.setUUID(UUID.fromString(""));
-//                    scanParameter.addService(serviceParameter_3);
+                    TGBLEScanParameter scanParameter = new TGBLEScanParameter();
 
-//                    instance.setScanParameter(scanParameter);
+                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_1 =
+                            new TGBLEScanParameter.TGBLEServiceParameter();
+                    serviceParameter_1.setUUID(UUID.fromString(DISCONNECT_ALARM_SERVICE_UUID));
+                    scanParameter.addService(serviceParameter_1);
+
+                    TGBLEScanParameter.TGBLEServiceParameter serviceParameter_2 =
+                            new TGBLEScanParameter.TGBLEServiceParameter();
+                    serviceParameter_2.setUUID(UUID.fromString(ALARM_IMMEDIATELY_SERVICE_UUID));
+                    scanParameter.addService(serviceParameter_2);
+
+                    instance.setScanParameter(scanParameter);
                 }
             }
         }
@@ -340,7 +336,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
                 //连接上一次连接的设备
                 if(null != getLastPeripheral())
                 {
-                    scanAndConnect2Peripheral(getLastPeripheral().getPeripheralName());
+                    scanTargetPeripheral(getLastPeripheral().getPeripheralName());
                 }
                 else
                 {

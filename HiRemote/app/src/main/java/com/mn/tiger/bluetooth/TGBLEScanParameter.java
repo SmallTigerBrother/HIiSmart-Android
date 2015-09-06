@@ -11,8 +11,6 @@ public class TGBLEScanParameter
 {
     private List<TGBLEServiceParameter> serviceParameters;
 
-    private UUID peripheralUUID;
-
     public TGBLEScanParameter()
     {
         serviceParameters = new ArrayList<TGBLEServiceParameter>();
@@ -21,16 +19,6 @@ public class TGBLEScanParameter
     public void addService(TGBLEServiceParameter serviceParameter)
     {
         serviceParameters.add(serviceParameter);
-    }
-
-    public void setPeripheralUUID(UUID peripheralUUID)
-    {
-        this.peripheralUUID = peripheralUUID;
-    }
-
-    public UUID getPeripheralUUID()
-    {
-        return peripheralUUID;
     }
 
     public UUID[] getServiceUUIDs()
