@@ -46,39 +46,25 @@ public class ScanPeripheralActivity extends BaseActivity
 		public void onReceive(final Context context, Intent intent)
 		{
 			int bleState = TGBLEManager.getBLEState(intent);
-			final PeripheralInfo peripheralInfo = PeripheralInfo.fromBLEPeripheralInfo(TGBLEManager.getBLEPeripheralInfo(intent));
+			PeripheralInfo peripheralInfo = PeripheralInfo.fromBLEPeripheralInfo(TGBLEManager.getBLEPeripheralInfo(intent));
 			switch (bleState)
 			{
 				case TGBLEManager.BLE_STATE_CONNECTED:
-					connectSuccessLayout.setVisibility(View.VISIBLE);
-					scanningLayout.setVisibility(View.GONE);
-					peripheralInfo.setConnected(true);
-					PeripheralDataManager.savePeripheral(ScanPeripheralActivity.this, peripheralInfo);
-					handler.postDelayed(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							gotoRenamePeripheralActivity(peripheralInfo);
-							finish();
-						}
-					}, 1000);
+					onPeripheralConnected(peripheralInfo);
 					break;
-				case TGBLEManager.BLE_STATE_DISCONNECTED:
-					scanningLayout.setVisibility(View.GONE);
-					notFoundPeripheralLayout.setVisibility(View.VISIBLE);
+				case TGBLEManager.BLE_STATE_NO_PERIPHERAL_FOUND:
+					onNoPeripheralFound();
 					break;
 
 				case TGBLEManager.BLE_STATE_POWER_OFF:
-					HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
+					onBlueToothPowerOff();
 					break;
 
 				case TGBLEManager.BLE_STATE_NONSUPPORT:
-					HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
+					onBLENonSupport();
 					break;
 				case TGBLEManager.BLE_STATE_POWER_ON:
-					scanningLayout.setVisibility(View.VISIBLE);
-					notFoundPeripheralLayout.setVisibility(View.GONE);
+					onBlueToothPowerOn();
 					break;
 				default:
 					break;
@@ -120,7 +106,7 @@ public class ScanPeripheralActivity extends BaseActivity
 			case R.id.scan_device_retry_btn:
 				scanningLayout.setVisibility(View.VISIBLE);
 				notFoundPeripheralLayout.setVisibility(View.GONE);
-				scanDevice();
+				onScanRetry();
 				break;
 
 			case R.id.not_found_peripheral_help:
@@ -133,6 +119,50 @@ public class ScanPeripheralActivity extends BaseActivity
 			default:
 				break;
 		}
+	}
+
+	protected void onScanRetry()
+	{
+		scanDevice();
+	}
+
+	protected void onPeripheralConnected(final PeripheralInfo peripheralInfo)
+	{
+		connectSuccessLayout.setVisibility(View.VISIBLE);
+		scanningLayout.setVisibility(View.GONE);
+		peripheralInfo.setConnected(true);
+		PeripheralDataManager.savePeripheral(ScanPeripheralActivity.this, peripheralInfo);
+		handler.postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				gotoRenamePeripheralActivity(peripheralInfo);
+				finish();
+			}
+		}, 1000);
+	}
+
+	protected void onNoPeripheralFound()
+	{
+		scanningLayout.setVisibility(View.GONE);
+		notFoundPeripheralLayout.setVisibility(View.VISIBLE);
+	}
+
+	protected void onBlueToothPowerOff()
+	{
+		HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
+	}
+
+	protected void onBLENonSupport()
+	{
+		HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
+	}
+
+	protected void onBlueToothPowerOn()
+	{
+		scanningLayout.setVisibility(View.VISIBLE);
+		notFoundPeripheralLayout.setVisibility(View.GONE);
 	}
 
 	/**
@@ -166,9 +196,5 @@ public class ScanPeripheralActivity extends BaseActivity
 		this.unregisterReceiver(broadcastReceiver);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-	}
 
 }

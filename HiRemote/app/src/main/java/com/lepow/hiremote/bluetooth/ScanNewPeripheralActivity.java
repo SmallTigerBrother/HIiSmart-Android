@@ -8,6 +8,12 @@ public class ScanNewPeripheralActivity extends ScanPeripheralActivity
     @Override
     protected void scanDevice()
     {
-        HSBLEPeripheralManager.getInstance().scanAndConnect2NewPeripheral();
+        HSBLEPeripheralManager.getInstance().scanNewPeripheral();
+    }
+
+    @Override
+    protected void onScanRetry()
+    {
+        super.scanDevice();
     }
 }

@@ -63,6 +63,11 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
     public static final int BLE_STATE_POWER_ON = 5;
 
     /**
+     * BLE状态——找不到设备
+     */
+    public static final int BLE_STATE_NO_PERIPHERAL_FOUND = 6;
+
+    /**
      * 保存蓝牙设备信息的键值
      */
     private static final String PERIPHERAL_INFO_KEY = "peripheralInfo";
@@ -309,7 +314,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 LOG.d("Scan time out");
                 if (null == currentPeripheral)
                 {
-                    sendBroadcast(BLE_STATE_DISCONNECTED, currentPeripheral);
+                    sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
                 }
                 stopScan();
             }
@@ -515,11 +520,11 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     break;
 
                 case BluetoothProfile.STATE_DISCONNECTED:
+                    gatt.close();
                     LOG.d("[Method:onConnectionStateChange] STATE_DISCONNECTED  mac == " + gatt.getDevice().getAddress());
                     TGBLEManager.this.lastPeripheral = null != currentPeripheral ? (TGBLEPeripheralInfo)currentPeripheral.clone() : null;
                     currentPeripheral = null;
                     currentGatt = null;
-                    sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
 
                     //继续扫描
                     switch (scannerState)
@@ -528,10 +533,13 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                             handler.sendEmptyMessage(MESSAGE_START_SCAN);
                             break;
                         case SCANNING_NEW_PERIPHERAL:
+                            handler.sendEmptyMessage(MESSAGE_START_SCAN_NEW_PERIPHERAL);
                             break;
                         case SCANNING_TARGET_PERIPHERAL:
+                            handler.sendEmptyMessage(MESSAGE_START_SCAN_TARGET_PERIPHERAL);
                             break;
                         default:
+                            sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
                             break;
                     }
                     break;

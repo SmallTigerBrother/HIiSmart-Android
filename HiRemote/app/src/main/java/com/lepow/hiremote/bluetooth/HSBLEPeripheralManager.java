@@ -3,11 +3,8 @@ package com.lepow.hiremote.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Message;
 import android.view.View;
 
@@ -100,14 +97,6 @@ public class HSBLEPeripheralManager extends TGBLEManager
 
     protected HSBLEPeripheralManager()
     {
-        HSApplication.getInstance().registerReceiver(new BroadcastReceiver()
-        {
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-
-            }
-        }, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
     }
     @Override
     protected void handleMessage(Message msg)
@@ -138,11 +127,6 @@ public class HSBLEPeripheralManager extends TGBLEManager
     public void scanAndConnect2Peripheral()
     {
         scan();
-    }
-
-    public void scanAndConnect2NewPeripheral()
-    {
-
     }
 
     public void readAllCharacteristics()
