@@ -10,6 +10,7 @@ import android.content.res.AssetManager;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
+import com.lepow.hiremote.home.AlarmAlertActivity;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
@@ -22,7 +23,6 @@ import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.request.HttpType;
-import com.mn.tiger.upgrade.AlarmAlertActivity;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 
 import java.io.FileDescriptor;

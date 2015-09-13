@@ -1,37 +1,19 @@
-package com.mn.tiger.upgrade;
+package com.lepow.hiremote.home;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.widget.HSAlertDialog;
-import com.mn.tiger.app.TGApplication;
-import com.mn.tiger.download.TGDownloadManager;
-import com.mn.tiger.download.TGDownloadParams;
-import com.mn.tiger.download.TGDownloader;
-import com.mn.tiger.download.observe.TGDownloadObserver;
 import com.mn.tiger.media.TGAudioPlayer;
-import com.mn.tiger.request.HttpType;
-import com.mn.tiger.utility.PackageUtils;
-import com.mn.tiger.utility.ToastUtils;
-
-import java.io.File;
 
 /**
  * Created by Dalang on 2015/8/1.
  */
 public class AlarmAlertActivity extends Activity
 {
-    private static final int DOWNLOADING_NOTIFICATION_ID = 100;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
