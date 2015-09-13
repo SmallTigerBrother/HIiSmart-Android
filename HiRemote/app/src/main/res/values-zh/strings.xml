@@ -108,4 +108,7 @@
     <string name="zoom_control_title" msgid="6532562653386981815">"缩放"</string>
     <string name="switch_to_camera_lable" msgid="8248495141797448471">"切换到相机"</string>
     <string name="switch_to_video_lable" msgid="4525451949497982385">"切换到视频"</string>
+
+    <string name="alarm_tips">您的HiSmart正在向您发起呼叫!</string>
+    <string name="tips">提示</string>
 </resources>

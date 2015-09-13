@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
@@ -18,8 +20,13 @@ import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
+import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.request.HttpType;
+import com.mn.tiger.upgrade.AlarmAlertActivity;
 import com.mn.tiger.upgrade.TGUpgradeManager;
+
+import java.io.FileDescriptor;
+import java.io.IOException;
 
 public class HSApplication extends TGApplication
 {
@@ -60,6 +67,28 @@ public class HSApplication extends TGApplication
                 }
             }
         },new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
+
+        //注册
+        this.registerReceiver(new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                AssetManager assetManager = getAssets();
+                try
+                {
+                    AssetFileDescriptor dataSource = assetManager.openFd("alarm.mp3");
+                    TGAudioPlayer.getInstance().start(dataSource.getFileDescriptor(), null);
+                    Intent startIntent = new Intent(HSApplication.this, AlarmAlertActivity.class);
+                    startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(startIntent);
+                }
+                catch (IOException e)
+                {
+
+                }
+            }
+        }, new IntentFilter(IntentAction.ACTION_ALARM));
     }
 
     private void requestDisconnectedLocation()

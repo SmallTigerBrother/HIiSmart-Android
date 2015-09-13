@@ -410,4 +410,6 @@
     <string name="switch_to_camera_lable">Switch to camera</string>
     <string name="switch_to_video_lable">Switch to video</string>
 
+    <string name="alarm_tips">The HiSmart is calling you!</string>
+
 </resources>

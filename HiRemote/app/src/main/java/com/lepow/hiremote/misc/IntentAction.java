@@ -7,6 +7,8 @@ public class IntentAction
 {
     public static final String ACTION_FIND_PHONE = "find_phone";
 
+    public static final String ACTION_ALARM = "alarm";
+
     public static final String ACTION_CAPTURE = "capture";
 
     public static final String ACTION_READ_DISCONNECTED_ALARM =

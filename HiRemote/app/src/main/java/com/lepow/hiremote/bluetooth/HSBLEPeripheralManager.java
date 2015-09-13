@@ -168,6 +168,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
         else if (value == FIND_PHONE_CHARACTERISTIC_VALUE_LONG)
         {
             //手机拉响警报
+            intent.setAction(IntentAction.ACTION_ALARM);
         }
 
         intent.putExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, value);
