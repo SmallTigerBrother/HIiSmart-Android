@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -32,11 +34,13 @@ import com.lepow.hiremote.notification.NotificationManager;
 import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.AppSettings;
 import com.lepow.hiremote.setting.SettingActivity;
+import com.lepow.hiremote.widget.ProgressDialog;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.notification.TGNotificationBuilder;
 import com.mn.tiger.upgrade.TGUpgradeManager;
+import com.mn.tiger.utility.DisplayUtils;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
@@ -49,7 +53,7 @@ import butterknife.FindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener
+public class HomeActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener
 {
 	private static final Logger LOG = Logger.getLogger(HomeActivity.class);
 
@@ -99,6 +103,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 	private Handler handler = new Handler();
 
+	private List<PeripheralInfo> peripheralInfos;
+
+	private ProgressDialog progressDialog;
+
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -126,6 +134,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(tgblePeripheralInfo);
 						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
 						connectedPeripheral.setConnected(true);
+
+						progressDialog.dismiss();
+
 						onPeripheralChanged();
 						break;
 					case TGBLEManager.BLE_STATE_DISCONNECTED:
@@ -136,6 +147,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 
 					case TGBLEManager.BLE_STATE_NONSUPPORT:
 						HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(HomeActivity.this);
+						break;
+
+					case TGBLEManager.BLE_STATE_NO_PERIPHERAL_FOUND:
+						progressDialog.dismiss();
 						break;
 
 					default:
@@ -160,6 +175,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		progressDialog = new ProgressDialog(this);
 
 		getWindow().getDecorView().setBackgroundResource(R.drawable.home_page_bg);
 		setBarTitleText(getString(R.string.app_name));
@@ -206,6 +223,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		getLeftBarButton().setImageResource(R.drawable.add_device);
 		getLeftBarButton().setOnClickListener(this);
 
+		initBannerIndicator();
 		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
 			@Override
@@ -221,6 +239,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 			}
 		});
 
+		bannerPagerView.setOnPageChangeListener(this);
+
 		showFunctionBoard();
 
 		initSettingsBoard();
@@ -228,10 +248,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 		onPeripheralChanged();
 	}
 
+	private void initBannerIndicator()
+	{
+		GradientDrawable dotDefaultShapeDrawable = new GradientDrawable();
+		dotDefaultShapeDrawable.setShape(GradientDrawable.OVAL);
+		dotDefaultShapeDrawable.setColor(0x80ffffff);
+		dotDefaultShapeDrawable.setSize(DisplayUtils.dip2px(this, 6),
+				DisplayUtils.dip2px(this, 6));
+
+		GradientDrawable dotSelectedshapeDrawable = new GradientDrawable();
+		dotSelectedshapeDrawable.setShape(GradientDrawable.OVAL);
+		dotSelectedshapeDrawable.setSize(DisplayUtils.dip2px(this, 6),
+				DisplayUtils.dip2px(this, 6));
+		dotSelectedshapeDrawable.setColor(0xffffffff);
+
+		bannerPagerView.setDotViewBackground(dotDefaultShapeDrawable, dotSelectedshapeDrawable);
+	}
+
 	private void onPeripheralChanged()
 	{
 		playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
-		List<PeripheralInfo> peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral);
+		peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral);
 		bannerPagerView.setData(peripheralInfos);
 		if(!connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 		{
@@ -248,6 +285,34 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener
 	private void initFunctionBtnRes()
 	{
 		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image, R.drawable.location_button_bg);
+	}
+
+	@Override
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+	{
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int state)
+	{
+	}
+
+	public void onPageSelected(int position)
+	{
+		final PeripheralInfo peripheralInfo = peripheralInfos.get(position - 1);
+
+		LOG.d("[Method:onPageSelected] position == " + position + "   BLE_ADDRESS == " + peripheralInfo.getMacAddress());
+
+		handler.postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				HSBLEPeripheralManager.getInstance().scanTargetPeripheral(peripheralInfo.getMacAddress());
+			}
+		}, 2000);
+
+		progressDialog.show();
 	}
 
 	@Override
