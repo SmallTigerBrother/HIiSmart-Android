@@ -62,13 +62,9 @@ public class PeripheralStatusView extends LinearLayout
         if(peripheralInfo.isConnected())
         {
             peripheralImageView.setImageResource(R.drawable.icon_device);
-            if(energy <= 30)
+            if(energy <= 50)
             {
                 powerProgressBar.setColor(getResources().getColor(R.color.energy_red));
-            }
-            else if(energy <= 60)
-            {
-                powerProgressBar.setColor(getResources().getColor(R.color.energy_yellow));
             }
             else
             {

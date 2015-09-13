@@ -24,7 +24,7 @@ public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 	TextView recordDuration;
 	
 	@Override
-	public void fillData(ViewGroup parent, View convertView, RecordInfo itemData, int position)
+	public void fillData(ViewGroup parent, View convertView, RecordInfo itemData, int position, int viewType)
 	{
 		recordName.setText(itemData.getTitle());
 		recordDate.setText(DateUtils.date2String(itemData.getTimestamp(), DateUtils.DATE_FORMAT));

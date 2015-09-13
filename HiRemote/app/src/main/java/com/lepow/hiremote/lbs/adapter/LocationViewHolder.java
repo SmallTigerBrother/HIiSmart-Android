@@ -28,7 +28,7 @@ public class LocationViewHolder extends TGViewHolder<LocationInfo>
     private LocationInfo itemData;
 
     @Override
-    public void fillData(ViewGroup parent, View convertView, LocationInfo itemData, int position)
+    public void fillData(ViewGroup parent, View convertView, LocationInfo itemData, int position, int viewType)
     {
         this.itemData = itemData;
 

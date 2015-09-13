@@ -29,7 +29,8 @@ public class PeripheralDataManager
 		return TGDBManager.create(context, DB_NAME, DB_VERSION, null);
 	}
 
-	public static List<PeripheralInfo> getAllPeripherals(Context context, PeripheralInfo connectedPeripheral)
+	public static List<PeripheralInfo> getAllPeripherals(Context context, PeripheralInfo connectedPeripheral,
+														 PeripheralInfo disConnectedPeripheral)
 	{
 		try
 		{
@@ -40,7 +41,7 @@ public class PeripheralDataManager
 			}
 			else
 			{
-				if(null != connectedPeripheral)
+				if(null != connectedPeripheral && !connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 				{
 					for (int i = 0; i < peripheralInfos.size(); i++)
 					{
@@ -50,6 +51,19 @@ public class PeripheralDataManager
 							connectedPeripheral.setEnergy(peripheralInfo.getEnergy());
 							connectedPeripheral.setPeripheralName(peripheralInfo.getPeripheralName());
 							peripheralInfos.set(i, connectedPeripheral);
+						}
+					}
+				}
+
+				if(null != disConnectedPeripheral && !disConnectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
+				{
+					for (int i = 0; i < peripheralInfos.size(); i++)
+					{
+						PeripheralInfo peripheralInfo = peripheralInfos.get(i);
+						if(peripheralInfo.getMacAddress().equals(disConnectedPeripheral.getMacAddress()))
+						{
+							disConnectedPeripheral.setConnected(false);
+							peripheralInfos.set(i, disConnectedPeripheral);
 						}
 					}
 				}

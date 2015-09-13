@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
@@ -140,6 +141,11 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     private static final int MESSAGE_START_SCAN_TARGET_PERIPHERAL = 0x0004;
 
+    /**
+     * 正在连接中
+     */
+    private boolean connecting = false;
+
     protected Handler handler = new Handler()
     {
         @Override
@@ -207,9 +213,11 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1);
                     if (state == BluetoothAdapter.STATE_OFF)
                     {
+                        connecting = false;
                         scannerState = BLEScannerState.STOP;
                         sendBroadcast(BLE_STATE_POWER_OFF, null);
-                    } else if (state == BluetoothAdapter.STATE_ON)
+                    }
+                    else if (state == BluetoothAdapter.STATE_ON)
                     {
                         handler.postDelayed(new Runnable()
                         {
@@ -231,7 +239,12 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void scan()
     {
+        if(scannerState == BLEScannerState.SCANNING)
+        {
+            return;
+        }
         LOG.d("[Method:scan]");
+
         scannerState = BLEScannerState.SCANNING;
         this.targetPeripheralMacAddress = null;
         if(!bluetoothAdapter.isEnabled())
@@ -276,7 +289,42 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         }
         else
         {
-            executeScan();
+            if(!TextUtils.isEmpty(peripheralMacAddress))
+            {
+                final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(peripheralMacAddress);
+                if (null != device)
+                {
+                    final BluetoothGatt bluetoothGatt = device.connectGatt(TGApplication.getInstance(), false,
+                            bluetoothGattCallback);
+                    if(!connecting)
+                    {
+                        connecting = true;
+                        LOG.d("[Method:scanTargetPeripheral] connect peripheral directly");
+                        handler.postDelayed(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                LOG.d("[Method:scanTargetPeripheral] connect time out");
+                                if (null == currentPeripheral)
+                                {
+                                    sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
+                                }
+                                stopScan();
+                            }
+                        }, SCAN_TIME_OUT);
+                    }
+                }
+                else
+                {
+                    executeScan();
+                }
+
+            }
+            else
+            {
+                executeScan();
+            }
         }
     }
 
@@ -311,7 +359,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
             @Override
             public void run()
             {
-                LOG.d("Scan time out");
+                LOG.d("[Method:executeScan] Scan time out");
                 if (null == currentPeripheral)
                 {
                     sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
@@ -345,6 +393,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
     {
         LOG.d("[Method:stopScan]");
         this.targetPeripheralMacAddress = null;
+        connecting = false;
         this.scannerState = BLEScannerState.STOP;
         if(null != bluetoothAdapter)
         {
@@ -401,8 +450,9 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     private synchronized void onDiscoveredTargetDevice(BluetoothDevice device)
     {
-        if(null == currentPeripheral)
+        if(null == currentPeripheral && !connecting)
         {
+            connecting = true;
             device.connectGatt(TGApplication.getInstance(), false,
                     bluetoothGattCallback);
         }
@@ -507,6 +557,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
             switch (newState)
             {
                 case BluetoothProfile.STATE_CONNECTED:
+                    connecting = false;
                     currentPeripheral = new TGBLEPeripheralInfo();
                     currentPeripheral.setPeripheralName(gatt.getDevice().getName());
                     currentPeripheral.setMacAddress(gatt.getDevice().getAddress());
@@ -522,7 +573,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 case BluetoothProfile.STATE_DISCONNECTED:
                     gatt.close();
                     LOG.d("[Method:onConnectionStateChange] STATE_DISCONNECTED  mac == " + gatt.getDevice().getAddress());
-                    TGBLEManager.this.lastPeripheral = null != currentPeripheral ? (TGBLEPeripheralInfo)currentPeripheral.clone() : null;
+                    lastPeripheral = (null != currentPeripheral) ? (TGBLEPeripheralInfo)currentPeripheral.clone() : lastPeripheral;
                     currentPeripheral = null;
                     currentGatt = null;
 
@@ -539,6 +590,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                             handler.sendEmptyMessage(MESSAGE_START_SCAN_TARGET_PERIPHERAL);
                             break;
                         default:
+                            connecting = false;
                             sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
                             break;
                     }
@@ -557,6 +609,8 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     private synchronized static void sendBroadcast(int bleState, TGBLEPeripheralInfo peripheralInfo)
     {
+        LOG.d("[Method:sendBroadcast] State == " + bleState);
+
         Intent intent = new Intent();
         intent.setAction(ACTION_BLE_STATE_CHANGE);
         intent.putExtra(BLE_STATE_KEY, bleState);

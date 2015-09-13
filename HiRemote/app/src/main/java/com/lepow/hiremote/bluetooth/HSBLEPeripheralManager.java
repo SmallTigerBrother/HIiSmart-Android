@@ -56,7 +56,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
     /**
      * 长按找手机按钮（圆点）的值
      */
-    public static final int FIND_PHONE_CHARACTERISTIC_VALUE_LONG = 2;
+    public static final int FIND_PHONE_CHARACTERISTIC_VALUE_LONG = 3;
 
     private static final int MESSAGE_LISTEN_FIND_PHONE = 0x1002;
 
@@ -158,8 +158,19 @@ public class HSBLEPeripheralManager extends TGBLEManager
     {
         super.onCharacteristicChanged(gatt, characteristic);
 
-        Intent intent = new Intent(IntentAction.ACTION_FIND_PHONE);
-        intent.putExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, (int)characteristic.getValue()[0]);
+        Intent intent = new Intent();
+        int value = (int)characteristic.getValue()[0];
+        if(value == FIND_PHONE_CHARACTERISTIC_VALUE)
+        {
+            //定位、拍照、录音
+            intent.setAction(IntentAction.ACTION_FIND_PHONE);
+        }
+        else if (value == FIND_PHONE_CHARACTERISTIC_VALUE_LONG)
+        {
+            //手机拉响警报
+        }
+
+        intent.putExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, value);
         HSApplication.getInstance().sendBroadcast(intent);
     }
 

@@ -5,6 +5,9 @@ import android.os.Handler;
 
 import com.mn.tiger.log.Logger;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
+
 /**
  * Created by peng on 15/8/2.
  */
@@ -23,6 +26,8 @@ public class TGAudioPlayer
     private OnPlayListener onPlayListener;
 
     private String currentDataSource = "";
+
+    private FileDescriptor currentFileDataSource = null;
 
     private int PROGRESS_TIME_INTERVAL = 200;
 
@@ -47,6 +52,36 @@ public class TGAudioPlayer
         timeHandler = new Handler();
     }
 
+    public void start(FileDescriptor dataSource, OnPlayListener listener)
+    {
+        this.currentFileDataSource = dataSource;
+        this.currentDataSource = currentFileDataSource.toString();
+        this.onPlayListener = listener;
+        //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+        {
+            @Override
+            public void onCompletion(MediaPlayer mp)
+            {
+                if (null != onPlayListener)
+                {
+                    onPlayListener.onPlayComplete(currentDataSource);
+                }
+            }
+        });
+
+        try
+        {
+            mediaPlayer.reset(); //重置多媒体
+            mediaPlayer.setDataSource(currentFileDataSource);//为多媒体对象设置播放路径
+            play();
+        }
+        catch (Exception e)
+        {
+            LOG.e(e);
+        }
+    }
+
     public void start(String dataSource)
     {
         start(dataSource, null);
@@ -56,14 +91,13 @@ public class TGAudioPlayer
     {
         this.currentDataSource = dataSource;
         this.onPlayListener = listener;
-        playDuration = 0;
         //setOnCompletionListener 当前多媒体对象播放完成时发生的事件
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
         {
             @Override
             public void onCompletion(MediaPlayer mp)
             {
-                if(null != onPlayListener)
+                if (null != onPlayListener)
                 {
                     onPlayListener.onPlayComplete(currentDataSource);
                 }
@@ -74,37 +108,43 @@ public class TGAudioPlayer
         {
             mediaPlayer.reset(); //重置多媒体
             mediaPlayer.setDataSource(currentDataSource);//为多媒体对象设置播放路径
-            mediaPlayer.prepare();//准备播放
-            mediaPlayer.start();//开始播放
-
-            final int audioDuration = mediaPlayer.getDuration();
-
-            timeHandler.postDelayed(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    playDuration += PROGRESS_TIME_INTERVAL;
-                    if (null != onPlayListener && playDuration <= audioDuration)
-                    {
-                        onPlayListener.onPlaying(currentDataSource, playDuration, audioDuration);
-                    }
-
-                    if(playDuration < audioDuration)
-                    {
-                        timeHandler.postDelayed(this, PROGRESS_TIME_INTERVAL);
-                    }
-                }
-            },  PROGRESS_TIME_INTERVAL);
-
-            if(null != onPlayListener)
-            {
-                onPlayListener.onPlayStart(currentDataSource);
-            }
+            play();
         }
         catch (Exception e)
         {
             LOG.e(e);
+        }
+    }
+
+    private void play() throws IOException
+    {
+        playDuration = 0;
+        mediaPlayer.prepare();//准备播放
+        mediaPlayer.start();//开始播放
+
+        final int audioDuration = mediaPlayer.getDuration();
+
+        timeHandler.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                playDuration += PROGRESS_TIME_INTERVAL;
+                if (null != onPlayListener && playDuration <= audioDuration)
+                {
+                    onPlayListener.onPlaying(currentDataSource, playDuration, audioDuration);
+                }
+
+                if(playDuration < audioDuration)
+                {
+                    timeHandler.postDelayed(this, PROGRESS_TIME_INTERVAL);
+                }
+            }
+        },  PROGRESS_TIME_INTERVAL);
+
+        if(null != onPlayListener)
+        {
+            onPlayListener.onPlayStart(currentDataSource);
         }
     }
 
@@ -146,7 +186,7 @@ public class TGAudioPlayer
         return mediaPlayer.isPlaying();
     }
 
-    public static interface OnPlayListener
+    public interface OnPlayListener
     {
         void onPlayStart(String dataSource);
 

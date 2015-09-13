@@ -120,7 +120,7 @@
 
         <activity
             android:name=".bluetooth.RenamePeripheralActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
 
         <activity
             android:name=".lbs.FindMyItemActivity"

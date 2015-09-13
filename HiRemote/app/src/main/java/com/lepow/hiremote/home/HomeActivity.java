@@ -15,11 +15,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.authorise.LoginActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
@@ -114,10 +116,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		{
 			if(intent.getAction().equals(IntentAction.ACTION_READ_PERIPHERAL_POWER))
 			{
-				connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(
-						HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
-				LOG.d("Peripheral power ");
-				PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
 				onPeripheralChanged();
 			}
 			else if(intent.getAction().equals(IntentAction.ACTION_READ_DISCONNECTED_ALARM))
@@ -131,18 +129,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 				switch (bleState)
 				{
 					case TGBLEManager.BLE_STATE_CONNECTED:
-						connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(tgblePeripheralInfo);
-						PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
-						connectedPeripheral.setConnected(true);
-
 						progressDialog.dismiss();
-
 						onPeripheralChanged();
 						break;
 					case TGBLEManager.BLE_STATE_DISCONNECTED:
 						connectedPeripheral = PeripheralInfo.NULL_OBJECT;
 						onPeripheralChanged();
 						showDisconnectedNotification();
+						LOG.d("[Method:onReceive] disconnected peripheral ");
 						break;
 
 					case TGBLEManager.BLE_STATE_NONSUPPORT:
@@ -150,6 +144,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 						break;
 
 					case TGBLEManager.BLE_STATE_NO_PERIPHERAL_FOUND:
+						connectedPeripheral = PeripheralInfo.NULL_OBJECT;
+						LOG.d("[Method:onReceive] not found peripheral ");
+						onPeripheralChanged();
 						progressDialog.dismiss();
 						break;
 
@@ -224,6 +221,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		getLeftBarButton().setOnClickListener(this);
 
 		initBannerIndicator();
+		bannerPagerView.setCircleable(false);
 		bannerPagerView.setViewPagerHolder(new ViewPagerHolder<PeripheralInfo>()
 		{
 			@Override
@@ -267,8 +265,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 	private void onPeripheralChanged()
 	{
+		TGBLEPeripheralInfo tgblePeripheralInfo = HSBLEPeripheralManager.getInstance().getCurrentPeripheral();
+		if(null != tgblePeripheralInfo)
+		{
+			connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+			connectedPeripheral.setConnected(true);
+			PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+		}
+		else
+		{
+			connectedPeripheral = PeripheralInfo.NULL_OBJECT;
+		}
+
+		PeripheralInfo lastPeripheral = PeripheralInfo.fromBLEPeripheralInfo(HSBLEPeripheralManager.getInstance().getLastPeripheral());
+
 		playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
-		peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral);
+		peripheralInfos = PeripheralDataManager.getAllPeripherals(this, connectedPeripheral, lastPeripheral);
 		bannerPagerView.setData(peripheralInfos);
 		if(!connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 		{
@@ -299,20 +311,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 	public void onPageSelected(int position)
 	{
-		final PeripheralInfo peripheralInfo = peripheralInfos.get(position - 1);
+		final PeripheralInfo peripheralInfo = peripheralInfos.get(position);
+		LOG.d("[Method:onPageSelected] position == " + position + "   BLE_ADDRESS == " + peripheralInfo.getMacAddress() +
+				"   isConnected == " + peripheralInfo.isConnected());
 
-		LOG.d("[Method:onPageSelected] position == " + position + "   BLE_ADDRESS == " + peripheralInfo.getMacAddress());
-
-		handler.postDelayed(new Runnable()
+		if (!peripheralInfo.isConnected())
 		{
-			@Override
-			public void run()
+			handler.postDelayed(new Runnable()
 			{
-				HSBLEPeripheralManager.getInstance().scanTargetPeripheral(peripheralInfo.getMacAddress());
-			}
-		}, 2000);
+				@Override
+				public void run()
+				{
+					HSBLEPeripheralManager.getInstance().scanTargetPeripheral(peripheralInfo.getMacAddress());
+				}
+			}, 2000);
 
-		progressDialog.show();
+			progressDialog.show();
+		}
 	}
 
 	@Override
@@ -456,5 +471,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 	{
 		super.onDestroy();
 		unregisterReceiver(broadcastReceiver);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+	}
+
+	@Override
+	public void finish()
+	{
+		super.finish();
+		HSApplication.getInstance().exit();
 	}
 }
