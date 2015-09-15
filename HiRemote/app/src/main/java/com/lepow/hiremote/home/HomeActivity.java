@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import com.android.camera.Camera;
@@ -109,6 +108,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 	private ProgressDialog progressDialog;
 
+	private int currentPeripheralIndex = 0;
+
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -120,7 +121,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			}
 			else if(intent.getAction().equals(IntentAction.ACTION_READ_DISCONNECTED_ALARM))
 			{
-				playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().getValueOfDisconnectedAlarmCharacteristic(intent));
+				playSoundSwitch.setChecked(HSBLEPeripheralManager.getInstance().isDisconnectedAlarmEnable());
 			}
 			else if(intent.getAction().equals(TGBLEManager.ACTION_BLE_STATE_CHANGE))
 			{
@@ -268,9 +269,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		TGBLEPeripheralInfo tgblePeripheralInfo = HSBLEPeripheralManager.getInstance().getCurrentPeripheral();
 		if(null != tgblePeripheralInfo)
 		{
-			connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(HSBLEPeripheralManager.getInstance().getCurrentPeripheral());
+			connectedPeripheral = PeripheralInfo.fromBLEPeripheralInfo(tgblePeripheralInfo);
 			connectedPeripheral.setConnected(true);
-			PeripheralDataManager.savePeripheral(HomeActivity.this, connectedPeripheral);
+			connectedPeripheral.setEnergy(HSBLEPeripheralManager.getInstance().getPeripheralPower());
+			PeripheralDataManager.savePeripheral(this, connectedPeripheral);
 		}
 		else
 		{
@@ -284,7 +286,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		bannerPagerView.setData(peripheralInfos);
 		if(!connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 		{
-			bannerPagerView.setCurrentPage(peripheralInfos.indexOf(connectedPeripheral));
+			currentPeripheralIndex = peripheralInfos.indexOf(connectedPeripheral);
+			bannerPagerView.setCurrentPage(currentPeripheralIndex);
+		}
+		else
+		{
+			bannerPagerView.setCurrentPage(currentPeripheralIndex);
 		}
 	}
 
@@ -311,22 +318,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 	public void onPageSelected(int position)
 	{
-		final PeripheralInfo peripheralInfo = peripheralInfos.get(position);
-		LOG.d("[Method:onPageSelected] position == " + position + "   BLE_ADDRESS == " + peripheralInfo.getMacAddress() +
-				"   isConnected == " + peripheralInfo.isConnected());
-
-		if (!peripheralInfo.isConnected())
+		if(currentPeripheralIndex != position)
 		{
-			handler.postDelayed(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					HSBLEPeripheralManager.getInstance().scanTargetPeripheral(peripheralInfo.getMacAddress());
-				}
-			}, 2000);
+			currentPeripheralIndex = position;
 
-			progressDialog.show();
+			final PeripheralInfo peripheralInfo = peripheralInfos.get(position);
+			LOG.d("[Method:onPageSelected] position == " + position + "   BLE_ADDRESS == " + peripheralInfo.getMacAddress() +
+					"   isConnected == " + peripheralInfo.isConnected());
+
+			if (!peripheralInfo.isConnected())
+			{
+				handler.postDelayed(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						HSBLEPeripheralManager.getInstance().scanTargetPeripheral(peripheralInfo.getMacAddress());
+					}
+				}, 2000);
+
+				progressDialog.show();
+			}
 		}
 	}
 
@@ -338,6 +350,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		connectedPeripheral = null != peripheralInfo ? peripheralInfo : PeripheralInfo.NULL_OBJECT;
 
 		onPeripheralChanged();
+
+		//读取蓝牙设备特征值
+		HSBLEPeripheralManager.getInstance().readAllCharacteristics();
 	}
 
 	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch,

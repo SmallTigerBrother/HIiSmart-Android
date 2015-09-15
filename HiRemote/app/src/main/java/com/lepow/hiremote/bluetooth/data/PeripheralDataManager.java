@@ -85,7 +85,7 @@ public class PeripheralDataManager
 		return peripheralInfos;
 	}
 
-	public static void savePeripheral(Context context, PeripheralInfo peripheralInfo)
+	public synchronized static void savePeripheral(Context context, PeripheralInfo peripheralInfo)
 	{
 		if(null != peripheralInfo && !peripheralInfo.equals(PeripheralInfo.NULL_OBJECT))
 		{

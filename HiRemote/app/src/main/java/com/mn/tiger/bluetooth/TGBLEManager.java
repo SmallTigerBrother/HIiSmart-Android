@@ -216,8 +216,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                         connecting = false;
                         scannerState = BLEScannerState.STOP;
                         sendBroadcast(BLE_STATE_POWER_OFF, null);
-                    }
-                    else if (state == BluetoothAdapter.STATE_ON)
+                    } else if (state == BluetoothAdapter.STATE_ON)
                     {
                         handler.postDelayed(new Runnable()
                         {
@@ -317,13 +316,12 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 }
                 else
                 {
-                    executeScan();
+                    sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
                 }
-
             }
             else
             {
-                executeScan();
+                sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
             }
         }
     }
@@ -354,29 +352,32 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
 
     private void executeScan()
     {
-        handler.postDelayed(new Runnable()
+        if(!connecting)
         {
-            @Override
-            public void run()
+            handler.postDelayed(new Runnable()
             {
-                LOG.d("[Method:executeScan] Scan time out");
-                if (null == currentPeripheral)
+                @Override
+                public void run()
                 {
-                    sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
+                    LOG.d("[Method:executeScan] Scan time out");
+                    if (null == currentPeripheral)
+                    {
+                        sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
+                    }
+                    stopScan();
                 }
-                stopScan();
-            }
-        }, SCAN_TIME_OUT);
+            }, SCAN_TIME_OUT);
 
-        if(null != bluetoothAdapter)
-        {
-            if(null != scanParameter)
+            if(null != bluetoothAdapter)
             {
-                bluetoothAdapter.startLeScan(scanParameter.getServiceUUIDs(), this);
-            }
-            else
-            {
-                bluetoothAdapter.startLeScan(this);
+                if(null != scanParameter)
+                {
+                    bluetoothAdapter.startLeScan(scanParameter.getServiceUUIDs(), this);
+                }
+                else
+                {
+                    bluetoothAdapter.startLeScan(this);
+                }
             }
         }
     }
@@ -561,6 +562,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     currentPeripheral = new TGBLEPeripheralInfo();
                     currentPeripheral.setPeripheralName(gatt.getDevice().getName());
                     currentPeripheral.setMacAddress(gatt.getDevice().getAddress());
+                    lastPeripheral = (null != lastPeripheral && currentPeripheral.getMacAddress().equals(lastPeripheral.getMacAddress())) ? null : lastPeripheral;
 
                     LOG.d("[Method:onConnectionStateChange] STATE_CONNECTED  mac == " + gatt.getDevice().getAddress());
                     gatt.discoverServices();
@@ -581,15 +583,19 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     switch (scannerState)
                     {
                         case SCANNING:
+                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING");
                             handler.sendEmptyMessage(MESSAGE_START_SCAN);
                             break;
                         case SCANNING_NEW_PERIPHERAL:
+                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING_NEW_PERIPHERAL");
                             handler.sendEmptyMessage(MESSAGE_START_SCAN_NEW_PERIPHERAL);
                             break;
                         case SCANNING_TARGET_PERIPHERAL:
+                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING_TARGET_PERIPHERAL   targetPeripheral == " + targetPeripheralMacAddress);
                             handler.sendEmptyMessage(MESSAGE_START_SCAN_TARGET_PERIPHERAL);
                             break;
                         default:
+                            LOG.d("[Method:onConnectionStateChange] scannerState == STOP");
                             connecting = false;
                             sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
                             break;
