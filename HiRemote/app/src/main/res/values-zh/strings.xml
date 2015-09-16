@@ -16,6 +16,117 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">HiSmart</string>
+    <string name="action_settings">设置</string>
+
+
+    <string name="intro_location_title">定位记录</string>
+    <string name="intro_location_detail">您能够轻松地找到您所到之处的历史记录。</string>
+    <string name="intro_find_title">寻找设备</string>
+    <string name="intro_find_detail">寻找和HiSmart连接的手机。</string>
+    <string name="intro_camera_title">相机快门</string>
+    <string name="intro_camera_detail">使用您的HiSmart上的快门来拍摄照片。</string>
+    <string name="intro_voice_title">录音记录</string>
+    <string name="intro_voice_detail">您可以轻松的录制、管理您的录音.</string>
+    <string name="intro_hiremote_title">HiSmart控制</string>
+
+    <string name="my_bag">我的Hi包</string>
+    <string name="edit">编辑</string>
+
+    <string name="start">开始体验</string>
+
+    <string name="edit_location_title">更改名称</string>
+    <string name="edit_record_title">更改名称</string>
+
+    <string name="settings">设置</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="exit_now">退出</string>
+    <string name="tips">提示</string>
+    <string name="your_app_is_invalid">很抱歉，本客户端已失效!</string>
+    <string name="upgrade_now">马上升级</string>
+    <string name="upgrade_later">随后升级</string>
+    <string name="downloading">下载中...</string>
+    <string name="prompt_upgrade_string_format">发现新版本 %1$s 。 \n %2$s</string>
+    <string name="force_upgrade_string_format">该改本太老了. 请升级到新版 %1$s. \n %2$s</string>
+
+    <string name="something_wrong_downloading_try_again">下载出错，请再试一次!</string>
+    <string name="something_wrong_downloading_try_later">下载出错，请稍后重试!</string>
+
+    <string name="add_new_device">添加一个新设备</string>
+    <string name="privacy_policy">隐私策略</string>
+    <string name="terms_conditions">服务条款</string>
+    <string name="contact_us">联系我们</string>
+    <string name="support_faq">帮助与建议</string>
+    <string name="retry">重试</string>
+    <string name="open_bluetooth_now">打开蓝牙</string>
+    <string name="bluetooth_off_tips">正在打开蓝牙...</string>
+    <string name="nonsupport_bluetooth_tips">抱歉，您的手机不支持蓝牙4.0</string>
+    <string name="not_found_new_peripheral_tips">找不到新设备，连接上一个设备吗？</string>
+    <string name="buzz_my_item">呼叫我的设备</string>
+    <string name="connect_old_peripheral">连接上一个设备</string>
+    <string name="oops">啊哦</string>
+    <string name="not_found_peripheral_tips">看来我们没有找到它，让我们再试一次!</string>
+    <string name="have_a_problem">有一个问题</string>
+    <string name="support">帮助</string>
+    <string name="hismart_add_success">HiSmart已经成功添加!</string>
+    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
+    <string name="rename_peripheral_btn_text">重命名 %1$s 为</string>
+    <string name="next">下一步</string>
+    <string name="add_a_hismart">添加一个HiSmart</string>
+    <string name="add_a_hismart_tips">i: 确保您的智能手机的蓝牙已经打开。 \n ii: 按住HiSmart中间的按钮来激活它。</string>
+    <string name="scanning">扫描...</string>
+    <string name="push_notifications">消息通知</string>
+    <string name="voice_memo">录音记录</string>
+    <string name="play_sounds">断开响铃</string>
+    <string name="stop">Stop</string>
+    <string name="forgot_password">忘记密码</string>
+    <string name="password_hint">密码:</string>
+    <string name="account_hint">用户名/邮箱:</string>
+    <string name="user_name_hint">用户名:</string>
+    <string name="email_hint">邮箱:</string>
+    <string name="confirm_password_hint">确认密码:</string>
+    <string name="regsiter_agree_policy">我同意 ...</string>
+
+    <string name="private_policy_tips">查看隐私策略。</string>
+    <string name="terms_conditions_tips">查看其它信息。</string>
+    <string name="contact_us_tips">在常见问题中找不到答案？直接联系我们。</string>
+    <string name="support_faq_tips">需要帮助？ 请找我们。</string>
+    <string name="add_new_device_tips">可以添加另外一台设备。</string>
+
+    <string name="login_title">登陆</string>
+    <string name="login_btn_text">注销</string>
+    <string name="account_can_not_be_null">啊哦! 用户账号不能为空l</string>
+
+    <string name="register_btn_text">注册一个新账号</string>
+    <string name="register_title">注册</string>
+    <string name="password_can_not_be_null_more_than_5_letter">啊哦! 您的密码不能为空，且必须长于5个字符。</string>
+    <string name="email_invalid">啊哦! 请输入有效的邮箱地址。</string>
+    <string name="password_not_same">啊哦! 请确保您两次输入的密码一致。</string>
+
+    <string name="reset_password_title">重置密码</string>
+
+    <string name="please_check_your_email_later">请稍后查看您的邮件。</string>
+
+    <string name="reset_password_btn_text">重置密码</string>
+
+    <string name="reset_password_email_hint">邮箱:</string>
+
+    <string name="reset_password_tips">稍后我们将发一封邮件到您的邮箱，您可以通过该邮件重置您的密码。</string>
+
+    <string name="location_history">定位记录</string>
+    <string name="location">定位</string>
+    <string name="disconnection_history">断开历史记录</string>
+    <string name="make_sure_you_delete_location">您想删除这条记录吗？</string>
+    <string name="find_my_item_title">寻找设备</string>
+    <string name="history">历史记录</string>
+    <string name="no_device">无设备</string>
+    <string name="change_name">更改名称</string>
+
+
+
     <string name="camera_error_title" msgid="6484667504938477337">"相机故障"</string>
     <string name="cannot_connect_camera" msgid="8029009101380114174">"无法连接到相机。"</string>
     <string name="camera_label" msgid="6346560772074764302">"相机"</string>
@@ -109,6 +220,4 @@
     <string name="switch_to_camera_lable" msgid="8248495141797448471">"切换到相机"</string>
     <string name="switch_to_video_lable" msgid="4525451949497982385">"切换到视频"</string>
 
-    <string name="alarm_tips">您的HiSmart正在向您发起呼叫!</string>
-    <string name="tips">提示</string>
 </resources>

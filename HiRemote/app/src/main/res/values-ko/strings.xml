@@ -2,118 +2,94 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
            xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="action_settings">Settings</string>
-    <string name="add_new_device">Add a New Device</string>
-    <string name="support_faq">Support and FAQs</string>
-    <string name="contact_us">Contact Us</string>
-    <string name="terms_conditions">Terms and Conditions</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="private_policy_tips">Find the private policy here.</string>
-    <string name="terms_conditions_tips">Find the information here.</string>
-
-    <string name="support_faq_tips">Need any help? We can help you.</string>
-    <string name="add_new_device_tips">Include another HiSmart device by adding it here.</string>
-
-    <string name="play_sounds">Play Sounds</string>
-
-    <string name="contact_us_tips">Didn\'t find your answer in FAQs. Reach out to us directly.</string>
-
     <string name="app_name">HiSmart</string>
-
-    <string name="intro_location_title">Pin Location</string>
-    <string name="intro_location_detail">You can easily find the history of all the locations you have been to.</string>
-    <string name="intro_find_title">Find My Item</string>
-    <string name="intro_find_detail">Search for the item attached to the HiRemote.</string>
-    <string name="intro_camera_title">Take Photos</string>
-    <string name="intro_camera_detail">Use the shutter button on your HiRemote to snap pics</string>
-    <string name="intro_voice_title">Voice Memos</string>
-    <string name="intro_voice_detail">You easily can store, rename, or delete your audio file.</string>
-    <string name="intro_hiremote_title">HiRemote Control</string>
-
-    <string name="my_bag">My Bag</string>
-    <string name="edit">Edit</string>
-
-    <string name="start">Get Started</string>
-
-    <string name="edit_location_title">Change a name</string>
-    <string name="edit_record_title">Change a name</string>
-
-    <string name="settings">Settings</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="confirm">Confirm</string>
-    <string name="exit_now">Exit Now</string>
-    <string name="tips">Tips</string>
-    <string name="your_app_is_invalid">We are so sorry to tell you that this App is invalid now!</string>
-    <string name="upgrade_now">Upgrade Now</string>
-    <string name="upgrade_later">Upgrade Later</string>
-    <string name="downloading">Downloading</string>
-    <string name="prompt_upgrade_string_format">The new version %1$s is found. \n %2$s</string>
-    <string name="force_upgrade_string_format">This version of app is Invalid now. You must upgrade to the new version %1$s. \n %2$s</string>
-
-    <string name="something_wrong_downloading_try_again">There was something wrong happened while downloading package, please try again!</string>
-    <string name="something_wrong_downloading_try_later">There was something wrong happened while downloading package, you can try later!</string>
+    <string name="action_settings">설치중</string>
 
 
-    <string name="retry">Retry</string>
-    <string name="open_bluetooth_now">Turn On</string>
-    <string name="bluetooth_off_tips">Turn on Bluetooth...</string>
-    <string name="nonsupport_bluetooth_tips">Oops! Your device is not support Bluetooth 4.0!</string>
-    <string name="not_found_new_peripheral_tips">Oops! Can not find new peripheral! Do you want to connect the old one?</string>
-    <string name="buzz_my_item">Buzz my item</string>
-    <string name="connect_old_peripheral">Connect to last device</string>
-    <string name="oops">Oops.</string>
-    <string name="not_found_peripheral_tips">It looks like we can\'t find it, let\'t try again!</string>
-    <string name="have_a_problem">have a problem</string>
-    <string name="support">Support</string>
-    <string name="hismart_add_success">HiSmart was added successfully!</string>
+    <string name="intro_location_title">위치기록</string>
+    <string name="intro_location_detail">나의 위치 이력을 간편하게 찾을 수 있습니다.</string>
+    <string name="intro_find_title">나의 기기 검색</string>
+    <string name="intro_find_detail">HiSmart에 첨부한 기기 검색</string>
+    <string name="intro_camera_title">카메라 셔터</string>
+    <string name="intro_camera_detail">HiSmart의 카메라셔터로 사진을 찍으세요.</string>
+    <string name="intro_voice_title">음성메모</string>
+    <string name="intro_voice_detail">HiSmart의 카메라셔터로 사진을 찍으세요</string>
+    <string name="intro_hiremote_title">HiRemote 제어</string>
+
+    <string name="my_bag">나의 hi백</string>
+    <string name="edit">편집</string>
+
+    <string name="start">체험시작</string>
+
+    <string name="edit_location_title">이름변경</string>
+    <string name="edit_record_title">이름변경</string>
+
+    <string name="settings">설치중</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+    <string name="exit_now">로그아웃</string>
+    <string name="tips">팁</string>
+
+    <string name="add_new_device">새로운 장치 추가</string>
+    <string name="privacy_policy">개인정보취급방침</string>
+    <string name="terms_conditions">이용약관</string>
+    <string name="contact_us">문의</string>
+    <string name="support_faq">지원 및 FAQ</string>
+    <string name="retry">재시도</string>
+    <string name="not_found_new_peripheral_tips">기기 검색 실패.이전 기기를 연결?</string>
+    <string name="buzz_my_item">기기호출</string>
+    <string name="oops">웁스!</string>
+    <string name="not_found_peripheral_tips">기기 검색 되지않았습니다. 다시한번 검색해주세요.</string>
+    <string name="have_a_problem">문제 발생</string>
+    <string name="support">지원 및 FAQ</string>
+    <string name="hismart_add_success">HiSmart추가되였습니다.</string>
     <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
-    <string name="rename_peripheral_btn_text">Rename the %1$s as...</string>
-    <string name="next">Next</string>
-    <string name="add_a_hismart">Add a HiSmart</string>
-    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \n ii: Hold the play button of the HiSmart to activate it.</string>
-    <string name="scanning">Scanning...</string>
-    <string name="push_notifications">Push Notifications</string>
-    <string name="voice_memo">Voice Memos</string>
+    <string name="rename_peripheral_btn_text">이름바꾸기 %1$s </string>
+    <string name="next">다음</string>
+    <string name="add_a_hismart">HiSmart 한개 추가</string>
+    <string name="add_a_hismart_tips">ⅰ: 당신의 스마트기기에 블루투스가 오픈되였는지 확인해주세요. \n ⅱ: HiSmart중간의 버튼을 눌러 활성화시킵니다.</string>
+    <string name="scanning">스캔중...</string>
+    <string name="push_notifications">알림</string>
+    <string name="voice_memo">음성메모</string>
+    <string name="play_sounds">재생</string>
+    <string name="stop">정지</string>
+    <string name="forgot_password">비밀본호를 잊어버렸습니다</string>
+    <string name="password_hint">비밀번호:</string>
+    <string name="account_hint">사용자명/이메일:</string>
+    <string name="user_name_hint">사용자명:</string>
+    <string name="email_hint">이메일:</string>
+    <string name="confirm_password_hint">비밀번호 확인:</string>
+    <string name="regsiter_agree_policy">동의합니다 ...</string>
 
-    <string name="stop">Stop</string>
-    <string name="forgot_password">Forgot password</string>
-    <string name="password_hint">Password:</string>
-    <string name="account_hint">UserName/E-mail:</string>
-    <string name="user_name_hint">UserName:</string>
-    <string name="email_hint">E-mail:</string>
-    <string name="confirm_password_hint">Confirm password:</string>
-    <string name="regsiter_agree_policy">I Agree to ...</string>
+    <string name="private_policy_tips">이곳에서 개인정보취급방침을 찾으세요.</string>
+    <string name="terms_conditions_tips">이곳에서 정보를 찾으세요.</string>
+    <string name="contact_us_tips">질문에 답을 찾지 못하였습니다.</string>
+    <string name="support_faq_tips">다른 도움이 필요하신가요? 도움을 드리겠습니다.</string>
+    <string name="add_new_device_tips">이곳에 추가함으로써 또 다른 HiSmart 장치를 포함하세요.</string>
 
+    <string name="login_title">로그인</string>
+    <string name="login_btn_text">로그아웃</string>
 
-    <string name="login_title">Login</string>
-    <string name="login_btn_text">Login</string>
-    <string name="account_can_not_be_null">Oops! Your account can not be null</string>
+    <string name="register_btn_text">새 계정 등록</string>
+    <string name="register_title">로그인</string>
+    <string name="email_invalid">이메일을 입력해주세요.</string>
+    <string name="password_not_same">비밀번호가 일치하지 않습니다.</string>
 
-    <string name="register_btn_text">Register new Account</string>
-    <string name="register_title">Register</string>
-    <string name="password_can_not_be_null_more_than_5_letter">Oops! Your passwor can not be null and more than 5 letters.</string>
-    <string name="email_invalid">Oops! Your email is invalid.l</string>
-    <string name="password_not_same">Oops! Please your double passwords are not the same.</string>
+    <string name="reset_password_title">새로운 비밀번호</string>
 
-    <string name="reset_password_title">Reset Password</string>
+    <string name="reset_password_btn_text">새로운 비밀번호</string>
 
-    <string name="please_check_your_email_later">Please check your emaillater.</string>
+    <string name="reset_password_email_hint">이메일:</string>
 
-    <string name="reset_password_btn_text">Reset Password</string>
+    <string name="reset_password_tips">비밀번호 설정 이메일을 보내드렸습니다. 받은 메일에서 비밀번호를 설정해 주십시오..</string>
 
-    <string name="reset_password_email_hint">E-mail:</string>
-
-    <string name="reset_password_tips">We will send an email to your email box, you can reset your password by  the email.</string>
-
-    <string name="location_history">Location History</string>
-    <string name="location">Location</string>
+    <string name="location_history">위치내역</string>
+    <string name="location">위치</string>
     <string name="disconnection_history">Disconnection History</string>
-    <string name="make_sure_you_delete_location">Do you make sure that you want to delete this location</string>
-    <string name="find_my_item_title">Find My Item</string>
-    <string name="history">History</string>
-    <string name="no_device">No Device</string>
-    <string name="change_name">Change Name</string>
+    <string name="make_sure_you_delete_location">이 기록을 삭제하실 건가요?</string>
+    <string name="find_my_item_title">나의 기기 검색</string>
+    <string name="change_name">이름변경</string>
 
     <!-- title for the dialog showing the error of camera hardware -->
     <string name="camera_error_title">Camera error</string>
