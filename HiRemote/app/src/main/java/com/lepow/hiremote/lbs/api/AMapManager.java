@@ -66,8 +66,14 @@ public class AMapManager implements  IMapManager, AMapLocationListener, Location
         markerOptions.position(new LatLng(latitude, langitude));
         markerOptions.title(title);
         Marker marker = aMap.addMarker(markerOptions);
+        aMap.clear();
 
         marker.showInfoWindow();
+    }
+
+    public void clear()
+    {
+        aMap.clear();
     }
 
     @Override
@@ -104,6 +110,7 @@ public class AMapManager implements  IMapManager, AMapLocationListener, Location
     @Override
     public void showMyLocation()
     {
+        aMap.getMyLocation();
     }
 
     @Override

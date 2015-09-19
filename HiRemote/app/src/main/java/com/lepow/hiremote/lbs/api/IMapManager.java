@@ -23,4 +23,6 @@ public interface IMapManager
     void centerTo(double latitude, double longitude);
 
     void showMyLocation();
+
+    void clear();
 }

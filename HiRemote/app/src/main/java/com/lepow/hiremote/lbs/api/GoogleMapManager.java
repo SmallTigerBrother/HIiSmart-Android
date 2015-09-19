@@ -1,10 +1,16 @@
 package com.lepow.hiremote.lbs.api;
 
 import android.app.Activity;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -13,13 +19,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by Dalang on 2015/8/23.
  */
-public class GoogleMapManager implements IMapManager
+public class GoogleMapManager implements IMapManager, LocationSource, LocationListener
 {
     private Activity activity;
 
     private MapView mapView;
 
     private GoogleMap googleMap;
+
+    private LocationManager locationManager;
+
+    private OnLocationChangedListener onLocationChangedListener;
 
     public GoogleMapManager(Activity activity)
     {
@@ -39,7 +49,8 @@ public class GoogleMapManager implements IMapManager
     @Override
     public void centerTo(double latitude, double longitude)
     {
-
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 17);
+        googleMap.moveCamera(cameraUpdate);
     }
 
     @Override
@@ -80,6 +91,46 @@ public class GoogleMapManager implements IMapManager
     @Override
     public void showMyLocation()
     {
+        googleMap.getMyLocation();
+    }
 
+    @Override
+    public void clear()
+    {
+        googleMap.clear();
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        if(null != onLocationChangedListener)
+        {
+            onLocationChangedListener.onLocationChanged(location);
+        }
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener)
+    {
+        this.onLocationChangedListener = onLocationChangedListener;
+        if(null != this.onLocationChangedListener)
+        {
+//            locationManager = LocationManager.getInstance(this.activity);
+//            locationManager.requestLocationData(LocationProvider.AVAILABLE,
+//                    2000, 10, this);
+        }
+    }
+
+    @Override
+    public void deactivate()
+    {
+        onLocationChangedListener = null;
+        if(null != locationManager)
+        {
+//            locationManager.removeUpdates(this);
+//            locationManager.destroy();
+            //TODO
+        }
+        locationManager = null;
     }
 }

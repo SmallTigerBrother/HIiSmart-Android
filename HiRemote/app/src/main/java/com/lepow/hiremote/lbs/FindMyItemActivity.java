@@ -190,7 +190,14 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         //TODO 刷新界面位置
         if(resultCode == ActivityResultCode.DISCONNECT_LOCATION_HISTORY)
         {
-            LocationInfo locationInfo = (LocationInfo)data.getSerializableExtra(IntentKeys.LOCATION_INFO);
+            locationInfo = (LocationInfo)data.getSerializableExtra(IntentKeys.LOCATION_INFO);
+            mapManager.clear();
+            if(null != locationInfo)
+            {
+                mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                        locationInfo.getAddress());
+                mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
+            }
         }
     }
 }
