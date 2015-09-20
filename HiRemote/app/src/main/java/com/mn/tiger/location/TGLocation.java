@@ -1,14 +1,17 @@
 package com.mn.tiger.location;
 
 import android.location.Location;
+import android.location.LocationManager;
 
 import com.amap.api.location.AMapLocation;
 import com.baidu.location.BDLocation;
 
+import java.io.Serializable;
+
 /**
  * Created by Dalang on 2015/7/30.
  */
-public class TGLocation
+public class TGLocation implements Serializable
 {
     private double latitude;
 
@@ -26,6 +29,8 @@ public class TGLocation
 
     private long time;
 
+    private Location location;
+
     private TGLocation()
     {
     }
@@ -35,6 +40,7 @@ public class TGLocation
         TGLocation tgLocation = new TGLocation();
         tgLocation.latitude = location.getLatitude();
         tgLocation.longitude = location.getLongitude();
+        tgLocation.location = location;
         return tgLocation;
     }
 
@@ -132,5 +138,10 @@ public class TGLocation
     public long getTime()
     {
         return time;
+    }
+
+    public Location getLocation()
+    {
+        return location;
     }
 }
