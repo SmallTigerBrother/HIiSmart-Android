@@ -99,4 +99,16 @@ public class TGLocationManager implements ILocationManager
     {
         return false;
     }
+
+    @Override
+    public void removeLocationUpdates()
+    {
+        curLocationManager.removeLocationUpdates();
+    }
+
+    @Override
+    public void destroy()
+    {
+        curLocationManager.destroy();
+    }
 }
