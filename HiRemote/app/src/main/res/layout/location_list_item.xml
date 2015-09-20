@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.bingoogolapple.swipeitemlayout.BGASwipeItemLayout
+<com.lepow.hiremote.widget.BGASwipeItemLayout
                                                       xmlns:android="http://schemas.android.com/apk/res/android"
                                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                                       android:layout_width="match_parent"
-                                                      android:layout_height="80dp"
-                                                      android:background="@drawable/bottom_c4c4c4_stroke_white_bg"
+                                                      android:layout_height="wrap_content"
                                                       app:bga_sil_bottomMode="pullOut"
                                                       app:bga_sil_springDistance="20dp"
+                                                      android:gravity="center_vertical"
                                                       app:bga_sil_swipeDirection="left">
 
     <LinearLayout
         android:id="@+id/location_list_item_below"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:background="@color/color_val_d9d9d9"
         android:gravity="center_vertical"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:background="@android:color/white"
+        android:background="@drawable/bottom_c4c4c4_stroke_white_bg"
         android:paddingBottom="@dimen/margin_val_16px"
         android:paddingLeft="@dimen/margin_val_20px"
         android:paddingRight="@dimen/margin_val_20px"
@@ -85,6 +85,6 @@
     </LinearLayout>
 
 
-</cn.bingoogolapple.swipeitemlayout.BGASwipeItemLayout>
+</com.lepow.hiremote.widget.BGASwipeItemLayout>
 
 

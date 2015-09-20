@@ -4,13 +4,12 @@ import android.content.Context;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.lepow.hiremote.widget.BGASwipeItemLayout;
 import com.mn.tiger.widget.recyclerview.TGRecyclerViewAdapter;
-import com.mn.tiger.widget.recyclerview.TGRecyclerViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bingoogolapple.swipeitemlayout.BGASwipeItemLayout;
 
 /**
  * Created by peng on 15/9/19.
