@@ -2,7 +2,6 @@ package com.lepow.hiremote.lbs.api;
 
 import android.app.Activity;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -15,6 +14,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mn.tiger.location.GoogleLocationManager;
+import com.mn.tiger.location.ILocationManager;
+import com.mn.tiger.location.TGLocation;
 
 /**
  * Created by Dalang on 2015/8/23.
@@ -27,7 +29,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
 
     private GoogleMap googleMap;
 
-    private LocationManager locationManager;
+    private GoogleLocationManager locationManager;
 
     private OnLocationChangedListener onLocationChangedListener;
 
@@ -115,9 +117,16 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
         this.onLocationChangedListener = onLocationChangedListener;
         if(null != this.onLocationChangedListener)
         {
-//            locationManager = LocationManager.getInstance(this.activity);
-//            locationManager.requestLocationData(LocationProvider.AVAILABLE,
-//                    2000, 10, this);
+            locationManager = new GoogleLocationManager();
+            locationManager.setLocationListener(new ILocationManager.ILocationListener()
+            {
+                @Override
+                public void onReceiveLocation(TGLocation location)
+                {
+                    onLocationChanged(location.getLocation());
+                }
+            });
+            locationManager.requestLocationUpdates();
         }
     }
 
@@ -127,9 +136,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
         onLocationChangedListener = null;
         if(null != locationManager)
         {
-//            locationManager.removeUpdates(this);
-//            locationManager.destroy();
-            //TODO
+            locationManager.removeLocationUpdates();
         }
         locationManager = null;
     }
