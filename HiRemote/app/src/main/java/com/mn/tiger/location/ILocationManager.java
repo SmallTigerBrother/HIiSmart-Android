@@ -7,6 +7,10 @@ public interface ILocationManager
 {
     void requestLocationUpdates();
 
+    void removeLocationUpdates();
+
+    void destroy();
+
     void setLocationListener(ILocationListener listener);
 
     boolean isLocationInChina(TGLocation location);
