@@ -80,4 +80,17 @@ public class BaiduLocationManager implements ILocationManager
     {
         return true;
     }
+
+    @Override
+    public void removeLocationUpdates()
+    {
+        locationClient.unRegisterLocationListener(locationListener);
+    }
+
+    @Override
+    public void destroy()
+    {
+        locationClient.stop();
+        locationClient = null;
+    }
 }

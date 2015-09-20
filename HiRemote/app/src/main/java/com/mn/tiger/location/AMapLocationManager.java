@@ -116,6 +116,7 @@ public class AMapLocationManager implements ILocationManager
     public void destroy()
     {
         locationManagerProxy.destroy();
+        locationManagerProxy = null;
     }
 
     @Override
