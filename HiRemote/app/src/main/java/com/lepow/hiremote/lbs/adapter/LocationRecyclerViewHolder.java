@@ -14,6 +14,7 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.lepow.hiremote.widget.BGASwipeItemLayout;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.utility.DateUtils;
 import com.mn.tiger.widget.recyclerview.TGRecyclerViewHolder;
@@ -22,7 +23,6 @@ import java.util.Locale;
 
 import butterknife.FindView;
 import butterknife.OnClick;
-import cn.bingoogolapple.swipeitemlayout.BGASwipeItemLayout;
 
 /**
  *定位记录列表行填充类
@@ -179,13 +179,35 @@ public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInf
             public void onClick(DialogInterface dialog, int which)
             {
                 ((LocationAdapter)getAdapter()).closeOpenedItems();
-                getAdapter().removeItem(locationInfo);
+                removeLocation();
                 //更新数据库
                 dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    /**
+     * 删除一条定位记录
+     */
+    private void removeLocation()
+    {
+        switch (locationInfo.getDataType())
+        {
+            case LocationInfo.DATA_TYPE_PINNED_LOCATION:
+                LocationDataManager.getInstance().removePinnedLocation(getContext(), locationInfo);
+                break;
+
+            case LocationInfo.DATA_TYPE_DISCONNECT_LOCATION:
+                LocationDataManager.getInstance().removeDisconnectedLocation(getContext(), locationInfo);
+                break;
+
+            default:
+                break;
+        }
+
+        getAdapter().removeItem(locationInfo);
     }
 
 }

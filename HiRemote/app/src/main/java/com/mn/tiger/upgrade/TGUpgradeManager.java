@@ -2,11 +2,13 @@ package com.mn.tiger.upgrade;
 
 import android.content.Intent;
 
+import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.request.Response;
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.request.TGHttpLoader;
 import com.mn.tiger.request.receiver.TGHttpResult;
+import com.mn.tiger.utility.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,6 +80,7 @@ public class TGUpgradeManager
             @Override
             public void onLoadError(int code, String message, TGHttpResult tgHttpResult)
             {
+                ToastUtils.showToast(HSApplication.getInstance(), message);
             }
 
             @Override
