@@ -11,10 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lepow.hiremote.R;
+import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.widget.HSAlertDialog;
+import com.mn.tiger.utility.DateUtils;
 import com.mn.tiger.widget.recyclerview.TGRecyclerViewHolder;
+
+import java.util.Locale;
 
 import butterknife.FindView;
 import butterknife.OnClick;
@@ -38,9 +42,13 @@ public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInf
 
     private BGASwipeItemLayout swipeItemLayout;
 
+    private Locale locale;
+
     @Override
     public View initView(ViewGroup parent, int viewType)
     {
+        locale = HSApplication.getInstance().getResources().getConfiguration().locale;
+
         swipeItemLayout = (BGASwipeItemLayout)super.initView(parent, viewType);
         swipeItemLayout.setDelegate((BGASwipeItemLayout.BGASwipeItemLayoutDelegate)getAdapter());
         return swipeItemLayout;
@@ -50,8 +58,13 @@ public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInf
     public void fillData(ViewGroup parent, View convertView, LocationInfo itemData, int position, int viewType)
     {
         this.locationInfo = itemData;
+        String date = DateUtils.date2String(itemData.getTimestamp(),DateUtils.DATE_FORMAT);
+        if(!locale.getLanguage().equalsIgnoreCase("zh"))
+        {
+            date = DateUtils.date2String(itemData.getTimestamp(), "MM-dd-yyyy");
+        }
 
-        locationDate.setText(itemData.getDateString());
+        locationDate.setText(date);
         locationTime.setText(itemData.getTimeString());
         if(TextUtils.isEmpty(itemData.getRemark()))
         {

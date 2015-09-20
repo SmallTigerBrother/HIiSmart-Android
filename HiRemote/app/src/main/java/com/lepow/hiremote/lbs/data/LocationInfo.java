@@ -1,9 +1,9 @@
 package com.lepow.hiremote.lbs.data;
 
 import com.mn.tiger.location.TGLocation;
+import com.mn.tiger.utility.DateUtils;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 
 /**
@@ -130,18 +130,9 @@ public class LocationInfo implements Serializable
 		return address;
 	}
 	
-	public String getDateString()
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(timestamp);
-		return calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.YEAR);
-	}
-	
 	public String getTimeString()
 	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(timestamp);
-		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+		return DateUtils.date2String(timestamp, DateUtils.TIME_FORMAT);
 	}
 	
 	public String getRemark()
