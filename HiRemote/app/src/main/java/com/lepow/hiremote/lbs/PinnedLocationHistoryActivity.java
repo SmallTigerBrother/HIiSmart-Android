@@ -44,6 +44,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements
 			@Override
 			public void onReceive(Context context, Intent intent)
 			{
+				listAdapter.closeOpenedItems();
 				listAdapter.updateData(LocationDataManager.getInstance().findAllPinnedLocationSortByTime(PinnedLocationHistoryActivity.this));
 			}
 		};

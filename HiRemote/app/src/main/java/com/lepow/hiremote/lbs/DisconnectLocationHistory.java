@@ -1,6 +1,9 @@
 package com.lepow.hiremote.lbs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +13,7 @@ import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.lbs.adapter.LocationAdapter;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.misc.ActivityResultCode;
+import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.recyclerview.TGRecyclerView;
@@ -27,6 +31,21 @@ public class DisconnectLocationHistory extends BaseActivity implements TGRecycle
 
     private LocationAdapter listAdapter;
 
+    private BroadcastReceiver broadcastReceiver;
+
+    {
+        broadcastReceiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                listAdapter.closeOpenedItems();
+                listAdapter.updateData(LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(
+                        DisconnectLocationHistory.this));
+            }
+        };
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,6 +53,8 @@ public class DisconnectLocationHistory extends BaseActivity implements TGRecycle
         setContentView(R.layout.disconnect_location_history);
         setBarTitleText(getString(R.string.disconnection_history));
         ButterKnife.bind(this);
+
+        this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_DISCONNECTED_LOCATION));
 
         listView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -67,5 +88,12 @@ public class DisconnectLocationHistory extends BaseActivity implements TGRecycle
         data.putExtra(IntentKeys.LOCATION_INFO, listAdapter.getItem(i));
         this.setResult(ActivityResultCode.DISCONNECT_LOCATION_HISTORY, data);
         finish();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        this.unregisterReceiver(broadcastReceiver);
     }
 }
