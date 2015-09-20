@@ -114,6 +114,9 @@
     <string name="history">History</string>
     <string name="no_device">No Device</string>
     <string name="change_name">Change Name</string>
+    <string name="your_device_far_away_from_you">Warning your HiSmart bag is 90 feet away from you!</string>
+
+
 
     <!-- title for the dialog showing the error of camera hardware -->
     <string name="camera_error_title">Camera error</string>
@@ -415,5 +418,6 @@
     <string name="switch_to_video_lable">Switch to video</string>
 
     <string name="alarm_tips">The HiSmart is calling you!</string>
+    <string name="bluetooth_open_dialog_title">Please check the Bluetooth setting!</string>
 
 </resources>

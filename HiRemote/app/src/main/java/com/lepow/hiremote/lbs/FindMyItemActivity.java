@@ -120,6 +120,7 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
                     locationInfo.getAddress());
             mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
         }
+        mapManager.showMyLocation();
     }
 
     @Override
@@ -191,9 +192,9 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         if(resultCode == ActivityResultCode.DISCONNECT_LOCATION_HISTORY)
         {
             locationInfo = (LocationInfo)data.getSerializableExtra(IntentKeys.LOCATION_INFO);
-            mapManager.clear();
             if(null != locationInfo)
             {
+                mapManager.clear();
                 mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
                         locationInfo.getAddress());
                 mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));

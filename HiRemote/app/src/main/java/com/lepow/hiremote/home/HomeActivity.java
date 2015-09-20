@@ -54,6 +54,9 @@ import butterknife.FindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
+/**
+ * 主界面
+ */
 public class HomeActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener
 {
 	private static final Logger LOG = Logger.getLogger(HomeActivity.class);
@@ -159,12 +162,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 		private void showDisconnectedNotification()
 		{
-			TGNotificationBuilder builder = new TGNotificationBuilder(HomeActivity.this);
-			builder.setContentTitle("提示");
-			builder.setContentText("aaaaaaaaa");
-			builder.setSmallIcon(R.drawable.add_device);
-			builder.setClass(HomeActivity.class);
-			NotificationManager.getInstanse().showNotification(HomeActivity.this, 0, builder);
+			if(AppSettings.isPushNotificationSettingOn(HomeActivity.this))
+			{
+				TGNotificationBuilder builder = new TGNotificationBuilder(HomeActivity.this);
+				builder.setContentTitle(getString(R.string.oops));
+				builder.setContentText("");
+				builder.setSmallIcon(R.drawable.ic_launcher);
+				builder.setClass(HomeActivity.class);
+				NotificationManager.getInstanse().showNotification(HomeActivity.this, 0, builder);
+			}
 		}
 	};
 
@@ -217,7 +223,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		getRightBarButton().setImageResource(R.drawable.navi_setting);
 		getRightBarButton().setOnClickListener(this);
 
-		showLeftBarButton(true);
+		showLeftBarButton(false);
 		getLeftBarButton().setImageResource(R.drawable.add_device);
 		getLeftBarButton().setOnClickListener(this);
 
@@ -255,13 +261,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		dotDefaultShapeDrawable.setSize(DisplayUtils.dip2px(this, 6),
 				DisplayUtils.dip2px(this, 6));
 
-		GradientDrawable dotSelectedshapeDrawable = new GradientDrawable();
-		dotSelectedshapeDrawable.setShape(GradientDrawable.OVAL);
-		dotSelectedshapeDrawable.setSize(DisplayUtils.dip2px(this, 6),
+		GradientDrawable dotSelectedShapeDrawable = new GradientDrawable();
+		dotSelectedShapeDrawable.setShape(GradientDrawable.OVAL);
+		dotSelectedShapeDrawable.setSize(DisplayUtils.dip2px(this, 6),
 				DisplayUtils.dip2px(this, 6));
-		dotSelectedshapeDrawable.setColor(0xffffffff);
+		dotSelectedShapeDrawable.setColor(0xffffffff);
 
-		bannerPagerView.setDotViewBackground(dotDefaultShapeDrawable, dotSelectedshapeDrawable);
+		bannerPagerView.setDotViewBackground(dotDefaultShapeDrawable, dotSelectedShapeDrawable);
 	}
 
 	private void onPeripheralChanged()

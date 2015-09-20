@@ -149,16 +149,25 @@ public class ScanPeripheralActivity extends BaseActivity
 		notFoundPeripheralLayout.setVisibility(View.VISIBLE);
 	}
 
+	/**
+	 * 蓝牙关闭时的回调方法
+	 */
 	protected void onBlueToothPowerOff()
 	{
 		HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(ScanPeripheralActivity.this);
 	}
 
+	/**
+	 * 不支持蓝牙4.0时的回调方法
+	 */
 	protected void onBLENonSupport()
 	{
 		HSBLEPeripheralManager.getInstance().showNonSupportBLEDialog(ScanPeripheralActivity.this);
 	}
 
+	/**
+	 * 蓝牙打开回调方法
+	 */
 	protected void onBlueToothPowerOn()
 	{
 		scanningLayout.setVisibility(View.VISIBLE);

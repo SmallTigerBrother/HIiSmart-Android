@@ -66,7 +66,6 @@ public class AMapManager implements  IMapManager, AMapLocationListener, Location
         markerOptions.position(new LatLng(latitude, langitude));
         markerOptions.title(title);
         Marker marker = aMap.addMarker(markerOptions);
-        aMap.clear();
 
         marker.showInfoWindow();
     }

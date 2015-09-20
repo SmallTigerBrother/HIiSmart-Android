@@ -50,6 +50,7 @@ public class DisconnectLocationHistory extends BaseActivity implements TGRecycle
 
         listAdapter = new LocationAdapter(this, LocationDataManager.getInstance().findAllDisconnectedLocationOderByTime(this));
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(this);
     }
 
     @Override

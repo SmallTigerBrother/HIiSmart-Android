@@ -300,7 +300,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
     {
       if(null != getCurrentPeripheral())
       {
-          return (Integer)getCurrentPeripheral().getValue(POWER_CHARACTERISTIC_VALUE_KEY, 50);
+          return (Integer)getCurrentPeripheral().getEnergy();
       }
 
         return 50;
@@ -350,7 +350,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
     {
         HSAlertDialog dialog = new HSAlertDialog(activity);
         dialog.setTitleVisibility(View.GONE);
-        dialog.setBodyText(activity.getString(R.string.bluetooth_off_tips));
+        dialog.setBodyText(activity.getString(R.string.bluetooth_open_dialog_title));
         dialog.setLeftButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener()
         {
             @Override
@@ -364,11 +364,13 @@ public class HSBLEPeripheralManager extends TGBLEManager
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                dialog.dismiss();
                 HSBLEPeripheralManager.this.turnOnBluetoothInBackground();
                 ToastUtils.showToast(activity, R.string.bluetooth_off_tips);
+                dialog.dismiss();
             }
         });
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

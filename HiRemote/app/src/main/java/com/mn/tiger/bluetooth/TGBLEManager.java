@@ -216,7 +216,8 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                         connecting = false;
                         scannerState = BLEScannerState.STOP;
                         sendBroadcast(BLE_STATE_POWER_OFF, null);
-                    } else if (state == BluetoothAdapter.STATE_ON)
+                    }
+                    else if (state == BluetoothAdapter.STATE_ON)
                     {
                         handler.postDelayed(new Runnable()
                         {
@@ -249,12 +250,14 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         if(!bluetoothAdapter.isEnabled())
         {
             sendBroadcast(BLE_STATE_POWER_OFF, null);
+            stopScan();
             return;
         }
 
         if(null != currentPeripheral && null != currentGatt)
         {
             sendBroadcast(BLE_STATE_CONNECTED, currentPeripheral);
+            stopScan();
             return;
         }
 
@@ -273,12 +276,14 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         if(!bluetoothAdapter.isEnabled())
         {
             sendBroadcast(BLE_STATE_POWER_OFF, null);
+            stopScan();
             return;
         }
 
         if(null != currentPeripheral && null != currentGatt && currentPeripheral.getMacAddress().equals(peripheralMacAddress))
         {
             sendBroadcast(BLE_STATE_CONNECTED, currentPeripheral);
+            stopScan();
             return;
         }
 
@@ -317,11 +322,13 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 else
                 {
                     sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
+                    stopScan();
                 }
             }
             else
             {
                 sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
+                stopScan();
             }
         }
     }
@@ -337,6 +344,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         if(!bluetoothAdapter.isEnabled())
         {
             sendBroadcast(BLE_STATE_POWER_OFF, null);
+            stopScan();
             return;
         }
 
