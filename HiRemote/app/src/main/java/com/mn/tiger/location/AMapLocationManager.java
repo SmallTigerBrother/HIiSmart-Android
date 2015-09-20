@@ -107,6 +107,18 @@ public class AMapLocationManager implements ILocationManager
     }
 
     @Override
+    public void removeLocationUpdates()
+    {
+        locationManagerProxy.removeUpdates(locationListener);
+    }
+
+    @Override
+    public void destroy()
+    {
+        locationManagerProxy.destroy();
+    }
+
+    @Override
     public void setLocationListener(ILocationListener listener)
     {
         this.listener = listener;

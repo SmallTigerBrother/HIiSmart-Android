@@ -76,6 +76,18 @@ public class GoogleLocationManager implements ILocationManager
         locationManager.removeUpdates(networkLocationListener);
     }
 
+    @Override
+    public void removeLocationUpdates()
+    {
+        locationManager.removeUpdates(networkLocationListener);
+        locationManager.removeUpdates(gpsLocationListener);
+    }
+
+    @Override
+    public void destroy()
+    {
+    }
+
     /**
      * gps定位监听对象
      */

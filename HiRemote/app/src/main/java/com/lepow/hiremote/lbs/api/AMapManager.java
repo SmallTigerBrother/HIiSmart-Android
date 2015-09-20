@@ -70,6 +70,11 @@ public class AMapManager implements  IMapManager, AMapLocationListener, Location
         marker.showInfoWindow();
     }
 
+    public void clear()
+    {
+        aMap.clear();
+    }
+
     @Override
     public void centerTo(double latitude, double longitude)
     {
@@ -104,6 +109,7 @@ public class AMapManager implements  IMapManager, AMapLocationListener, Location
     @Override
     public void showMyLocation()
     {
+        aMap.getMyLocation();
     }
 
     @Override

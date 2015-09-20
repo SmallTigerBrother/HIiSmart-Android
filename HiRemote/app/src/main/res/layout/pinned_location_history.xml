@@ -13,12 +13,12 @@
         android:layout_marginBottom="@dimen/margin_val_6px" >
     </com.mn.tiger.widget.TGSearchView>
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
+    <com.mn.tiger.widget.recyclerview.TGRecyclerView
         android:id="@+id/pinned_location_history"
         android:layout_marginLeft="@dimen/margin_val_20px"
         android:layout_marginRight="@dimen/margin_val_20px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </com.baoyz.swipemenulistview.SwipeMenuListView>
+    </com.mn.tiger.widget.recyclerview.TGRecyclerView>
 
 </LinearLayout>

@@ -90,6 +90,8 @@
     <string name="make_sure_you_delete_location">이 기록을 삭제하실 건가요?</string>
     <string name="find_my_item_title">나의 기기 검색</string>
     <string name="change_name">이름변경</string>
+    <string name="your_device_far_away_from_you">경고 당신의Hismart백은 90피드 밖에 있습니다</string>
+
 
     <!-- title for the dialog showing the error of camera hardware -->
     <string name="camera_error_title">Camera error</string>
@@ -391,5 +393,7 @@
     <string name="switch_to_video_lable">Switch to video</string>
 
     <string name="alarm_tips">The HiSmart is calling you!</string>
+    <string name="bluetooth_off_tips"></string>
+    <string name="bluetooth_open_dialog_title">블루투스 기기 체크하세요!</string>
 
 </resources>

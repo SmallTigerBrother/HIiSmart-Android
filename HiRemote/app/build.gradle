@@ -45,4 +45,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile project(':tiger')
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'cn.bingoogolapple:bga-swipeitemlayout:1.0.3@aar'
 }
