@@ -135,6 +135,9 @@
         <activity android:name=".authorise.ResetPasswordActivity"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".home.AlarmAlertActivity" android:screenOrientation="portrait"
+                  android:theme="@android:style/Theme.Translucent"></activity>
+
         <service android:name=".service.BackgroundService" android:enabled="true" android:exported="true"></service>
 
         <receiver android:name="com.android.camera.CameraButtonIntentReceiver">
