@@ -166,7 +166,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			{
 				TGNotificationBuilder builder = new TGNotificationBuilder(HomeActivity.this);
 				builder.setContentTitle(getString(R.string.oops));
-				builder.setContentText("");
+				builder.setContentText(getString(R.string.your_device_far_away_from_you));
 				builder.setSmallIcon(R.drawable.ic_launcher);
 				builder.setClass(HomeActivity.class);
 				NotificationManager.getInstanse().showNotification(HomeActivity.this, 0, builder);
