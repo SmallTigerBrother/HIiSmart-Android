@@ -166,6 +166,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="5ff07ccc07223944400879bad95e1b42"/>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAOHaNHRO8oOleHu-MGmeQmjqByXgbHo0E"/>
+
     </application>
 
 
