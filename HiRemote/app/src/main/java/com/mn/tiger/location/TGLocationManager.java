@@ -45,7 +45,6 @@ public class TGLocationManager implements ILocationManager
                 default:
                     break;
             }
-
         }
 
         return instance;
@@ -59,7 +58,9 @@ public class TGLocationManager implements ILocationManager
             @Override
             public void onReceiveLocation(TGLocation location)
             {
-                if (!curLocationManager.isLocationInChina(location))
+                boolean isLocationInChina = curLocationManager.isLocationInChina(location);
+                LOG.d("[Method:initAppropriateLocationManager] isLocationInChina == " + isLocationInChina);
+                if (!isLocationInChina)
                 {
                     if (!(curLocationManager instanceof GoogleLocationManager))
                     {
@@ -68,6 +69,8 @@ public class TGLocationManager implements ILocationManager
                     currentProvider = Provider.Google;
                 }
                 curLocationManager.setLocationListener(listener);
+
+                removeLocationUpdates();
             }
         });
 

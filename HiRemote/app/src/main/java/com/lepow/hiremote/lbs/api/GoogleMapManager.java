@@ -46,6 +46,15 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
         mapContainer.addView(mapView, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         googleMap = mapView.getMap();
+        setUpMap();
+    }
+
+    private void setUpMap()
+    {
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setAllGesturesEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.setLocationSource(this);
     }
 
     @Override
@@ -83,6 +92,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     public void addMarker(double latitude, double longitude, String title)
     {
         MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.draggable(false);
         markerOptions.position(new LatLng(latitude, longitude));
         markerOptions.title(title);
 

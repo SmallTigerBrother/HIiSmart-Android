@@ -42,8 +42,11 @@ public class HSApplication extends TGApplication
         TGUpgradeManager.setUpgradeDataParser(new HSUpgradeDataParser());
         TGUpgradeManager.setCheckUpgradeHttpLoader(httpLoader);
 
+        //初始化合适的位置管理器
         TGLocationManager.init(ILocationManager.Provider.AMap);
+        TGLocationManager.getInstance().initAppropriateLocationManager();
 
+        //注册广播更新设备的电量
         this.registerReceiver(new BroadcastReceiver()
         {
             @Override
@@ -54,6 +57,7 @@ public class HSApplication extends TGApplication
             }
         }, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
 
+        //注册广播处理蓝牙设备断开时保存地理位置
         this.registerReceiver(new BroadcastReceiver()
         {
             @Override
@@ -68,7 +72,7 @@ public class HSApplication extends TGApplication
             }
         },new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
 
-        //注册
+        //注册广播播放蓝牙设备长按时的警报
         this.registerReceiver(new BroadcastReceiver()
         {
             @Override
@@ -89,6 +93,7 @@ public class HSApplication extends TGApplication
                 }
             }
         }, new IntentFilter(IntentAction.ACTION_ALARM));
+
     }
 
     private void requestDisconnectedLocation()
