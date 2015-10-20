@@ -5,10 +5,12 @@ import android.widget.LinearLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.lbs.api.AMapManager;
-import com.lepow.hiremote.lbs.api.IMapManager;
+import com.mn.tiger.map.AMapManager;
+import com.mn.tiger.map.GoogleMapManager;
+import com.mn.tiger.map.IMapManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentKeys;
+import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.widget.TGNavigationBar;
 
 import butterknife.ButterKnife;
@@ -39,7 +41,15 @@ public class PinnedLocationMapActivity extends BaseActivity
 
 	private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
 	{
-		mapManager = new AMapManager(this);
+		if(TGLocationManager.getInstance().isCurrentLocationInChina())
+		{
+			mapManager = new AMapManager(this);
+		}
+		else
+		{
+			mapManager = new GoogleMapManager(this);
+		}
+
 		mapManager.init(mapContainer, savedInstanceState);
 
 		if(null != locationInfo)

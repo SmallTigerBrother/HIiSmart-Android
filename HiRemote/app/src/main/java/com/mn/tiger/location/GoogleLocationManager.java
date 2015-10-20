@@ -287,6 +287,12 @@ public class GoogleLocationManager implements ILocationManager
     @Override
     public boolean isLocationInChina(TGLocation location)
     {
-        return false;
+        if (location.getLongitude() < 72.004 || location.getLongitude() > 137.8347 ||
+                location.getLatitude() < 0.8293 || location.getLatitude() > 55.8271)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.lepow.hiremote.lbs.api;
+package com.mn.tiger.map;
 
 import android.app.Activity;
 import android.location.Location;
