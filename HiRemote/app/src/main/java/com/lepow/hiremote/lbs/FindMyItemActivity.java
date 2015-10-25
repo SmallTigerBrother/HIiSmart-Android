@@ -14,13 +14,15 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
-import com.lepow.hiremote.lbs.api.AMapManager;
-import com.lepow.hiremote.lbs.api.IMapManager;
+import com.mn.tiger.map.AMapManager;
+import com.mn.tiger.map.GoogleMapManager;
+import com.mn.tiger.map.IMapManager;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.bluetooth.TGBLEManager;
+import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
@@ -111,7 +113,15 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 
     private void initMapView(Bundle savedInstanceState, LocationInfo locationInfo)
     {
-        mapManager = new AMapManager(this);
+        if(TGLocationManager.getInstance().isCurrentLocationInChina())
+        {
+            mapManager = new AMapManager(this);
+        }
+        else
+        {
+            mapManager = new GoogleMapManager(this);
+        }
+
         mapManager.init(mapContainer, savedInstanceState);
 
         if(null != locationInfo)

@@ -21,6 +21,8 @@ public class TGLocationManager implements ILocationManager
 
     private static Provider currentProvider = Provider.AMap;
 
+    private boolean isLocationInChina = true;
+
     public static void init(Provider provider)
     {
         currentProvider = provider;
@@ -45,7 +47,6 @@ public class TGLocationManager implements ILocationManager
                 default:
                     break;
             }
-
         }
 
         return instance;
@@ -59,7 +60,9 @@ public class TGLocationManager implements ILocationManager
             @Override
             public void onReceiveLocation(TGLocation location)
             {
-                if (!curLocationManager.isLocationInChina(location))
+                isLocationInChina = curLocationManager.isLocationInChina(location);
+                LOG.d("[Method:initAppropriateLocationManager] isLocationInChina == " + isLocationInChina);
+                if (!isLocationInChina)
                 {
                     if (!(curLocationManager instanceof GoogleLocationManager))
                     {
@@ -68,6 +71,8 @@ public class TGLocationManager implements ILocationManager
                     currentProvider = Provider.Google;
                 }
                 curLocationManager.setLocationListener(listener);
+
+                removeLocationUpdates();
             }
         });
 
@@ -94,10 +99,15 @@ public class TGLocationManager implements ILocationManager
         }
     }
 
+    public boolean isCurrentLocationInChina()
+    {
+        return isLocationInChina;
+    }
+
     @Override
     public boolean isLocationInChina(TGLocation location)
     {
-        return false;
+        return curLocationManager.isLocationInChina(location);
     }
 
     @Override
