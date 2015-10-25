@@ -190,11 +190,10 @@ public class GoogleLocationManager implements ILocationManager
                 {
                     TGLocation tgLocation = TGLocation.initWith(location);
                     tgLocation.setTime(System.currentTimeMillis());
-                    if(result.getResults().size() > 0)
+                    if(result.getResults().length > 0)
                     {
-                        AddressResult addressResult = result.getResults().get(0);
-                        //TODO 分析数据
-                        tgLocation.setCountry(addressResult.getFormatted_address());
+                        AddressResult addressResult = result.getResults()[0];
+                        tgLocation.setAddress(addressResult.getFormatted_address());
                     }
                     listener.onReceiveLocation(tgLocation);
                 }
