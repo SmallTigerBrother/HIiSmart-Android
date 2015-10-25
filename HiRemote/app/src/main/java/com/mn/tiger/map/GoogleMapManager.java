@@ -3,6 +3,7 @@ package com.mn.tiger.map;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ViewGroup;
 
 import com.google.android.gms.location.LocationListener;
@@ -11,14 +12,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.lepow.hiremote.R;
 import com.mn.tiger.location.GoogleLocationManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.log.Logger;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Dalang on 2015/8/23.
@@ -29,7 +35,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
 
     private Activity activity;
 
-    private MapView mapView;
+    private MapFragment mapFragment;
 
     private GoogleMap googleMap;
 
@@ -37,22 +43,34 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
 
     private OnLocationChangedListener onLocationChangedListener;
 
+    private ArrayList<Runnable> taskList;
+
+    private static final Handler HANDLER = new Handler();
+
     public GoogleMapManager(Activity activity)
     {
         this.activity = activity;
+        taskList = new ArrayList<Runnable>();
     }
 
     @Override
     public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
         GoogleMapOptions options = new GoogleMapOptions();
-        options.mapType( GoogleMap.MAP_TYPE_NORMAL );
-        mapView = new MapView(activity, options);
-        mapView.onCreate(savedInstanceState);
-        mapContainer.addView(mapView, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        googleMap = mapView.getMap();
-        setUpMap();
+        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        mapFragment = (MapFragment)activity.getFragmentManager().findFragmentById(R.id.google_map_fragment);
+        mapFragment.getMapAsync(new OnMapReadyCallback()
+        {
+            @Override
+            public void onMapReady(GoogleMap googleMap)
+            {
+                LOG.d("[Method:onMapReady] googleMap == " + googleMap);
+                GoogleMapManager.this.googleMap = googleMap;
+                setUpMap();
+            }
+        });
+
     }
 
     /**
@@ -60,65 +78,110 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
      */
     private void setUpMap()
     {
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setAllGesturesEnabled(true);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        googleMap.setLocationSource(this);
+        if(null != googleMap)
+        {
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setAllGesturesEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            googleMap.setLocationSource(this);
+
+            startNextTask();
+        }
     }
 
     @Override
-    public void centerTo(double latitude, double longitude)
+    public void centerTo(final double latitude, final double longitude)
     {
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 17);
-        googleMap.moveCamera(cameraUpdate);
+        taskList.add(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(null != googleMap)
+                {
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 17);
+                    googleMap.moveCamera(cameraUpdate);
+                }
+            }
+        });
+        startNextTask();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        mapView.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDestroy()
     {
-        mapView.onDestroy();
     }
 
     @Override
     public void onResume()
     {
-        mapView.onResume();
     }
 
     @Override
     public void onPause()
     {
-        mapView.onPause();
     }
 
     @Override
-    public void addMarker(double latitude, double longitude, String title)
+    public void addMarker(final double latitude, final double longitude, final String title)
     {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.draggable(false);
-        markerOptions.position(new LatLng(latitude, longitude));
-        markerOptions.title(title);
+        taskList.add(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(null != googleMap)
+                {
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.draggable(false);
+                    markerOptions.position(new LatLng(latitude, longitude));
+                    markerOptions.title(title);
 
-        Marker marker = googleMap.addMarker(markerOptions);
-        marker.showInfoWindow();
+                    Marker marker = googleMap.addMarker(markerOptions);
+                    marker.showInfoWindow();
+                }
+            }
+        });
+        startNextTask();
     }
 
     @Override
     public void showMyLocation()
     {
-        googleMap.getMyLocation();
+        taskList.add(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(null != googleMap)
+                {
+                    googleMap.getMyLocation();
+                }
+            }
+        });
+        startNextTask();
     }
 
     @Override
     public void clear()
     {
-        googleMap.clear();
+        taskList.add(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(null != googleMap)
+                {
+                    googleMap.clear();
+                }
+            }
+        });
+        startNextTask();
     }
 
     @Override
@@ -161,5 +224,18 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
             locationManager.removeLocationUpdates();
         }
         locationManager = null;
+    }
+
+    private void startNextTask()
+    {
+        if(null != googleMap)
+        {
+            Iterator<Runnable> iterator = taskList.iterator();
+            while (iterator.hasNext())
+            {
+                HANDLER.post(iterator.next());
+                iterator.remove();
+            }
+        }
     }
 }

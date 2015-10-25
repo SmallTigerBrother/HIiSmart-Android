@@ -57,6 +57,14 @@
     <!-- SD卡读取权限，用户写入离线定位数据-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <permission
+        android:name="com.lepow.androidhismart.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.lepow.androidhismart.permission.MAPS_RECEIVE"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <application
         android:name=".app.HSApplication"
@@ -66,8 +74,7 @@
 
         <activity
             android:name=".splash.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Start">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
@@ -170,15 +177,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAOHaNHRO8oOleHu-MGmeQmjqByXgbHo0E"/>
-
-        <permission
-            android:name="com.lepow.androidhismart.permission.MAPS_RECEIVE"
-            android:protectionLevel="signature"/>
-        <uses-permission android:name="com.lepow.androidhismart.permission.MAPS_RECEIVE"/>
-
-        <uses-feature
-            android:glEsVersion="0x00020000"
-            android:required="true"/>
 
     </application>
 
