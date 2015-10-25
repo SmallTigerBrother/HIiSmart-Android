@@ -17,12 +17,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mn.tiger.location.GoogleLocationManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
+import com.mn.tiger.log.Logger;
 
 /**
  * Created by Dalang on 2015/8/23.
  */
 public class GoogleMapManager implements IMapManager, LocationSource, LocationListener
 {
+    private static final Logger LOG = Logger.getLogger(GoogleMapManager.class);
+
     private Activity activity;
 
     private MapView mapView;
@@ -49,6 +52,9 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
         setUpMap();
     }
 
+    /**
+     * 初始化地图
+     */
     private void setUpMap()
     {
         googleMap.setMyLocationEnabled(true);
@@ -115,6 +121,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void onLocationChanged(Location location)
     {
+        LOG.d("[Method:LocationSource:onLocationChanged] lat == " + location.getLatitude() + " ; long == " + location.getLongitude());
         if(null != onLocationChangedListener)
         {
             onLocationChangedListener.onLocationChanged(location);
@@ -124,6 +131,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener)
     {
+        LOG.d("[Method:LocationSource:activate] ");
         this.onLocationChangedListener = onLocationChangedListener;
         if(null != this.onLocationChangedListener)
         {
@@ -143,6 +151,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void deactivate()
     {
+        LOG.d("[Method:LocationSource:deactivate]");
         onLocationChangedListener = null;
         if(null != locationManager)
         {

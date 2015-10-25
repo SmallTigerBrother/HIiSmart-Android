@@ -21,15 +21,17 @@ import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
+import com.mn.tiger.log.Logger;
 import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.request.HttpType;
 import com.mn.tiger.upgrade.TGUpgradeManager;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 
 public class HSApplication extends TGApplication
 {
+    private static final Logger LOG = Logger.getLogger(HSApplication.class);
+
     @Override
     public void onCreate()
     {
@@ -96,8 +98,12 @@ public class HSApplication extends TGApplication
 
     }
 
+    /**
+     * 请求设备失去连接时的地理位置
+     */
     private void requestDisconnectedLocation()
     {
+        LOG.d("[Method:requestDisconnectedLocation]");
         TGLocationManager locationManager = TGLocationManager.getInstance();
         locationManager.setLocationListener(new ILocationManager.ILocationListener()
         {

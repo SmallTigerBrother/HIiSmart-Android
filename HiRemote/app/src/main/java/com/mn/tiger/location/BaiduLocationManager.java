@@ -76,6 +76,11 @@ public class BaiduLocationManager implements ILocationManager
         this.listener = listener;
     }
 
+    /**
+     * 判断位置是否在中国
+     * @param location
+     * @return
+     */
     public boolean isLocationInChina(TGLocation location)
     {
         if (location.getLongitude() < 72.004 || location.getLongitude() > 137.8347 ||

@@ -14,15 +14,16 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
-import com.mn.tiger.map.AMapManager;
-import com.mn.tiger.map.GoogleMapManager;
-import com.mn.tiger.map.IMapManager;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.TGLocationManager;
+import com.mn.tiger.log.Logger;
+import com.mn.tiger.map.AMapManager;
+import com.mn.tiger.map.GoogleMapManager;
+import com.mn.tiger.map.IMapManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
@@ -35,6 +36,8 @@ import butterknife.OnClick;
  */
 public class FindMyItemActivity extends BaseActivity implements View.OnClickListener
 {
+    private static final Logger LOG = Logger.getLogger(FindMyItemActivity.class);
+
     @FindView(R.id.device_avatar)
     CircleImageView deviceAvatarView;
 
@@ -61,6 +64,7 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent)
         {
+            LOG.d("[Method:broadcastReceiver:onReceive] BLEPeripheral state changed");
             int bleState = TGBLEManager.getBLEState(intent);
             switch (bleState)
             {
@@ -115,10 +119,12 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         if(TGLocationManager.getInstance().isCurrentLocationInChina())
         {
+            LOG.d("[Method:initMapView] use AMapManager");
             mapManager = new AMapManager(this);
         }
         else
         {
+            LOG.d("[Method:initMapView] use GoogleMapManager");
             mapManager = new GoogleMapManager(this);
         }
 

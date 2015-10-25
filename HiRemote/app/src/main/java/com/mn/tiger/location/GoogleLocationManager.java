@@ -283,6 +283,11 @@ public class GoogleLocationManager implements ILocationManager
         return provider1.equals(provider2);
     }
 
+    /**
+     * 判断位置是否在中国
+     * @param location
+     * @return
+     */
     @Override
     public boolean isLocationInChina(TGLocation location)
     {

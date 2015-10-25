@@ -15,16 +15,33 @@ public class TGLocationManager implements ILocationManager
      */
     private static TGLocationManager instance;
 
+    /**
+     * 当前使用的位置管理器
+     */
     private ILocationManager curLocationManager;
 
+    /**
+     * 位置变化监听接口
+     */
     private ILocationListener listener;
 
+    /**
+     * 位置提供者
+     */
     private static Provider currentProvider = Provider.AMap;
 
+    /**
+     * 当前位置是否在中国
+     */
     private boolean isLocationInChina = true;
 
+    /**
+     * 初始化位置管理器
+     * @param provider
+     */
     public static void init(Provider provider)
     {
+        LOG.d("[Method:init] provider == " + provider.toString());
         currentProvider = provider;
     }
 
@@ -52,14 +69,20 @@ public class TGLocationManager implements ILocationManager
         return instance;
     }
 
+    /**
+     * 初始化最合适的位置管理器
+     */
     public void initAppropriateLocationManager()
     {
+        LOG.d("[Method:initAppropriateLocationManager]");
         //请求一次定位，判断是不是在中国
         curLocationManager.setLocationListener(new ILocationListener()
         {
             @Override
             public void onReceiveLocation(TGLocation location)
             {
+                removeLocationUpdates();
+
                 isLocationInChina = curLocationManager.isLocationInChina(location);
                 LOG.d("[Method:initAppropriateLocationManager] isLocationInChina == " + isLocationInChina);
                 if (!isLocationInChina)
@@ -69,10 +92,9 @@ public class TGLocationManager implements ILocationManager
                         curLocationManager = new GoogleLocationManager();
                     }
                     currentProvider = Provider.Google;
+                    LOG.d("[Method:initAppropriateLocationManager] use GoogleLocationManager");
                 }
                 curLocationManager.setLocationListener(listener);
-
-                removeLocationUpdates();
             }
         });
 
@@ -99,6 +121,10 @@ public class TGLocationManager implements ILocationManager
         }
     }
 
+    /**
+     * 当前位置是否在中国
+     * @return
+     */
     public boolean isCurrentLocationInChina()
     {
         return isLocationInChina;
@@ -113,6 +139,7 @@ public class TGLocationManager implements ILocationManager
     @Override
     public void removeLocationUpdates()
     {
+        LOG.d("[Method:removeLocationUpdates]");
         curLocationManager.removeLocationUpdates();
     }
 

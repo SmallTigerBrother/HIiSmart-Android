@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.mn.tiger.log.Logger;
 import com.mn.tiger.map.AMapManager;
 import com.mn.tiger.map.GoogleMapManager;
 import com.mn.tiger.map.IMapManager;
@@ -18,6 +19,8 @@ import butterknife.FindView;
 
 public class PinnedLocationMapActivity extends BaseActivity
 {
+	private static final Logger LOG = Logger.getLogger(PinnedLocationMapActivity.class);
+
 	@FindView(R.id.mapview_container)
 	LinearLayout mapContainer;
 	
@@ -43,10 +46,12 @@ public class PinnedLocationMapActivity extends BaseActivity
 	{
 		if(TGLocationManager.getInstance().isCurrentLocationInChina())
 		{
+			LOG.d("[Method:initMapView] use AMapManager");
 			mapManager = new AMapManager(this);
 		}
 		else
 		{
+			LOG.d("[Method:initMapView] use GoogleMapManager");
 			mapManager = new GoogleMapManager(this);
 		}
 
