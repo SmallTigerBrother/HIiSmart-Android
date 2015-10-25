@@ -15,12 +15,12 @@ public interface ILocationManager
 
     boolean isLocationInChina(TGLocation location);
 
-    public static interface ILocationListener
+    interface ILocationListener
     {
         void onReceiveLocation(TGLocation location);
     }
 
-    public static enum Provider
+    enum Provider
     {
         BaiDu,
         Google,

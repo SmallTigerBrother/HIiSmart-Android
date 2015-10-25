@@ -32,6 +32,7 @@ public class AMapLocationManager implements ILocationManager
 
             final TGLocation tgLocation = TGLocation.initWith(aMapLocation);
             tgLocation.setTime(System.currentTimeMillis());
+            //TODO 以下代码未使用过
             if(aMapLocation.getProvider() == LocationManagerProxy.GPS_PROVIDER)
             {
                 //使用高德地址解析功能在进行解析地址
@@ -43,12 +44,11 @@ public class AMapLocationManager implements ILocationManager
                         LOG.d("[Method:onGeoCodingSuccess]");
                         if(null != listener)
                         {
-
-                            if(result.getResults().size() > 0)
+                            if(result.getResults().length > 0)
                             {
-                                AddressResult addressResult = result.getResults().get(0);
+                                AddressResult addressResult = result.getResults()[0];
                                 //TODO 分析数据
-                                tgLocation.setCountry(addressResult.getFormatted_address());
+                                tgLocation.setAddress(addressResult.getFormatted_address());
                             }
                             listener.onReceiveLocation(tgLocation);
                         }
@@ -125,6 +125,11 @@ public class AMapLocationManager implements ILocationManager
         this.listener = listener;
     }
 
+    /**
+     * 判断位置是否在中国
+     * @param location
+     * @return
+     */
     public boolean isLocationInChina(TGLocation location)
     {
         if (location.getLongitude() < 72.004 || location.getLongitude() > 137.8347 ||

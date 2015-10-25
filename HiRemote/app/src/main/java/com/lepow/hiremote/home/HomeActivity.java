@@ -46,7 +46,6 @@ import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView;
 import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -73,15 +72,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 	@FindView(R.id.function_pinned_location_image)
 	Button pinnedLocationImg;
 
-	@FindView(R.id.function_camera_shutter_image)
-	Button cameraShutterImg;
-
-	@FindView(R.id.function_find_item_image)
-	Button findItemImg;
-
-	@FindView(R.id.function_voice_memos_image)
-	Button voiceMemosImg;
-
 	@FindView(R.id.common_settings_btn)
 	Button settingsBtn;
 
@@ -97,13 +87,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 	@FindView(R.id.play_sound_switch)
 	Switch playSoundSwitch;
 
-	private Button lastClickFunction;
-
 	private PeripheralInfo connectedPeripheral;
-
-	private HashMap<Integer, Integer> defaultFunctionBtnResMap;
-
-	private HashMap<Integer, Integer> highlightFunctionBtnResMap;
 
 	private Handler handler = new Handler();
 
@@ -129,7 +113,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			else if(intent.getAction().equals(TGBLEManager.ACTION_BLE_STATE_CHANGE))
 			{
 				int bleState = TGBLEManager.getBLEState(intent);
-				TGBLEPeripheralInfo tgblePeripheralInfo = TGBLEManager.getBLEPeripheralInfo(intent);
 				switch (bleState)
 				{
 					case TGBLEManager.BLE_STATE_CONNECTED:
@@ -162,7 +145,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 		private void showDisconnectedNotification()
 		{
-			if(AppSettings.isPushNotificationSettingOn(HomeActivity.this))
+			boolean pushNotificationSettingOn = AppSettings.isPushNotificationSettingOn(HomeActivity.this);
+			LOG.d("[Method:showDisconnectedNotification] pushNotificationSettingOn == " + pushNotificationSettingOn);
+			if(pushNotificationSettingOn)
 			{
 				TGNotificationBuilder builder = new TGNotificationBuilder(HomeActivity.this);
 				builder.setContentTitle(getString(R.string.oops));
@@ -198,6 +183,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			public void run()
 			{
 				//检测更新
+				LOG.d("check upgrade");
 				TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
 				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
 				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
@@ -299,17 +285,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		{
 			bannerPagerView.setCurrentPage(currentPeripheralIndex);
 		}
+
+		LOG.d("[Method:onPeripheralChanged]  currentPeripheralIndex == " + currentPeripheralIndex);
 	}
 
 	private void initSettingsBoard()
 	{
 		notificationSwitch.setChecked(AppSettings.isPushNotificationSettingOn(this));
 		voiceSwitch.setChecked(AppSettings.getMode() == AppSettings.MODE_RECORD);
-	}
-
-	private void initFunctionBtnRes()
-	{
-		defaultFunctionBtnResMap.put(R.id.function_pinned_location_image, R.drawable.location_button_bg);
 	}
 
 	@Override

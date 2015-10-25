@@ -1,31 +1,26 @@
 package com.mn.tiger.location;
 
-import java.util.List;
-
 public class GeoCodeResult
 {
+	public static final String STATUS_OK = "OK";
+
 	private String status;
 
-	private List<AddressResult> results;
+	private AddressResult[] results;
 
-	public String getStatus()
-	{
-		return status;
-	}
-
-	public void setStatus(String status)
-	{
-		this.status = status;
-	}
-
-	public List<AddressResult> getResults()
+	public AddressResult[] getResults()
 	{
 		return results;
 	}
 
-	public void setResults(List<AddressResult> results)
+	public void setResults(AddressResult[] results)
 	{
 		this.results = results;
+	}
+
+	public  boolean isStatusOK()
+	{
+		return STATUS_OK.equals(status);
 	}
 
 	@Override
