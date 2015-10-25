@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,7 +45,9 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
-        mapView = new MapView(activity);
+        GoogleMapOptions options = new GoogleMapOptions();
+        options.mapType( GoogleMap.MAP_TYPE_NORMAL );
+        mapView = new MapView(activity, options);
         mapView.onCreate(savedInstanceState);
         mapContainer.addView(mapView, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
