@@ -64,7 +64,7 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            LOG.d("[Method:broadcastReceiver:onReceive] BLEPeripheral state changed");
+            LOG.d("[Method:broadcastReceiver:] use AMapManager");
             int bleState = TGBLEManager.getBLEState(intent);
             switch (bleState)
             {

@@ -116,7 +116,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 				switch (bleState)
 				{
 					case TGBLEManager.BLE_STATE_CONNECTED:
-						progressDialog.dismiss();
 						onPeripheralChanged();
 						break;
 					case TGBLEManager.BLE_STATE_DISCONNECTED:
@@ -134,7 +133,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 						connectedPeripheral = PeripheralInfo.NULL_OBJECT;
 						LOG.d("[Method:onReceive] not found peripheral ");
 						onPeripheralChanged();
-						progressDialog.dismiss();
 						break;
 
 					default:
@@ -284,6 +282,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		else
 		{
 			bannerPagerView.setCurrentPage(currentPeripheralIndex);
+		}
+
+		//无设备连接或者设备电量大于0时，隐藏进度框
+		if(connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT) || connectedPeripheral.getEnergy() > 0)
+		{
+			progressDialog.dismiss();
 		}
 
 		LOG.d("[Method:onPeripheralChanged]  currentPeripheralIndex == " + currentPeripheralIndex);
