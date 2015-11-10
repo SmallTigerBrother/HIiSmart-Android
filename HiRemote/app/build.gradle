@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 23
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.lepow.androidhismart"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 4
+        versionName "1.1.2"
     }
     buildTypes {
         release {
@@ -30,8 +30,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile 'com.android.support:support-v4:22.2.0'
+    compile fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
@@ -44,5 +43,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile project(':tiger')
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:support-v4:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
 }
