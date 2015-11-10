@@ -17,8 +17,8 @@ import com.mn.tiger.authorize.IAuthorizeCallback;
 import com.mn.tiger.authorize.TGAuthorizeResult;
 import com.mn.tiger.utility.ToastUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -27,10 +27,10 @@ import butterknife.OnTextChanged;
  */
 public class LoginActivity extends BaseActivity implements IAuthorizeCallback
 {
-    @FindView(R.id.login_account_input)
+    @Bind(R.id.login_account_input)
     EditText accountInputView;
 
-    @FindView(R.id.login_password_input)
+    @Bind(R.id.login_password_input)
     EditText passwordInputView;
 
     @Override
@@ -97,27 +97,29 @@ public class LoginActivity extends BaseActivity implements IAuthorizeCallback
             return;
         }
 
-        new HSAuthorizer(this, account, password).executeAuthorize(this);
+        HSAuthorization.getInstance().setAccount(account);
+        HSAuthorization.getInstance().setPassword(password);
+        HSAuthorization.getInstance().executeAuthorize(this, this);
 
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(accountInputView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override
-    public void onSuccess(TGAuthorizeResult tgAuthorizeResult)
+    public void onAuthorizeSuccess(TGAuthorizeResult tgAuthorizeResult)
     {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
     @Override
-    public void onError(int i, String s, String s1)
+    public void onAuthorizeCancel()
     {
-        //TODO 提示登陆失败
+
     }
 
     @Override
-    public void onCancel()
+    public void onAuthorizeError(int i, String s, String s1)
     {
 
     }

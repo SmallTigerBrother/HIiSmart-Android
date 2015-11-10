@@ -10,8 +10,8 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.record.adapter.RecordListViewHolder;
-import com.lepow.hiremote.record.data.RecordInfo;
 import com.lepow.hiremote.record.data.RecordDataManager;
+import com.lepow.hiremote.record.data.RecordInfo;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
@@ -19,20 +19,19 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnItemClick;
-import butterknife.tiger.OnQueryText;
 
 /**
  * 录音历史记录界面
  */
-public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog.OnRecordModifyListener
+public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog.OnRecordModifyListener,TGSearchView.OnQueryTextListener
 {
-	@FindView(R.id.record_search)
+	@Bind(R.id.record_search)
 	TGSearchView searchView;
 
-	@FindView(R.id.record_list_view)
+	@Bind(R.id.record_list_view)
 	ListView listView;
 
 	private TGListAdapter<RecordInfo> listAdapter;
@@ -48,6 +47,7 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 		ButterKnife.bind(this);
 
 		searchView.setQueryTextColor(getResources().getColor(R.color.text_color_normal));
+		searchView.setOnQueryTextListener(this);
 
 		listAdapter = new TGListAdapter<RecordInfo>(this, RecordDataManager.getInstance().findAllRecordsSortByTime(this),
 			R.layout.record_history_list_item, RecordListViewHolder.class);
@@ -74,8 +74,14 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 		recordEditDialog.show();
 	}
 
-	@OnQueryText(value = R.id.record_search, callback = OnQueryText.Callback.ON_QUERY_TEXT_SUBMIT)
-	public void onSearchTextSubmit()
+	@Override
+	public void onQueryTextChange(CharSequence charSequence)
+	{
+
+	}
+
+	@Override
+	public void onQueryTextSubmit(CharSequence charSequence)
 	{
 		String queryText = searchView.getQueryText();
 		List<RecordInfo> recordInfos = null;
@@ -89,6 +95,12 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 		}
 
 		listAdapter.updateData(recordInfos);
+	}
+
+	@Override
+	public void onTextCleaned()
+	{
+
 	}
 
 	@Override

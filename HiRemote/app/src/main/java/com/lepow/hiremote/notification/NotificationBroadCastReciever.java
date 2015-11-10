@@ -13,6 +13,6 @@ public class NotificationBroadCastReciever extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		//委托给PBNotificationManager处理
-		NotificationManager.getInstanse().recieveNotification(intent);
+		NotificationManager.getInstanse().receiveNotification(intent);
 	}
 }

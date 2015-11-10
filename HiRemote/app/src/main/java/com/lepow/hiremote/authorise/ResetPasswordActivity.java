@@ -14,8 +14,8 @@ import com.mn.tiger.request.receiver.TGHttpResult;
 import com.mn.tiger.utility.StringUtils;
 import com.mn.tiger.utility.ToastUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 /**
@@ -23,7 +23,7 @@ import butterknife.OnClick;
  */
 public class ResetPasswordActivity extends BaseActivity
 {
-    @FindView(R.id.reset_password_email_input)
+    @Bind(R.id.reset_password_email_input)
     EditText emailInputView;
 
     @Override
@@ -59,7 +59,7 @@ public class ResetPasswordActivity extends BaseActivity
             return;
         }
 
-        new HSAuthorizer(this,null,null).requestResetPassword(email, new SimpleLoadCallback<Void>(this)
+        HSAuthorization.getInstance().requestResetPassword(this, email, new SimpleLoadCallback<Void>(this)
         {
             @Override
             public void onLoadSuccess(Void result, TGHttpResult tgHttpResult)

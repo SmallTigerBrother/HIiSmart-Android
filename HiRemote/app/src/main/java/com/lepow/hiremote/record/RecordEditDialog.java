@@ -23,8 +23,8 @@ import com.mn.tiger.log.Logger;
 import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.utility.DateUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -35,25 +35,25 @@ public class RecordEditDialog extends HSAlertDialog implements TGAudioPlayer.OnP
 {
     private static final Logger LOG = Logger.getLogger(RecordEditDialog.class);
 
-    @FindView(R.id.record_name)
+    @Bind(R.id.record_name)
     TextView recordNameView;
 
-    @FindView(R.id.record_date)
+    @Bind(R.id.record_date)
     TextView recordDateView;
 
-    @FindView(R.id.record_time_length)
+    @Bind(R.id.record_time_length)
     TextView recordLengthView;
 
-    @FindView(R.id.record_play_current_length)
+    @Bind(R.id.record_play_current_length)
     TextView recordCurrentLengthView;
 
-    @FindView(R.id.record_play_surplus_length)
+    @Bind(R.id.record_play_surplus_length)
     TextView recordSurplusLengthView;
 
-    @FindView(R.id.record_play_icon)
+    @Bind(R.id.record_play_icon)
     ImageView playButton;
 
-    @FindView(R.id.record_play_progress)
+    @Bind(R.id.record_play_progress)
     ProgressBar progressBar;
 
     private OnRecordModifyListener listener;

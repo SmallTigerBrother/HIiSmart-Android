@@ -5,23 +5,23 @@ import android.widget.LinearLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
+import com.lepow.hiremote.lbs.data.LocationInfo;
+import com.lepow.hiremote.misc.IntentKeys;
+import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.map.AMapManager;
 import com.mn.tiger.map.GoogleMapManager;
 import com.mn.tiger.map.IMapManager;
-import com.lepow.hiremote.lbs.data.LocationInfo;
-import com.lepow.hiremote.misc.IntentKeys;
-import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.widget.TGNavigationBar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 
 public class PinnedLocationMapActivity extends BaseActivity
 {
 	private static final Logger LOG = Logger.getLogger(PinnedLocationMapActivity.class);
 
-	@FindView(R.id.mapview_container)
+	@Bind(R.id.mapview_container)
 	LinearLayout mapContainer;
 	
 	private LocationInfo locationInfo;

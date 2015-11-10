@@ -13,24 +13,24 @@ import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.widget.CircleProgressBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 
 /**
  * Created by Dalang on 2015/8/21.
  */
 public class PeripheralStatusView extends LinearLayout
 {
-    @FindView(R.id.peripheral_power)
+    @Bind(R.id.peripheral_power)
     CircleProgressBar powerProgressBar;
 
-    @FindView(R.id.peripheral_image)
+    @Bind(R.id.peripheral_image)
     CircleImageView peripheralImageView;
 
-    @FindView(R.id.peripheral_location)
+    @Bind(R.id.peripheral_location)
     TextView peripheralLocationView;
 
-    @FindView(R.id.peripheral_name)
+    @Bind(R.id.peripheral_name)
     TextView peripheralNameView;
 
     private PeripheralInfo peripheralInfo;

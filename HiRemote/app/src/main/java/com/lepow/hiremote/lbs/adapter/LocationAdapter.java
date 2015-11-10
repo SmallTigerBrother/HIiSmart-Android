@@ -20,7 +20,7 @@ public class LocationAdapter extends TGRecyclerViewAdapter<LocationInfo> impleme
 
     public LocationAdapter(Context context, List<LocationInfo> items)
     {
-        super(context, items, R.layout.location_list_item, LocationRecyclerViewHolder.class);
+        super(context, items,LocationRecyclerViewHolder.class);
     }
 
     @Override

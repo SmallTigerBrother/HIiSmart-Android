@@ -21,7 +21,6 @@ import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.InflateException;
 
-import com.mn.tiger.log.LogTools;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -109,7 +108,6 @@ public class PreferenceInflater {
             throw new InflateException(parser.getPositionDescription(), e);
         } catch (Exception e)
         {
-            LogTools.e(e);
             return null;
         }
     }

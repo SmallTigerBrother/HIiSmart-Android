@@ -20,8 +20,8 @@ import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
 import com.mn.tiger.bluetooth.TGBLEManager;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 /**
@@ -29,13 +29,13 @@ import butterknife.OnClick;
  */
 public class ScanPeripheralActivity extends BaseActivity
 {
-	@FindView(R.id.scaning_layout)
+	@Bind(R.id.scaning_layout)
 	RelativeLayout scanningLayout;
 
-	@FindView(R.id.connect_success_layout)
+	@Bind(R.id.connect_success_layout)
 	LinearLayout connectSuccessLayout;
 
-	@FindView(R.id.not_found_peripheral_layout)
+	@Bind(R.id.not_found_peripheral_layout)
 	RelativeLayout notFoundPeripheralLayout;
 
 	protected static Handler handler = new Handler();

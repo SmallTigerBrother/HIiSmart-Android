@@ -17,15 +17,15 @@ import com.mn.tiger.widget.TGNavigationBar;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 
 public class WebViewActivity extends BaseActivity
 {
-	@FindView(R.id.webview)
+	@Bind(R.id.webview)
 	WebView mWebView;
 
-	@FindView(R.id.progress)
+	@Bind(R.id.progress)
 	View mProgress;
 
 	private String barTitle;

@@ -420,4 +420,6 @@
     <string name="alarm_tips">The HiRemote is calling you!</string>
     <string name="bluetooth_open_dialog_title">Please check the Bluetooth setting!</string>
 
+    <string name="china">China</string>
+
 </resources>

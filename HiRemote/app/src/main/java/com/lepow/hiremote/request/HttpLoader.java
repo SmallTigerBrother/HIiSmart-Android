@@ -4,20 +4,16 @@ import android.content.Context;
 import android.os.Build;
 
 import com.google.gson.Gson;
-import com.lepow.hiremote.authorise.HSAuthorizer;
+import com.lepow.hiremote.authorise.HSAuthorization;
 import com.lepow.hiremote.authorise.data.UserInfo;
 import com.mn.tiger.log.Logger;
-import com.mn.tiger.request.HttpType;
 import com.mn.tiger.request.TGHttpLoader;
-import com.mn.tiger.request.async.TGHttpAsyncTask;
 import com.mn.tiger.request.receiver.TGHttpResult;
 import com.mn.tiger.utility.Commons;
 import com.mn.tiger.utility.PackageUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 
 /**
  * 网络请求类
@@ -45,18 +41,12 @@ public class HttpLoader<T> extends TGHttpLoader<T>
 
         this.addProperty("Accept-Language", Commons.getSystemLanguage(context));
 
-        UserInfo userInfo = (UserInfo)HSAuthorizer.getUserInfo(context);
+        UserInfo userInfo = (UserInfo) HSAuthorization.getUserInfo(context);
         if(null != userInfo)
         {
             this.addProperty("Authorization", userInfo.getToken());
         }
         super.execute(context, requestType, requestUrl, resultClsName, callback);
-    }
-
-    @Override
-    protected TGHttpAsyncTask<T> initAsyncTask()
-    {
-        return new InternalAsyncTask();
     }
 
     @SuppressWarnings("unchecked")
@@ -89,8 +79,8 @@ public class HttpLoader<T> extends TGHttpLoader<T>
                 }
                 catch (Exception e)
                 {
-                    LOG.e("[Method:parseRequestResult] url : "  + getAsyncTask().getRequestUrl() + "\n params : " +
-                            getAsyncTask().getStringParams() + "\n" + e.getMessage());
+                    LOG.e("[Method:parseRequestResult] url : "  + getRequestUrl() + "\n params : " +
+                            getStringParams() + "\n" + e.getMessage());
                 }
             }
 
@@ -98,48 +88,35 @@ public class HttpLoader<T> extends TGHttpLoader<T>
         }
         catch (JSONException e)
         {
-            LOG.e("[Method:parseRequestResult] url : "  + getAsyncTask().getRequestUrl() + "\n params : " +
-                    getAsyncTask().getStringParams() + "\n" + e.getMessage());
+            LOG.e("[Method:parseRequestResult] url : "  + getRequestUrl() + "\n params : " +
+                   getStringParams() + "\n" + e.getMessage());
         }
 
         return null;
     }
 
-    /**
-     * 内部使用的异步任务类
-     */
-    private class InternalAsyncTask extends TGHttpAsyncTask<T>
+    @Override
+    protected boolean hasError(TGHttpResult httpResult)
     {
-        public InternalAsyncTask()
+        //检测自定义异常
+        Response<T> response = (Response<T>) httpResult.getObjectResult();
+        if(null != response)
         {
-            super("", HttpType.REQUEST_GET, null);
+            return response.code != Response.RESULT_SUCCESS;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        protected boolean hasError(TGHttpResult httpResult)
-        {
-            //检测自定义异常
-            Response<T> response = (Response<T>) httpResult.getObjectResult();
-            if(null != response)
-            {
-                return response.code != Response.RESULT_SUCCESS;
-            }
+        return true;
+    }
 
-            return true;
+    @Override
+    protected T parseOriginalResult(Object originalResultObject)
+    {
+        //返回T
+        if(null != originalResultObject)
+        {
+            return ((Response<T>)originalResultObject).data;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        protected T parseResult(Object originalResultObject)
-        {
-            //返回T
-            if(null != originalResultObject)
-            {
-                return ((Response<T>)originalResultObject).data;
-            }
-
-            return null;
-        }
+        return null;
     }
 }

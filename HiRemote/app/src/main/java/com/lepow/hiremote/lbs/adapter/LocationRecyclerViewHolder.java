@@ -21,7 +21,7 @@ import com.mn.tiger.widget.recyclerview.TGRecyclerViewHolder;
 
 import java.util.Locale;
 
-import butterknife.FindView;
+import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -29,13 +29,13 @@ import butterknife.OnClick;
  */
 public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInfo>
 {
-    @FindView(R.id.location_date)
+    @Bind(R.id.location_date)
     TextView locationDate;
 
-    @FindView(R.id.location_address)
+    @Bind(R.id.location_address)
     TextView locationAddress;
 
-    @FindView(R.id.location_time)
+    @Bind(R.id.location_time)
     TextView locationTime;
 
     private LocationInfo locationInfo;
@@ -43,6 +43,12 @@ public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInf
     private BGASwipeItemLayout swipeItemLayout;
 
     private Locale locale;
+
+    @Override
+    protected int getLayoutId()
+    {
+        return R.layout.location_list_item;
+    }
 
     @Override
     public View initView(ViewGroup parent, int viewType)

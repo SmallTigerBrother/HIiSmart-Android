@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
+import com.lepow.hiremote.R;
 import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.log.Logger;
 
@@ -132,13 +133,15 @@ public class AMapLocationManager implements ILocationManager
      */
     public boolean isLocationInChina(TGLocation location)
     {
-        if (location.getLatitude() != 0 && location.getLongitude() != 0)
+        if (location.getLongitude() < 72.004 || location.getLongitude() > 137.8347 ||
+                location.getLatitude() < 0.8293 || location.getLatitude() > 55.8271)
         {
-            if (location.getLongitude() < 72.004 || location.getLongitude() > 137.8347 ||
-                    location.getLatitude() < 0.8293 || location.getLatitude() > 55.8271)
-            {
-                return false;
-            }
+            return false;
+        }
+
+        if(!location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china)))
+        {
+            return false;
         }
 
         return true;

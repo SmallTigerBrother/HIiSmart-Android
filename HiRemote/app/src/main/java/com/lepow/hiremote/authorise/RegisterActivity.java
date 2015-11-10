@@ -14,11 +14,12 @@ import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.misc.ActivityResultCode;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.authorize.IRegisterCallback;
+import com.mn.tiger.authorize.TGAuthorizeResult;
 import com.mn.tiger.utility.StringUtils;
 import com.mn.tiger.utility.ToastUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 /**
@@ -26,22 +27,20 @@ import butterknife.OnClick;
  */
 public class RegisterActivity extends BaseActivity implements IRegisterCallback
 {
-    @FindView(R.id.register_username_input)
+    @Bind(R.id.register_username_input)
     EditText userNameInputView;
 
-    @FindView(R.id.login_email_input)
+    @Bind(R.id.login_email_input)
     EditText emailInputView;
 
-    @FindView(R.id.register_password_input)
+    @Bind(R.id.register_password_input)
     EditText passwordInputView;
 
-    @FindView(R.id.register_password_confirm_input)
+    @Bind(R.id.register_password_confirm_input)
     EditText passwordConfirmInputView;
 
-    @FindView(R.id.register_agreement_checkbox)
+    @Bind(R.id.register_agreement_checkbox)
     CheckBox agreementCheckBox;
-
-    private HSAuthorizer authorizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +51,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterCallback
         ButterKnife.bind(this);
         setBarTitleText(getString(R.string.register_btn_text));
         getNavigationBar().getMiddleTextView().setTextColor(Color.WHITE);
-        authorizer = new HSAuthorizer(this, null, null);
     }
 
     @OnClick({R.id.register_btn, R.id.register_agreement})
@@ -105,14 +103,14 @@ public class RegisterActivity extends BaseActivity implements IRegisterCallback
             return;
         }
 
-        authorizer.register(email, password, this, userName);
+        HSAuthorization.getInstance().register(this, email, password, this, userName);
 
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(userNameInputView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override
-    public void onSuccess()
+    public void onRegisterSuccess(TGAuthorizeResult tgAuthorizeResult)
     {
         Intent data = new Intent();
         data.putExtra(IntentKeys.USER_NAME, userNameInputView.getText().toString().trim());
@@ -122,8 +120,9 @@ public class RegisterActivity extends BaseActivity implements IRegisterCallback
     }
 
     @Override
-    public void onError(int i, String s)
+    public void onRegisterError(int i, String s)
     {
-        //TODO 提示注册失败
+
     }
+
 }

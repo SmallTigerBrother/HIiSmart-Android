@@ -23,15 +23,15 @@ private static NotificationManager instanse;
 	}
 
 	@Override
-	protected void onRecieveNotification(Intent intent, int notificationType)
+	protected void onReceiveNotification(Intent intent, int notificationType)
 	{
 		Intent startIntent = new Intent();
 		startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		switch (notificationType)
 		{
-		//TODO 添加不同的通知类型，实现跳转逻辑
-		default:
-			break;
+			//TODO 添加不同的通知类型，实现跳转逻辑
+			default:
+				break;
 		}
 
 		TGApplication.getInstance().startActivity(startIntent);

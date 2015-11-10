@@ -48,8 +48,8 @@ import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
@@ -60,31 +60,31 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 {
 	private static final Logger LOG = Logger.getLogger(HomeActivity.class);
 
-	@FindView(R.id.devices_viewpager)
+	@Bind(R.id.devices_viewpager)
 	DotIndicatorBannerPagerView<PeripheralInfo> bannerPagerView;
 
-	@FindView(R.id.common_function_btn)
+	@Bind(R.id.common_function_btn)
 	Button functionBtn;
 
-	@FindView(R.id.common_function_bord)
+	@Bind(R.id.common_function_bord)
 	LinearLayout functionBord;
 
-	@FindView(R.id.function_pinned_location_image)
+	@Bind(R.id.function_pinned_location_image)
 	Button pinnedLocationImg;
 
-	@FindView(R.id.common_settings_btn)
+	@Bind(R.id.common_settings_btn)
 	Button settingsBtn;
 
-	@FindView(R.id.common_settings_bord)
+	@Bind(R.id.common_settings_bord)
 	LinearLayout settingsBord;
 
-	@FindView(R.id.notification_switch)
+	@Bind(R.id.notification_switch)
 	Switch notificationSwitch;
 
-	@FindView(R.id.voice_switch)
+	@Bind(R.id.voice_switch)
 	Switch voiceSwitch;
 
-	@FindView(R.id.play_sound_switch)
+	@Bind(R.id.play_sound_switch)
 	Switch playSoundSwitch;
 
 	private PeripheralInfo connectedPeripheral;

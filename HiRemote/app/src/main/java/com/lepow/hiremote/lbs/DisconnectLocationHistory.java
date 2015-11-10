@@ -18,15 +18,15 @@ import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.recyclerview.TGRecyclerView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 
 /**
  * 断开连接的地址历史界面
  */
 public class DisconnectLocationHistory extends BaseActivity implements TGRecyclerView.OnItemClickListener
 {
-    @FindView(R.id.disconnect_location_history)
+    @Bind(R.id.disconnect_location_history)
     TGRecyclerView listView;
 
     private LocationAdapter listAdapter;

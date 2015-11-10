@@ -21,8 +21,8 @@ import com.mn.tiger.widget.viewpager.DotIndicatorBannerPagerView.ViewPagerHolder
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 public class SplashActivity extends BaseActivity
@@ -44,7 +44,7 @@ public class SplashActivity extends BaseActivity
 			R.string.intro_camera_detail,
 			R.string.intro_voice_detail, -1};
 	
-	@FindView(R.id.intro_viewpager)
+	@Bind(R.id.intro_viewpager)
 	DotIndicatorBannerPagerView<IntroductionInfo> bannerPagerView;
 	
 	@Override

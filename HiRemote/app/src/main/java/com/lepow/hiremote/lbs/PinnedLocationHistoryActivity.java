@@ -21,17 +21,16 @@ import com.mn.tiger.widget.recyclerview.TGRecyclerView;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
-import butterknife.tiger.OnQueryText;
 
 public class PinnedLocationHistoryActivity extends BaseActivity implements
-		TGRecyclerView.OnItemClickListener
+		TGRecyclerView.OnItemClickListener, TGSearchView.OnQueryTextListener
 {
-	@FindView(R.id.location_search)
+	@Bind(R.id.location_search)
 	TGSearchView searchView;
 	
-	@FindView(R.id.pinned_location_history)
+	@Bind(R.id.pinned_location_history)
 	TGRecyclerView listView;
 	
 	private LocationAdapter listAdapter;
@@ -60,6 +59,7 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements
 		this.registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_PINNED_LOCATION));
 
 		searchView.setQueryTextColor(getResources().getColor(R.color.text_color_normal));
+		searchView.setOnQueryTextListener(this);
 
 		listView.addOnScrollListener(new RecyclerView.OnScrollListener()
 		{
@@ -96,15 +96,11 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements
 		startActivity(intent);
 	}
 
-	/**
-	 * 搜索提交回调方法
-	 * @param queryText
-	 */
-	@OnQueryText(R.id.location_search)
-	public void onSearchSubmit(CharSequence queryText)
+	@Override
+	public void onQueryTextSubmit(CharSequence charSequence)
 	{
 		//根据关键字查找本地数据
-		List<LocationInfo> results = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this, queryText.toString());
+		List<LocationInfo> results = LocationDataManager.getInstance().findAllPinnedLocationSortByTime(this, charSequence.toString());
 		if(null == results || results.size() == 0)
 		{
 			//TODO 显示未搜索到结果的提示界面
@@ -116,8 +112,20 @@ public class PinnedLocationHistoryActivity extends BaseActivity implements
 			listAdapter.updateData(results);
 		}
 	}
-	
+
 	@Override
+	public void onQueryTextChange(CharSequence charSequence)
+	{
+
+	}
+
+    @Override
+    public void onTextCleaned()
+    {
+
+    }
+
+    @Override
 	protected void onDestroy()
 	{
 		super.onDestroy();

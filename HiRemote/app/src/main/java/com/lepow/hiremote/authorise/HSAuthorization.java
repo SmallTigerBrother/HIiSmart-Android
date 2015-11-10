@@ -9,101 +9,118 @@ import com.lepow.hiremote.request.SimpleLoadCallback;
 import com.mn.tiger.authorize.IAuthorizeCallback;
 import com.mn.tiger.authorize.ILogoutCallback;
 import com.mn.tiger.authorize.IRegisterCallback;
+import com.mn.tiger.authorize.TGAuthorization;
 import com.mn.tiger.authorize.TGAuthorizeResult;
-import com.mn.tiger.authorize.TGAuthorizer;
 import com.mn.tiger.request.TGHttpLoader;
 import com.mn.tiger.request.receiver.TGHttpResult;
 
 /**
  * Created by peng on 15/8/16.
  */
-public class HSAuthorizer extends TGAuthorizer
+public class HSAuthorization extends TGAuthorization
 {
-    public HSAuthorizer(Activity activity, String account, String password)
+    private static HSAuthorization instance;
+
+    public static HSAuthorization getInstance()
     {
-        super(activity, account, password);
+        if(null == instance)
+        {
+            synchronized (HSAuthorization.class)
+            {
+                if(null == instance)
+                {
+                    instance = new HSAuthorization();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private HSAuthorization()
+    {
+        super();
     }
 
     @Override
-    protected void executeAuthorize(final IAuthorizeCallback authorizeCallback)
+    protected void executeAuthorize(final Activity activity, final IAuthorizeCallback authorizeCallback)
     {
         HttpLoader<UserInfo> httpLoader = new HttpLoader<UserInfo>();
         httpLoader.addRequestParam("email", account);
         httpLoader.addRequestParam("password", password);
-        httpLoader.loadByPost(getActivity(), ServerUrls.LOGIN, UserInfo.class, new SimpleLoadCallback<UserInfo>(getActivity())
+        httpLoader.loadByPost(activity, ServerUrls.LOGIN, UserInfo.class, new SimpleLoadCallback<UserInfo>(activity)
         {
             @Override
             public void onLoadSuccess(UserInfo userInfo, TGHttpResult tgHttpResult)
             {
-                TGAuthorizer.saveUserInfo(getActivity(), userInfo);
+                TGAuthorization.saveUserInfo(activity, userInfo);
                 TGAuthorizeResult authorizeResult = new TGAuthorizeResult();
                 authorizeResult.setUID(userInfo.getId() + "");
                 authorizeResult.setAccessToken(userInfo.getToken());
-                authorizeCallback.onSuccess(authorizeResult);
+                authorizeCallback.onAuthorizeSuccess(authorizeResult);
             }
 
             @Override
             public void onLoadError(int code, String message, TGHttpResult httpResult)
             {
                 super.onLoadError(code, message, httpResult);
-                authorizeCallback.onError(code, message, message);
+                authorizeCallback.onAuthorizeError(code, message, message);
             }
         });
     }
 
     @Override
-    protected void executeLogout(final ILogoutCallback logoutCallback)
+    protected void executeLogout(Activity activity, final ILogoutCallback logoutCallback)
     {
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
-        httpLoader.addRequestParam("id", ((UserInfo)TGAuthorizer.getUserInfo(getActivity())).getId() + "");
-        httpLoader.loadByPost(getActivity(), ServerUrls.LOGOUT, Void.class, new SimpleLoadCallback<Void>(getActivity())
+        httpLoader.addRequestParam("id", ((UserInfo)TGAuthorization.getUserInfo(activity)).getId() + "");
+        httpLoader.loadByPost(activity, ServerUrls.LOGOUT, Void.class, new SimpleLoadCallback<Void>(activity)
         {
             @Override
             public void onLoadSuccess(Void result, TGHttpResult tgHttpResult)
             {
-                logoutCallback.onSuccess();
+                logoutCallback.onLogoutSuccess();
             }
 
             @Override
             public void onLoadError(int code, String message, TGHttpResult httpResult)
             {
                 super.onLoadError(code, message, httpResult);
-                logoutCallback.onError(code, message, message);
+                logoutCallback.onLogoutError(code, message, message);
             }
         });
     }
 
     @Override
-    public void register(String account, String password, final IRegisterCallback callback, Object... args)
+    public void register(Activity activity, String account, String password, final IRegisterCallback callback, Object... args)
     {
         String userName = (String)args[0];
 
-        HttpLoader<Void> httpLoader = new HttpLoader<Void>();
+        HttpLoader<TGAuthorizeResult> httpLoader = new HttpLoader<TGAuthorizeResult>();
         httpLoader.addRequestParam("email", account);
         httpLoader.addRequestParam("password", password);
         httpLoader.addRequestParam("userName", userName);
-        httpLoader.loadByPost(getActivity(), ServerUrls.REGISTER, Void.class, new SimpleLoadCallback<Void>(getActivity())
+        httpLoader.loadByPost(activity, ServerUrls.REGISTER, TGAuthorizeResult.class, new SimpleLoadCallback<TGAuthorizeResult>(activity)
         {
             @Override
-            public void onLoadSuccess(Void result, TGHttpResult tgHttpResult)
+            public void onLoadSuccess(TGAuthorizeResult result, TGHttpResult tgHttpResult)
             {
-                callback.onSuccess();
+                callback.onRegisterSuccess(result);
             }
 
             @Override
             public void onLoadError(int code, String message, TGHttpResult httpResult)
             {
                 super.onLoadError(code, message, httpResult);
-                callback.onError(code, message);
+                callback.onRegisterError(code, message);
             }
         });
     }
 
-    public void requestResetPassword(String email,  TGHttpLoader.OnLoadCallback<Void> callback)
+    public void requestResetPassword(Activity activity, String email,  TGHttpLoader.OnLoadCallback<Void> callback)
     {
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
         httpLoader.addRequestParam("email", email);
-        httpLoader.loadByPost(getActivity(), ServerUrls.RESET_PASSWORD, Void.class, callback);
+        httpLoader.loadByPost(activity, ServerUrls.RESET_PASSWORD, Void.class, callback);
     }
 }
 

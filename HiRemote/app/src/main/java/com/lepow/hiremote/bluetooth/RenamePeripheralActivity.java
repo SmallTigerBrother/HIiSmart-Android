@@ -17,8 +17,8 @@ import com.lepow.hiremote.home.HomeActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.widget.HSAlertDialog;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 /**
@@ -26,7 +26,7 @@ import butterknife.OnClick;
  */
 public class RenamePeripheralActivity extends BaseActivity
 {
-    @FindView(R.id.peripheral_rename_btn)
+    @Bind(R.id.peripheral_rename_btn)
     Button renamePeripheralBtn;
 
     private PeripheralInfo peripheralInfo;

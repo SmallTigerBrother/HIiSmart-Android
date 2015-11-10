@@ -27,8 +27,8 @@ import com.mn.tiger.map.IMapManager;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import butterknife.OnClick;
 
 /**
@@ -38,19 +38,19 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 {
     private static final Logger LOG = Logger.getLogger(FindMyItemActivity.class);
 
-    @FindView(R.id.device_avatar)
+    @Bind(R.id.device_avatar)
     CircleImageView deviceAvatarView;
 
-    @FindView(R.id.peripheral_name)
+    @Bind(R.id.peripheral_name)
     TextView deviceName;
 
-    @FindView(R.id.device_connect_status)
+    @Bind(R.id.device_connect_status)
     ImageView connectStatusView;
 
-    @FindView(R.id.device_location)
+    @Bind(R.id.device_location)
     TextView deviceLocationView;
 
-    @FindView(R.id.mapview_container)
+    @Bind(R.id.mapview_container)
     FrameLayout mapContainer;
 
     PeripheralInfo peripheralInfo;

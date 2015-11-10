@@ -13,17 +13,18 @@ import com.mn.tiger.widget.adpter.TGViewHolder;
 
 import java.util.Locale;
 
-import butterknife.FindView;
+import butterknife.Bind;
+
 
 public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 {
-	@FindView(R.id.record_name)
+	@Bind(R.id.record_name)
 	TextView recordName;
 	
-	@FindView(R.id.record_date)
+	@Bind(R.id.record_date)
 	TextView recordDate;
 
-	@FindView(R.id.record_duration)
+	@Bind(R.id.record_duration)
 	TextView recordDuration;
 
 	private Locale locale;
