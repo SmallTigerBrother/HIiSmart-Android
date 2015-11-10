@@ -2,22 +2,22 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
            xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">HiSmart</string>
+    <string name="app_name">HiRemote</string>
     <string name="action_settings">설치중</string>
 
 
     <string name="intro_location_title">위치기록</string>
     <string name="intro_location_detail">나의 위치 이력을 간편하게 찾을 수 있습니다.</string>
     <string name="intro_find_title">나의 기기 검색</string>
-    <string name="intro_find_detail">HiSmart에 첨부한 기기 검색</string>
+    <string name="intro_find_detail">HiRemote에 첨부한 기기 검색</string>
     <string name="intro_camera_title">카메라 셔터</string>
-    <string name="intro_camera_detail">HiSmart의 카메라셔터로 사진을 찍으세요.</string>
+    <string name="intro_camera_detail">HiRemote의 카메라셔터로 사진을 찍으세요.</string>
     <string name="intro_voice_title">음성메모</string>
-    <string name="intro_voice_detail">HiSmart의 카메라셔터로 사진을 찍으세요</string>
+    <string name="intro_voice_detail">HiRemote의 카메라셔터로 사진을 찍으세요</string>
     <string name="intro_hiremote_title">HiRemote 제어</string>
 
     <string name="my_bag">나의 hi백</string>
-    <string name="edit">편집</string>
+    <string name="edit">설정</string>
 
     <string name="start">체험시작</string>
 
@@ -43,16 +43,16 @@
     <string name="not_found_peripheral_tips">기기 검색 되지않았습니다. 다시한번 검색해주세요.</string>
     <string name="have_a_problem">문제 발생</string>
     <string name="support">지원 및 FAQ</string>
-    <string name="hismart_add_success">HiSmart추가되였습니다.</string>
-    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
-    <string name="rename_peripheral_btn_text">이름바꾸기 %1$s </string>
+    <string name="hismart_add_success">HiRemote추가되였습니다.</string>
+    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiRemote.</string>
+    <string name="rename_peripheral_btn_text">이름바꾸기HiRemote </string>
     <string name="next">다음</string>
-    <string name="add_a_hismart">HiSmart 한개 추가</string>
-    <string name="add_a_hismart_tips">ⅰ: 당신의 스마트기기에 블루투스가 오픈되였는지 확인해주세요. \n ⅱ: HiSmart중간의 버튼을 눌러 활성화시킵니다.</string>
+    <string name="add_a_hismart">HiRemote 한개 추가</string>
+    <string name="add_a_hismart_tips">ⅰ: 당신의 스마트기기에 블루투스가 오픈되였는지 확인해주세요. \n ⅱ: 아래 이미지와 같이 HiRemote재생 버턴 길게 눌러서 활성화 시킵니다.</string>
     <string name="scanning">스캔중...</string>
-    <string name="push_notifications">알림</string>
-    <string name="voice_memo">음성메모</string>
-    <string name="play_sounds">재생</string>
+    <string name="push_notifications">소식 알림</string>
+    <string name="voice_memo">음성 메모</string>
+    <string name="play_sounds">연결 끊기 알림</string>
     <string name="stop">정지</string>
     <string name="forgot_password">비밀본호를 잊어버렸습니다</string>
     <string name="password_hint">비밀번호:</string>
@@ -66,7 +66,7 @@
     <string name="terms_conditions_tips">이곳에서 정보를 찾으세요.</string>
     <string name="contact_us_tips">질문에 답을 찾지 못하였습니다.</string>
     <string name="support_faq_tips">다른 도움이 필요하신가요? 도움을 드리겠습니다.</string>
-    <string name="add_new_device_tips">이곳에 추가함으로써 또 다른 HiSmart 장치를 포함하세요.</string>
+    <string name="add_new_device_tips">이곳에 추가함으로써 또 다른 HiRemote 장치를 포함하세요.</string>
 
     <string name="login_title">로그인</string>
     <string name="login_btn_text">로그아웃</string>
@@ -86,12 +86,12 @@
 
     <string name="location_history">위치내역</string>
     <string name="location">위치</string>
-    <string name="disconnection_history">Disconnection History</string>
+    <string name="disconnection_history">기록</string>
     <string name="make_sure_you_delete_location">이 기록을 삭제하실 건가요?</string>
     <string name="find_my_item_title">나의 기기 검색</string>
     <string name="change_name">이름변경</string>
     <string name="your_device_far_away_from_you">경고 당신의Hismart백은 90피드 밖에 있습니다</string>
-
+    <string name="history">기록</string>
 
     <!-- title for the dialog showing the error of camera hardware -->
     <string name="camera_error_title">Camera error</string>
@@ -392,7 +392,7 @@
     <string name="switch_to_camera_lable">Switch to camera</string>
     <string name="switch_to_video_lable">Switch to video</string>
 
-    <string name="alarm_tips">The HiSmart is calling you!</string>
+    <string name="alarm_tips">The HiRemote is calling you!</string>
     <string name="bluetooth_off_tips"></string>
     <string name="bluetooth_open_dialog_title">블루투스 기기 체크하세요!</string>
 

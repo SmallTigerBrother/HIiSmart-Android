@@ -12,13 +12,13 @@
     <string name="terms_conditions_tips">Find the information here.</string>
 
     <string name="support_faq_tips">Need any help? We can help you.</string>
-    <string name="add_new_device_tips">Include another HiSmart device by adding it here.</string>
+    <string name="add_new_device_tips">Include another HiRemote device by adding it here.</string>
 
     <string name="play_sounds">Play Sounds</string>
 
     <string name="contact_us_tips">Didn\'t find your answer in FAQs. Reach out to us directly.</string>
 
-    <string name="app_name">HiSmart</string>
+    <string name="app_name">HiRemote</string>
 
     <string name="intro_location_title">Pin Location</string>
     <string name="intro_location_detail">You can easily find the history of all the locations you have been to.</string>
@@ -66,12 +66,12 @@
     <string name="not_found_peripheral_tips">It looks like we can\'t find it, let\'t try again!</string>
     <string name="have_a_problem">have a problem</string>
     <string name="support">Support</string>
-    <string name="hismart_add_success">HiSmart was added successfully!</string>
-    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
-    <string name="rename_peripheral_btn_text">Rename the %1$s as...</string>
+    <string name="hismart_add_success">HiRemote was added successfully!</string>
+    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiRemote.</string>
+    <string name="rename_peripheral_btn_text">Rename the HiRemote as...</string>
     <string name="next">Next</string>
-    <string name="add_a_hismart">Add a HiSmart</string>
-    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \n ii: Hold the play button of the HiSmart to activate it.</string>
+    <string name="add_a_hismart">Add a HiRemote</string>
+    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \n ii: Hold the play button of the HiRemote to activate it.</string>
     <string name="scanning">Scanning...</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="voice_memo">Voice Memos</string>
@@ -417,7 +417,7 @@
     <string name="switch_to_camera_lable">Switch to camera</string>
     <string name="switch_to_video_lable">Switch to video</string>
 
-    <string name="alarm_tips">The HiSmart is calling you!</string>
+    <string name="alarm_tips">The HiRemote is calling you!</string>
     <string name="bluetooth_open_dialog_title">Please check the Bluetooth setting!</string>
 
 </resources>

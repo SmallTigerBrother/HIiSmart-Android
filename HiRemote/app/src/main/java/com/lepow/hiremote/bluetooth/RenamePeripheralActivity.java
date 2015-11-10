@@ -43,7 +43,7 @@ public class RenamePeripheralActivity extends BaseActivity
 
         peripheralInfo = (PeripheralInfo)getIntent().getSerializableExtra(IntentKeys.PERIPHERAL_INFO);
 
-        renameHint = getString(R.string.rename_peripheral_btn_text, peripheralInfo.getPeripheralName());
+        renameHint = getString(R.string.rename_peripheral_btn_text);
         renamePeripheralBtn.setText(renameHint);
     }
 

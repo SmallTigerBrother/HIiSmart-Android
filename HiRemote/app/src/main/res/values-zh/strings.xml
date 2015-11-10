@@ -17,19 +17,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">HiSmart</string>
+    <string name="app_name">HiRemote</string>
     <string name="action_settings">设置</string>
 
 
     <string name="intro_location_title">定位记录</string>
     <string name="intro_location_detail">您能够轻松地找到您所到之处的历史记录。</string>
     <string name="intro_find_title">寻找设备</string>
-    <string name="intro_find_detail">寻找和HiSmart连接的手机。</string>
+    <string name="intro_find_detail">寻找和HiRemote连接的手机。</string>
     <string name="intro_camera_title">相机快门</string>
-    <string name="intro_camera_detail">使用您的HiSmart上的快门来拍摄照片。</string>
+    <string name="intro_camera_detail">使用您的HiRemote上的快门来拍摄照片。</string>
     <string name="intro_voice_title">录音记录</string>
     <string name="intro_voice_detail">您可以轻松的录制、管理您的录音.</string>
-    <string name="intro_hiremote_title">HiSmart控制</string>
+    <string name="intro_hiremote_title">HiRemote控制</string>
 
     <string name="my_bag">我的Hi包</string>
     <string name="edit">编辑</string>
@@ -71,12 +71,12 @@
     <string name="not_found_peripheral_tips">看来我们没有找到它，让我们再试一次!</string>
     <string name="have_a_problem">有一个问题</string>
     <string name="support">帮助</string>
-    <string name="hismart_add_success">HiSmart已经成功添加!</string>
-    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiSmart.</string>
-    <string name="rename_peripheral_btn_text">重命名 %1$s 为</string>
+    <string name="hismart_add_success">HiRemote已经成功添加!</string>
+    <string name="rename_peripheral_tips">First step: Take a picture of the item linked to your HiRemote.</string>
+    <string name="rename_peripheral_btn_text">重命名HiRemote为</string>
     <string name="next">下一步</string>
-    <string name="add_a_hismart">添加一个HiSmart</string>
-    <string name="add_a_hismart_tips">i: 确保您的智能手机的蓝牙已经打开。 \n ii: 按住HiSmart中间的按钮来激活它。</string>
+    <string name="add_a_hismart">添加一个HiRemote</string>
+    <string name="add_a_hismart_tips">i: 确保您的智能手机的蓝牙已经打开。 \n ii: 按住HiRemote中的播放按钮来激活它。</string>
     <string name="scanning">扫描...</string>
     <string name="push_notifications">消息通知</string>
     <string name="voice_memo">录音记录</string>
@@ -121,7 +121,7 @@
     <string name="disconnection_history">断开历史记录</string>
     <string name="make_sure_you_delete_location">您想删除这条记录吗？</string>
     <string name="find_my_item_title">寻找设备</string>
-    <string name="history">历史记录</string>
+    <string name="history">历史</string>
     <string name="no_device">无设备</string>
     <string name="change_name">更改名称</string>
     <string name="your_device_far_away_from_you">警告 你的HiSmart包在离你90英尺外</string>
