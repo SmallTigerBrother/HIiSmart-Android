@@ -36,7 +36,7 @@ public abstract class CameraPreference {
         mContext = context;
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.CameraPreference, 0, 0);
-        mTitle = a.getString(R.styleable.CameraPreference_title);
+        mTitle = a.getString(R.styleable.CameraPreference_camera_title);
         a.recycle();
     }
 
