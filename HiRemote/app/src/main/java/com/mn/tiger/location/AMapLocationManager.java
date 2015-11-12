@@ -33,39 +33,7 @@ public class AMapLocationManager implements ILocationManager
 
             final TGLocation tgLocation = TGLocation.initWith(aMapLocation);
             tgLocation.setTime(System.currentTimeMillis());
-            //TODO 以下代码未使用过
-            if(aMapLocation.getProvider() == LocationManagerProxy.GPS_PROVIDER)
-            {
-                //使用高德地址解析功能在进行解析地址
-                AMapGeoCoding.geoCoding(aMapLocation.getLatitude(), aMapLocation.getLongitude(), new AMapGeoCoding.GeoCodeListener()
-                {
-                    @Override
-                    public void onGeoCodingSuccess(GeoCodeResult result)
-                    {
-                        LOG.d("[Method:onGeoCodingSuccess]");
-                        if(null != listener)
-                        {
-                            if(result.getResults().length > 0)
-                            {
-                                AddressResult addressResult = result.getResults()[0];
-                                //TODO 分析数据
-                                tgLocation.setAddress(addressResult.getFormatted_address());
-                            }
-                            listener.onReceiveLocation(tgLocation);
-                        }
-                    }
-
-                    @Override
-                    public void onGeoCodingError(int code, String message)
-                    {
-                        LOG.e("[Method:onGeoCodingError] " + message);
-                    }
-                });
-            }
-            else
-            {
-                listener.onReceiveLocation(tgLocation);
-            }
+            listener.onReceiveLocation(tgLocation);
         }
 
         @Override

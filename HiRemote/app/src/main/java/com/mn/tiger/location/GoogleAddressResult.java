@@ -2,7 +2,7 @@ package com.mn.tiger.location;
 
 import java.util.Arrays;
 
-public class AddressResult
+public class GoogleAddressResult
 {
 	private String[] types;
 

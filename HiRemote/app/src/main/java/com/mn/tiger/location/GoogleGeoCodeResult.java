@@ -1,19 +1,19 @@
 package com.mn.tiger.location;
 
-public class GeoCodeResult
+public class GoogleGeoCodeResult
 {
 	public static final String STATUS_OK = "OK";
 
 	private String status;
 
-	private AddressResult[] results;
+	private GoogleAddressResult[] results;
 
-	public AddressResult[] getResults()
+	public GoogleAddressResult[] getResults()
 	{
 		return results;
 	}
 
-	public void setResults(AddressResult[] results)
+	public void setResults(GoogleAddressResult[] results)
 	{
 		this.results = results;
 	}

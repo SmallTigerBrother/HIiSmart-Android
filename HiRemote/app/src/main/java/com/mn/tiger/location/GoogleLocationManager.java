@@ -182,7 +182,7 @@ public class GoogleLocationManager implements ILocationManager
         GoogleGeoCoding.geoCoding(location.getLatitude(), location.getLongitude(), new GoogleGeoCoding.GeoCodeListener()
         {
             @Override
-            public void onGeoCodingSuccess(GeoCodeResult result)
+            public void onGeoCodingSuccess(GoogleGeoCodeResult result)
             {
                 LOG.d("[Method:onGeoCodingSuccess]");
                 //发通知界面处理
@@ -192,7 +192,7 @@ public class GoogleLocationManager implements ILocationManager
                     tgLocation.setTime(System.currentTimeMillis());
                     if(result.getResults().length > 0)
                     {
-                        AddressResult addressResult = result.getResults()[0];
+                        GoogleAddressResult addressResult = result.getResults()[0];
                         tgLocation.setAddress(addressResult.getFormatted_address());
                     }
                     listener.onReceiveLocation(tgLocation);

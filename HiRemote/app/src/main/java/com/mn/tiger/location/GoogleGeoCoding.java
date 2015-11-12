@@ -21,9 +21,9 @@ public class GoogleGeoCoding
         String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude
                 + "," + longitude + "&sensor=false";
 
-        TGHttpLoader<GeoCodeResult> httpLoader = new TGHttpLoader<GeoCodeResult>();
-        httpLoader.loadByGet(TGApplication.getInstance(), url, GeoCodeResult.class,
-                new TGHttpLoader.OnLoadCallback<GeoCodeResult>()
+        TGHttpLoader<GoogleGeoCodeResult> httpLoader = new TGHttpLoader<GoogleGeoCodeResult>();
+        httpLoader.loadByGet(TGApplication.getInstance(), url, GoogleGeoCodeResult.class,
+                new TGHttpLoader.OnLoadCallback<GoogleGeoCodeResult>()
                 {
                     @Override
                     public void onLoadStart()
@@ -31,7 +31,7 @@ public class GoogleGeoCoding
                     }
 
                     @Override
-                    public void onLoadSuccess(GeoCodeResult geoCodeResult, TGHttpResult tgHttpResult)
+                    public void onLoadSuccess(GoogleGeoCodeResult geoCodeResult, TGHttpResult tgHttpResult)
                     {
                         listener.onGeoCodingSuccess(geoCodeResult);
                     }
@@ -46,7 +46,7 @@ public class GoogleGeoCoding
                     }
 
                     @Override
-                    public void onLoadCache(GeoCodeResult geoCodeResult, TGHttpResult tgHttpResult)
+                    public void onLoadCache(GoogleGeoCodeResult geoCodeResult, TGHttpResult tgHttpResult)
                     {
                     }
 
@@ -66,7 +66,7 @@ public class GoogleGeoCoding
 		 * 地址解析成功
 		 * @param result
 		 */
-		void onGeoCodingSuccess(GeoCodeResult result);
+		void onGeoCodingSuccess(GoogleGeoCodeResult result);
 
 		/**
 		 * 地址解析失败
