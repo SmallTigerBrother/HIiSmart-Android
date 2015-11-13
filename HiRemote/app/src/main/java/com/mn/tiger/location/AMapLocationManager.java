@@ -107,7 +107,12 @@ public class AMapLocationManager implements ILocationManager
             return false;
         }
 
-        if(!location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china)))
+        LOG.i("[Methed:isLocationInChina] country == " + location.getCountry() + "  province == " + location.getProvince() +
+                "  city == " + location.getCity() + "  address == " + location.getAddress());
+
+        if(!location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_zh)) &&
+                !location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_en)) &&
+                !location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_ko)))
         {
             return false;
         }

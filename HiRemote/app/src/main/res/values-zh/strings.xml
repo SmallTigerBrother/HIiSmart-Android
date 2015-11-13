@@ -222,6 +222,4 @@
     <string name="switch_to_video_lable" msgid="4525451949497982385">"切换到视频"</string>
     <string name="bluetooth_open_dialog_title">请检查蓝牙设置项是否已打开!</string>
 
-    <string name="china">中国</string>
-
 </resources>
