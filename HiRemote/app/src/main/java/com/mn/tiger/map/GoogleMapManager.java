@@ -10,7 +10,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -56,8 +55,25 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
-        GoogleMapOptions options = new GoogleMapOptions();
-        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
+//        GoogleMapOptions options = new GoogleMapOptions();
+//        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
+//        MapView mapView = new MapView(activity, options);
+//        mapContainer.addView(mapView, new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        mapView.onCreate(savedInstanceState);
+//        googleMap = mapView.getMap();
+//        setUpMap();
+//
+//        mapView.getMapAsync(new OnMapReadyCallback()
+//                        {
+//                            @Override
+//                            public void onMapReady(GoogleMap googleMap)
+//                            {
+//                                LOG.d("[Method:onMapReady] googleMap == " + googleMap);
+//                                GoogleMapManager.this.googleMap = googleMap;
+//                                setUpMap();
+//                            }
+//                        });
 
         mapFragment = (MapFragment)activity.getFragmentManager().findFragmentById(R.id.google_map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback()

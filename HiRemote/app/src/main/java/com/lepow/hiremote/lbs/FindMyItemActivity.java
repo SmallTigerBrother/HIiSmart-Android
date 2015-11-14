@@ -64,7 +64,7 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            LOG.d("[Method:broadcastReceiver:] use AMapManager");
+            LOG.i("[Method:broadcastReceiver:onReceive] ");
             int bleState = TGBLEManager.getBLEState(intent);
             switch (bleState)
             {
@@ -119,12 +119,12 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
     {
         if(TGLocationManager.getInstance().isCurrentLocationInChina())
         {
-            LOG.d("[Method:initMapView] use AMapManager");
+            LOG.i("[Method:initMapView] use AMapManager");
             mapManager = new AMapManager(this);
         }
         else
         {
-            LOG.d("[Method:initMapView] use GoogleMapManager");
+            LOG.i("[Method:initMapView] use GoogleMapManager");
             mapManager = new GoogleMapManager(this);
         }
 

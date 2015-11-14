@@ -123,16 +123,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 						onPeripheralChanged();
 						showDisconnectedNotification();
 						LOG.d("[Method:onReceive] disconnected peripheral ");
+                        progressDialog.dismiss();
 						break;
 
 					case TGBLEManager.BLE_STATE_NONSUPPORT:
 						HSBLEPeripheralManager.getInstance().showBluetoothOffDialog(HomeActivity.this);
+                        progressDialog.dismiss();
 						break;
 
 					case TGBLEManager.BLE_STATE_NO_PERIPHERAL_FOUND:
 						connectedPeripheral = PeripheralInfo.NULL_OBJECT;
 						LOG.d("[Method:onReceive] not found peripheral ");
-						onPeripheralChanged();
+                        progressDialog.dismiss();
+                        onPeripheralChanged();
 						break;
 
 					default:
@@ -161,9 +164,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
 		progressDialog = new ProgressDialog(this);
+		progressDialog.show();
 
 		getWindow().getDecorView().setBackgroundResource(R.drawable.home_page_bg);
 		setBarTitleText(getString(R.string.app_name));
@@ -346,6 +350,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 		//读取蓝牙设备特征值
 		HSBLEPeripheralManager.getInstance().readAllCharacteristics();
+		progressDialog.show();
 	}
 
 	@OnClick({ R.id.common_function_btn, R.id.common_settings_btn , R.id.notification_switch, R.id.voice_switch,
