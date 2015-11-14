@@ -79,8 +79,7 @@ public class HttpLoader<T> extends TGHttpLoader<T>
                 }
                 catch (Exception e)
                 {
-                    LOG.e("[Method:parseRequestResult] url : "  + getRequestUrl() + "\n params : " +
-                            getStringParams() + "\n" + e.getMessage());
+                    LOG.e("[Method:parseRequestResult] result : "  + httpResult.getResult() + "\n" + e.getMessage());
                 }
             }
 
@@ -88,8 +87,7 @@ public class HttpLoader<T> extends TGHttpLoader<T>
         }
         catch (JSONException e)
         {
-            LOG.e("[Method:parseRequestResult] url : "  + getRequestUrl() + "\n params : " +
-                   getStringParams() + "\n" + e.getMessage());
+            LOG.e("[Method:parseRequestResult] result : "  + httpResult.getResult() + "\n" + e.getMessage());
         }
 
         return null;
