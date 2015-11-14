@@ -16,7 +16,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.lepow.hiremote.R;
 import com.mn.tiger.location.GoogleLocationManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
@@ -75,18 +74,32 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
 //                            }
 //                        });
 
-        mapFragment = (MapFragment)activity.getFragmentManager().findFragmentById(R.id.google_map_fragment);
-        mapFragment.getMapAsync(new OnMapReadyCallback()
+        mapFragment = new MapFragment();
+        try
         {
-            @Override
-            public void onMapReady(GoogleMap googleMap)
+            activity.getFragmentManager().beginTransaction().add(mapContainer.getId(), mapFragment).commitAllowingStateLoss();
+            HANDLER.postDelayed(new Runnable()
             {
-                LOG.d("[Method:onMapReady] googleMap == " + googleMap);
-                GoogleMapManager.this.googleMap = googleMap;
-                setUpMap();
-            }
-        });
-
+                @Override
+                public void run()
+                {
+                    mapFragment.getMapAsync(new OnMapReadyCallback()
+                    {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap)
+                        {
+                            LOG.d("[Method:onMapReady] googleMap == " + googleMap);
+                            GoogleMapManager.this.googleMap = googleMap;
+                            setUpMap();
+                        }
+                    });
+                }
+            }, 300);
+        }
+        catch (Exception e)
+        {
+            LOG.e("[Method:init]", e);
+        }
     }
 
     /**
