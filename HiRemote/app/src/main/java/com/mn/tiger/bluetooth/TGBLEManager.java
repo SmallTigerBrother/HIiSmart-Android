@@ -19,7 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.log.Logger;
 
@@ -190,7 +190,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public static boolean isSupportBluetoothLowEnergy()
     {
-        if(TGApplication.getInstance().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
+        if(TGApplicationProxy.getInstance().getApplication().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
         {
             return true;
         }
@@ -203,9 +203,9 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
     {
         if(isSupportBluetoothLowEnergy())
         {
-            bluetoothAdapter = ((BluetoothManager)TGApplication.getInstance().getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+            bluetoothAdapter = ((BluetoothManager)TGApplicationProxy.getInstance().getApplication().getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
             //注册广播监听蓝牙关闭、打开事件
-            TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
+            TGApplicationProxy.getInstance().getApplication().registerReceiver(new BroadcastReceiver()
             {
                 @Override
                 public void onReceive(Context context, Intent intent)
@@ -298,7 +298,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(peripheralMacAddress);
                 if (null != device)
                 {
-                    final BluetoothGatt bluetoothGatt = device.connectGatt(TGApplication.getInstance(), false,
+                    final BluetoothGatt bluetoothGatt = device.connectGatt(TGApplicationProxy.getInstance().getApplication(), false,
                             bluetoothGattCallback);
                     if(!connecting)
                     {
@@ -462,7 +462,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         if(null == currentPeripheral && !connecting)
         {
             connecting = true;
-            device.connectGatt(TGApplication.getInstance(), false,
+            device.connectGatt(TGApplicationProxy.getInstance().getApplication(), false,
                     bluetoothGattCallback);
         }
     }
@@ -632,7 +632,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         {
             intent.putExtra(PERIPHERAL_INFO_KEY, peripheralInfo);
         }
-        TGApplication.getInstance().sendBroadcast(intent);
+        TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.lepow.hiremote.notification;
 import android.content.Intent;
 
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.notification.TGNotificationManager;
 
 /**
@@ -34,6 +35,6 @@ private static NotificationManager instanse;
 				break;
 		}
 
-		TGApplication.getInstance().startActivity(startIntent);
+		TGApplicationProxy.getInstance().getApplication().startActivity(startIntent);
 	}
 }

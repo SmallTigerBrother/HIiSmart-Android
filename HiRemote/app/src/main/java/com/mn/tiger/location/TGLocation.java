@@ -3,7 +3,6 @@ package com.mn.tiger.location;
 import android.location.Location;
 
 import com.amap.api.location.AMapLocation;
-import com.baidu.location.BDLocation;
 
 import java.io.Serializable;
 
@@ -40,19 +39,6 @@ public class TGLocation implements Serializable
         tgLocation.latitude = location.getLatitude();
         tgLocation.longitude = location.getLongitude();
         tgLocation.location = location;
-        return tgLocation;
-    }
-
-    static TGLocation initWith(BDLocation location)
-    {
-        TGLocation tgLocation = new TGLocation();
-        tgLocation.latitude = location.getLatitude();
-        tgLocation.longitude = location.getLongitude();
-        tgLocation.city = location.getCity();
-        tgLocation.country = location.getCountry();
-        tgLocation.province = location.getProvince();
-        tgLocation.address = location.getAddrStr();
-        tgLocation.street = location.getStreet();
         return tgLocation;
     }
 

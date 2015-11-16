@@ -8,7 +8,7 @@ import android.media.AudioManager;
 import android.os.Handler;
 
 import com.czt.mp3recorder.MP3Recorder;
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.TGBluetoothManager;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.utility.FileUtils;
@@ -55,7 +55,7 @@ public class TGRecorder
 
     private TGRecorder()
     {
-        audioManager = (AudioManager)TGApplication.getInstance().getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) TGApplicationProxy.getInstance().getApplication().getSystemService(Context.AUDIO_SERVICE);
         timeHandler = new Handler();
     }
 
@@ -97,7 +97,7 @@ public class TGRecorder
         }
         else
         {
-            TGApplication.getInstance().registerReceiver(new BroadcastReceiver()
+            TGApplicationProxy.getInstance().getApplication().registerReceiver(new BroadcastReceiver()
             {
                 @Override
                 public void onReceive(Context context, Intent intent)
@@ -108,7 +108,7 @@ public class TGRecorder
                         {
                             audioManager.setBluetoothScoOn(true);
                             executeRecord();
-                            TGApplication.getInstance().unregisterReceiver(this);
+                            TGApplicationProxy.getInstance().getApplication().unregisterReceiver(this);
                         }
                     }
                 }

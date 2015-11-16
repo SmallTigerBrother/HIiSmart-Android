@@ -7,7 +7,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
 
 /**
@@ -33,7 +33,7 @@ public class GoogleLocationManager implements ILocationManager
 
     public GoogleLocationManager()
     {
-        locationManager = (LocationManager) TGApplication.getInstance().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) TGApplicationProxy.getInstance().getApplication().getSystemService(Context.LOCATION_SERVICE);
     }
 
     /**

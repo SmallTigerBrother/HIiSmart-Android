@@ -12,6 +12,7 @@ import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.bluetooth.TGBLEScanParameter;
 import com.mn.tiger.log.Logger;
@@ -172,7 +173,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
         }
 
         intent.putExtra(FIND_PHONE_CHARACTERISTIC_VALUE_KEY, value);
-        HSApplication.getInstance().sendBroadcast(intent);
+        TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
     }
 
     @Override
@@ -185,7 +186,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
             Intent intent = new Intent(IntentAction.ACTION_READ_DISCONNECTED_ALARM);
             byte value = characteristic.getValue()[0];
             intent.putExtra(DISCONNECT_ALARM_CHARACTERISTIC_VALUE_KEY, value != 0);
-            HSApplication.getInstance().sendBroadcast(intent);
+            TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
 
             //保存属性值
             getCurrentPeripheral().putValue(DISCONNECT_ALARM_CHARACTERISTIC_VALUE_KEY,value != 0);
@@ -194,7 +195,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
         {
             Intent intent = new Intent(IntentAction.ACTION_READ_PERIPHERAL_POWER);
             intent.putExtra(POWER_CHARACTERISTIC_VALUE_KEY, (int)characteristic.getValue()[0]);
-            HSApplication.getInstance().sendBroadcast(intent);
+            TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
 
             //保存属性值
             getCurrentPeripheral().setEnergy ((int)characteristic.getValue()[0]);
@@ -387,7 +388,7 @@ public class HSBLEPeripheralManager extends TGBLEManager
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                HSApplication.getInstance().exit();
+                TGApplicationProxy.getInstance().exit();
             }
         });
         dialog.show();

@@ -12,6 +12,7 @@ import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.record.adapter.RecordListViewHolder;
 import com.lepow.hiremote.record.data.RecordDataManager;
 import com.lepow.hiremote.record.data.RecordInfo;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.widget.TGNavigationBar;
 import com.mn.tiger.widget.TGSearchView;
 import com.mn.tiger.widget.adpter.TGListAdapter;
@@ -56,7 +57,7 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 		recordEditDialog = new RecordEditDialog(this);
 		recordEditDialog.setOnRecordModifyListener(this);
 
-		HSApplication.getBus().register(this);
+		TGApplicationProxy.getInstance().getBus().register(this);
 	}
 
 	@Override
@@ -122,7 +123,7 @@ public class VoiceMemosActivity extends BaseActivity implements RecordEditDialog
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		HSApplication.getBus().unregister(this);
+		TGApplicationProxy.getInstance().getBus().unregister(this);
 	}
 
 	@Subscribe

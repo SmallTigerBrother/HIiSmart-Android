@@ -8,7 +8,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.lepow.hiremote.R;
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
 
 /**
@@ -62,7 +62,7 @@ public class AMapLocationManager implements ILocationManager
      */
     AMapLocationManager()
     {
-        locationManagerProxy = locationManagerProxy.getInstance(TGApplication.getInstance());
+        locationManagerProxy = locationManagerProxy.getInstance(TGApplicationProxy.getInstance().getApplication());
     }
 
     /**
@@ -110,9 +110,9 @@ public class AMapLocationManager implements ILocationManager
         LOG.i("[Methed:isLocationInChina] country == " + location.getCountry() + "  province == " + location.getProvince() +
                 "  city == " + location.getCity() + "  address == " + location.getAddress());
 
-        if(!location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_zh)) &&
-                !location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_en)) &&
-                !location.getCountry().equalsIgnoreCase(TGApplication.getInstance().getResources().getString(R.string.china_ko)))
+        if(!location.getCountry().equalsIgnoreCase(TGApplicationProxy.getInstance().getApplication().getResources().getString(R.string.china_zh)) &&
+                !location.getCountry().equalsIgnoreCase(TGApplicationProxy.getInstance().getApplication().getResources().getString(R.string.china_en)) &&
+                !location.getCountry().equalsIgnoreCase(TGApplicationProxy.getInstance().getApplication().getResources().getString(R.string.china_ko)))
         {
             return false;
         }

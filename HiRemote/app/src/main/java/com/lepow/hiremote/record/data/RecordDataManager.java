@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.datastorage.TGDBManager;
 import com.mn.tiger.datastorage.db.exception.DbException;
 import com.mn.tiger.datastorage.db.sqlite.Selector;
@@ -100,6 +101,6 @@ public class RecordDataManager
 
 	public static String getRecordFilePath(String fileName)
 	{
-		return TGApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_MUSIC) + File.separator + fileName;
+		return TGApplicationProxy.getInstance().getApplication().getExternalFilesDir(Environment.DIRECTORY_MUSIC) + File.separator + fileName;
 	}
 }

@@ -2,7 +2,7 @@ package com.lepow.hiremote.setting;
 
 import android.content.Context;
 
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.utility.Preferences;
 
 public class AppSettings
@@ -28,13 +28,13 @@ public class AppSettings
 	public static void switchToRecordMode()
 	{
 		mode = MODE_RECORD;
-		Preferences.save(TGApplication.getInstance(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, mode);
+		Preferences.save(TGApplicationProxy.getInstance().getApplication(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, mode);
 	}
 
 	public static void switchToLocateMode()
 	{
 		mode = MODE_LOCATE;
-		Preferences.save(TGApplication.getInstance(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, mode);
+		Preferences.save(TGApplicationProxy.getInstance().getApplication(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, mode);
 	}
 
 	public static void switchToCaptureMode()
@@ -52,7 +52,7 @@ public class AppSettings
 	{
 		if(mode < 0)
 		{
-			mode = Preferences.read(TGApplication.getInstance(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, MODE_LOCATE);
+			mode = Preferences.read(TGApplicationProxy.getInstance().getApplication(), APP_SETTINGS_SHARE_PRES_NAME, SETTINGS_MODE_KEY, MODE_LOCATE);
 		}
 
 		return mode;

@@ -17,6 +17,7 @@ import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.request.HttpLoader;
 import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGMultiDexApplication;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
@@ -28,7 +29,7 @@ import com.mn.tiger.upgrade.TGUpgradeManager;
 
 import java.io.IOException;
 
-public class HSApplication extends TGApplication
+public class HSApplication extends TGMultiDexApplication
 {
     private static final Logger LOG = Logger.getLogger(HSApplication.class);
 

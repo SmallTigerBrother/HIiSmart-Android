@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.widget.HSAlertDialog;
-import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.download.TGDownloadManager;
 import com.mn.tiger.download.TGDownloadParams;
 import com.mn.tiger.download.TGDownloader;
@@ -135,7 +135,7 @@ public class TGUpgradeDialogActivity extends Activity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                TGApplication.getInstance().exit();
+                TGApplicationProxy.getInstance().exit();
             }
         });
 
@@ -191,7 +191,7 @@ public class TGUpgradeDialogActivity extends Activity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                TGApplication.getInstance().exit();
+                TGApplicationProxy.getInstance().exit();
             }
         });
 
@@ -205,7 +205,7 @@ public class TGUpgradeDialogActivity extends Activity
         TGDownloadManager downloadManager = new TGDownloadManager(this);
         TGDownloadParams downloadParams = new TGDownloadParams();
         downloadParams.setRequestType(HttpType.REQUEST_GET);
-        downloadParams.setSavePath(TGApplication.getInstance().getExternalCacheDir() +
+        downloadParams.setSavePath(TGApplicationProxy.getInstance().getApplication().getExternalCacheDir() +
                 File.separator + latestVersion + ".apk");
         downloadParams.setUrl(packageUrl);
         int taskId = downloadManager.start(downloadParams);

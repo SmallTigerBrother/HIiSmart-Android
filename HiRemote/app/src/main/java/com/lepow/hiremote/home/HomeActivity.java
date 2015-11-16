@@ -36,6 +36,7 @@ import com.lepow.hiremote.record.VoiceMemosActivity;
 import com.lepow.hiremote.setting.AppSettings;
 import com.lepow.hiremote.setting.SettingActivity;
 import com.lepow.hiremote.widget.ProgressDialog;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.log.Logger;
@@ -496,6 +497,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 	public void finish()
 	{
 		super.finish();
-		HSApplication.getInstance().exit();
+		TGApplicationProxy.getInstance().exit();
 	}
 }

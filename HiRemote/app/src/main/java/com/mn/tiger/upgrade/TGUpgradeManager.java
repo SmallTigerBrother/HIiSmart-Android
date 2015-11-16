@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.request.Response;
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.request.TGHttpLoader;
 import com.mn.tiger.request.receiver.TGHttpResult;
@@ -44,7 +45,7 @@ public class TGUpgradeManager
             return;
         }
 
-        checkUpgradeHttpLoader.load(TGApplication.getInstance(), url, Void.class, new TGHttpLoader.OnLoadCallback<Void>()
+        checkUpgradeHttpLoader.load(TGApplicationProxy.getInstance().getApplication(), url, Void.class, new TGHttpLoader.OnLoadCallback<Void>()
         {
             @Override
             public void onLoadStart()
@@ -80,7 +81,7 @@ public class TGUpgradeManager
             @Override
             public void onLoadError(int code, String message, TGHttpResult tgHttpResult)
             {
-                ToastUtils.showToast(HSApplication.getInstance(), message);
+                ToastUtils.showToast(TGApplicationProxy.getInstance().getApplication(), message);
             }
 
             @Override
@@ -100,7 +101,7 @@ public class TGUpgradeManager
     {
         LOG.d("[Method:startUpgradeActivity]");
 
-        Intent intent = new Intent(TGApplication.getInstance(), TGUpgradeDialogActivity.class);
+        Intent intent = new Intent(TGApplicationProxy.getInstance().getApplication(), TGUpgradeDialogActivity.class);
         intent.putExtra(INTENT_KEY_UPGRADE_MODE, upgradeMode);
         intent.putExtra(INTENT_KEY_UPGRADE_LATEST_VERSION, latestVersion);
         intent.putExtra(INTENT_KEY_UPGRADE_DESCRIPTION,description);
@@ -108,7 +109,7 @@ public class TGUpgradeManager
         intent.putExtra(INTENT_KEY_UPGRADE_OPTIONS, options);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        TGApplication.getInstance().startActivity(intent);
+        TGApplicationProxy.getInstance().getApplication().startActivity(intent);
     }
 
     public static void setUpgradeDataParser(IUpgradeDataParser upgradeDataParser)

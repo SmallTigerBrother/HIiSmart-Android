@@ -5,9 +5,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lepow.hiremote.R;
-import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.record.data.RecordInfo;
 import com.lepow.hiremote.utils.DurationUtils;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.utility.DateUtils;
 import com.mn.tiger.widget.adpter.TGViewHolder;
 
@@ -32,7 +32,7 @@ public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 	@Override
 	public View initView(ViewGroup parent, int viewType)
 	{
-		locale = HSApplication.getInstance().getResources().getConfiguration().locale;
+		locale = TGApplicationProxy.getInstance().getApplication().getResources().getConfiguration().locale;
 		return super.initView(parent, viewType);
 	}
 

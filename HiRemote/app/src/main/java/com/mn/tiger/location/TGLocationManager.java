@@ -52,9 +52,6 @@ public class TGLocationManager implements ILocationManager
             instance = new TGLocationManager();
             switch (currentProvider)
             {
-                case BaiDu:
-                    instance.curLocationManager = new BaiduLocationManager();
-                    break;
                 case AMap:
                     instance.curLocationManager = new AMapLocationManager();
                     break;

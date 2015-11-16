@@ -16,6 +16,7 @@ import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.widget.BGASwipeItemLayout;
 import com.lepow.hiremote.widget.HSAlertDialog;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.utility.DateUtils;
 import com.mn.tiger.widget.recyclerview.TGRecyclerViewHolder;
 
@@ -53,7 +54,7 @@ public class LocationRecyclerViewHolder extends TGRecyclerViewHolder<LocationInf
     @Override
     public View initView(ViewGroup parent, int viewType)
     {
-        locale = HSApplication.getInstance().getResources().getConfiguration().locale;
+        locale = TGApplicationProxy.getInstance().getApplication().getResources().getConfiguration().locale;
 
         swipeItemLayout = (BGASwipeItemLayout)super.initView(parent, viewType);
         swipeItemLayout.setDelegate((BGASwipeItemLayout.BGASwipeItemLayoutDelegate)getAdapter());

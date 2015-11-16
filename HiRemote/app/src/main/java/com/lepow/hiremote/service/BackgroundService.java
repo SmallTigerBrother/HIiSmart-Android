@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
-import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.lbs.data.LocationDataManager;
 import com.lepow.hiremote.lbs.data.LocationInfo;
@@ -15,6 +14,7 @@ import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.record.data.RecordDataManager;
 import com.lepow.hiremote.record.data.RecordInfo;
 import com.lepow.hiremote.setting.AppSettings;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
@@ -161,7 +161,7 @@ public class BackgroundService extends Service
 					RecordDataManager.getInstance().saveRecord(BackgroundService.this, recordInfo);
 
 					//通知录音列表界面更新
-					HSApplication.getBus().post(recordInfo);
+					TGApplicationProxy.getInstance().getBus().post(recordInfo);
 				}
 			});
 		}

@@ -3,6 +3,7 @@ package com.lepow.hiremote.bluetooth.data;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.mn.tiger.app.TGApplication;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
 import com.mn.tiger.datastorage.db.annotation.Transient;
 
@@ -99,7 +100,8 @@ public class PeripheralInfo implements Serializable
 	{
 		if(null != blePeripheralInfo)
 		{
-			PeripheralInfo peripheralInfo = PeripheralDataManager.findPeripheral(TGApplication.getInstance(), blePeripheralInfo.getMacAddress());
+			PeripheralInfo peripheralInfo = PeripheralDataManager.findPeripheral(TGApplicationProxy.getInstance().getApplication(),
+					blePeripheralInfo.getMacAddress());
 			if(peripheralInfo.equals(NULL_OBJECT))
 			{
 				peripheralInfo = new PeripheralInfo();
@@ -128,7 +130,7 @@ public class PeripheralInfo implements Serializable
 		@Override
 		public String getPeripheralName()
 		{
-			return TGApplication.getInstance().getString(R.string.no_device);
+			return TGApplicationProxy.getInstance().getApplication().getString(R.string.no_device);
 		}
 	};
 }
