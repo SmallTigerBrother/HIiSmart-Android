@@ -130,11 +130,15 @@ public class FindMyItemActivity extends BaseActivity implements View.OnClickList
 
         mapManager.init(mapContainer, savedInstanceState);
 
-        if(null != locationInfo)
+        if(null == locationInfo)
         {
-            mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
-                    locationInfo.getAddress());
-            mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
+            locationInfo = LocationInfo.fromLocation(TGLocationManager.getInstance().getLastLocation());
+            if(null != locationInfo)
+            {
+                mapManager.addMarker(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()),
+                        locationInfo.getAddress());
+                mapManager.centerTo(Double.valueOf(locationInfo.getLatitude()), Double.valueOf(locationInfo.getLongitude()));
+            }
         }
         mapManager.showMyLocation();
     }

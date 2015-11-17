@@ -1,7 +1,7 @@
 package com.lepow.hiremote.lbs;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
@@ -22,7 +22,7 @@ public class PinnedLocationMapActivity extends BaseActivity
 	private static final Logger LOG = Logger.getLogger(PinnedLocationMapActivity.class);
 
 	@Bind(R.id.mapview_container)
-	LinearLayout mapContainer;
+	FrameLayout mapContainer;
 	
 	private LocationInfo locationInfo;
 
