@@ -302,4 +302,10 @@ public class GoogleLocationManager implements ILocationManager
 
         return true;
     }
+
+    @Override
+    public TGLocation getLastLocation()
+    {
+        return TGLocation.initWith(lastLocation);
+    }
 }

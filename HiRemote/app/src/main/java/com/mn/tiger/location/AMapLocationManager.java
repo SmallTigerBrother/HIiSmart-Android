@@ -119,4 +119,10 @@ public class AMapLocationManager implements ILocationManager
 
         return true;
     }
+
+    @Override
+    public TGLocation getLastLocation()
+    {
+        return TGLocation.initWith(locationManagerProxy.getLastKnownLocation(LocationProviderProxy.AMapNetwork));
+    }
 }

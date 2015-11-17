@@ -13,6 +13,8 @@ public interface ILocationManager
 
     void setLocationListener(ILocationListener listener);
 
+    TGLocation getLastLocation();
+
     boolean isLocationInChina(TGLocation location);
 
     interface ILocationListener

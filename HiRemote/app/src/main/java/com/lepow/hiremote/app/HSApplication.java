@@ -16,7 +16,6 @@ import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.request.HttpLoader;
 import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
-import com.mn.tiger.app.TGApplication;
 import com.mn.tiger.app.TGMultiDexApplication;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;

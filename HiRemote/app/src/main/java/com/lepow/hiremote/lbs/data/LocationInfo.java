@@ -177,12 +177,15 @@ public class LocationInfo implements Serializable
 
 	public static LocationInfo fromLocation(TGLocation location)
 	{
-		LocationInfo locationInfo = new LocationInfo();
-		locationInfo.setLatitude(location.getLatitude() + "");
-		locationInfo.setLongitude(location.getLongitude() + "");
-		locationInfo.setTimestamp(location.getTime());
-		locationInfo.setAddress(location.getCountry() + location.getProvince() + location.getCity() +
-				location.getStreet() + location.getAddress());
-		return locationInfo;
+		if(null != location)
+		{
+			LocationInfo locationInfo = new LocationInfo();
+			locationInfo.setLatitude(location.getLatitude() + "");
+			locationInfo.setLongitude(location.getLongitude() + "");
+			locationInfo.setTimestamp(location.getTime());
+			locationInfo.setAddress(location.getAddress());
+			return locationInfo;
+		}
+		return null;
 	}
 }

@@ -87,6 +87,7 @@ public class TGLocationManager implements ILocationManager
                     if (!(curLocationManager instanceof GoogleLocationManager))
                     {
                         curLocationManager = new GoogleLocationManager();
+                        initGoogleLocationManager();
                     }
                     currentProvider = Provider.Google;
                     LOG.i("[Method:initAppropriateLocationManager] use GoogleLocationManager");
@@ -96,6 +97,23 @@ public class TGLocationManager implements ILocationManager
         });
 
         requestLocationUpdates();
+    }
+
+    /**
+     * 初始化google位置管理器
+     */
+    private void initGoogleLocationManager()
+    {
+        curLocationManager.setLocationListener(new ILocationListener()
+        {
+            @Override
+            public void onReceiveLocation(TGLocation location)
+            {
+                curLocationManager.removeLocationUpdates();
+            }
+        });
+
+        curLocationManager.requestLocationUpdates();
     }
 
     @Override
@@ -144,5 +162,11 @@ public class TGLocationManager implements ILocationManager
     public void destroy()
     {
         curLocationManager.destroy();
+    }
+
+    @Override
+    public TGLocation getLastLocation()
+    {
+        return curLocationManager.getLastLocation();
     }
 }

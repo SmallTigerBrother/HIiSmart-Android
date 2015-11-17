@@ -35,24 +35,32 @@ public class TGLocation implements Serializable
 
     static TGLocation initWith(Location location)
     {
-        TGLocation tgLocation = new TGLocation();
-        tgLocation.latitude = location.getLatitude();
-        tgLocation.longitude = location.getLongitude();
-        tgLocation.location = location;
-        return tgLocation;
+        if(null != location)
+        {
+            TGLocation tgLocation = new TGLocation();
+            tgLocation.latitude = location.getLatitude();
+            tgLocation.longitude = location.getLongitude();
+            tgLocation.location = location;
+            return tgLocation;
+        }
+        return null;
     }
 
     static TGLocation initWith(AMapLocation location)
     {
-        TGLocation tgLocation = new TGLocation();
-        tgLocation.latitude = location.getLatitude();
-        tgLocation.longitude = location.getLongitude();
-        tgLocation.city = location.getCity();
-        tgLocation.country = location.getCountry();
-        tgLocation.province = location.getProvince();
-        tgLocation.address = location.getAddress();
-        tgLocation.street = location.getStreet();
-        return tgLocation;
+        if(null != location)
+        {
+            TGLocation tgLocation = new TGLocation();
+            tgLocation.latitude = location.getLatitude();
+            tgLocation.longitude = location.getLongitude();
+            tgLocation.city = location.getCity();
+            tgLocation.country = location.getCountry();
+            tgLocation.province = location.getProvince();
+            tgLocation.address = location.getAddress();
+            tgLocation.street = location.getStreet();
+            return tgLocation;
+        }
+        return null;
     };
 
     public double getLatitude()
