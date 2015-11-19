@@ -9,7 +9,6 @@ import android.os.Message;
 import android.view.View;
 
 import com.lepow.hiremote.R;
-import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.widget.HSAlertDialog;
 import com.mn.tiger.app.TGApplicationProxy;
@@ -66,6 +65,8 @@ public class HSBLEPeripheralManager extends TGBLEManager
     private static final int MESSAGE_READ_POWER = 0x1004;
 
     private static HSBLEPeripheralManager instance;
+
+    private DeamonThread deamonThread;
 
     public static HSBLEPeripheralManager getInstance()
     {
@@ -392,5 +393,48 @@ public class HSBLEPeripheralManager extends TGBLEManager
             }
         });
         dialog.show();
+    }
+
+    public void startDeamonThread()
+    {
+        if (null == deamonThread)
+        {
+            deamonThread = new DeamonThread();
+            deamonThread.start();
+        }
+    }
+
+    /**
+     * 守护线程，用户自动重连设备
+     */
+    private class DeamonThread extends Thread
+    {
+        public DeamonThread()
+        {
+            super();
+            this.setDaemon(true);
+        }
+
+        @Override
+        public void run()
+        {
+            super.run();
+            while (true)
+            {
+                try
+                {
+                    Thread.sleep(60000);
+                }
+                catch (Exception e)
+                {
+                    LOG.e("[Method:DeamonThread:run]", e);
+                }
+
+                if(null == HSBLEPeripheralManager.getInstance().getCurrentPeripheral())
+                {
+                    handler.sendEmptyMessage(TGBLEManager.MESSAGE_START_SCAN);
+                }
+            }
+        }
     }
 }
