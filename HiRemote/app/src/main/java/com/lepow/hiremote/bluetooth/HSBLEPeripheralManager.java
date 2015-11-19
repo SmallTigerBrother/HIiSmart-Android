@@ -400,8 +400,8 @@ public class HSBLEPeripheralManager extends TGBLEManager
         if (null == deamonThread)
         {
             deamonThread = new DeamonThread();
-            deamonThread.start();
         }
+        deamonThread.start();
     }
 
     /**

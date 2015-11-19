@@ -20,7 +20,6 @@ import android.widget.Switch;
 import com.android.camera.Camera;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
-import com.lepow.hiremote.app.HSApplication;
 import com.lepow.hiremote.authorise.LoginActivity;
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
@@ -181,21 +180,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		initViews();
 
 		handler.postDelayed(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				//检测更新
-				LOG.d("check upgrade");
-				TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
-				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
-				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
-				registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
+        {
+            @Override
+            public void run()
+            {
+                //检测更新
+                LOG.d("check upgrade");
+                TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
+                registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
+                registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
+                registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
 
-				//读取蓝牙设备特征值
-				HSBLEPeripheralManager.getInstance().readAllCharacteristics();
-			}
-		}, 1000);
+                //读取蓝牙设备特征值
+                HSBLEPeripheralManager.getInstance().readAllCharacteristics();
+            }
+        }, 1000);
+
+		//启动守护线程，当没有任何设备连接时，每隔1分钟进行设备扫描
+		HSBLEPeripheralManager.getInstance().startDeamonThread();
 	}
 
 	@Override
@@ -227,9 +229,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			}
 
 			@Override
-			public void fillData(View viewOfPage, PeripheralInfo itemData, int position, int viewType)
+			public void fillData(View viewOfPage, final PeripheralInfo itemData, int position, int viewType)
 			{
 				((PeripheralStatusView) viewOfPage).setData(itemData);
+                viewOfPage.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        //点击图标时，连接未连接的设备
+                        if(!itemData.isConnected())
+                        {
+                            handler.postDelayed(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    HSBLEPeripheralManager.getInstance().scanTargetPeripheral(itemData.getMacAddress());
+                                }
+                            }, 2000);
+
+                            progressDialog.show();
+                        }
+                    }
+                });
 			}
 		});
 
