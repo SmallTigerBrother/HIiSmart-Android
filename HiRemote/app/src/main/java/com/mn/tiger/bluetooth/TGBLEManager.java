@@ -216,8 +216,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                         connecting = false;
                         scannerState = BLEScannerState.STOP;
                         sendBroadcast(BLE_STATE_POWER_OFF, null);
-                    }
-                    else if (state == BluetoothAdapter.STATE_ON)
+                    } else if (state == BluetoothAdapter.STATE_ON)
                     {
                         handler.postDelayed(new Runnable()
                         {
@@ -239,11 +238,12 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void scan()
     {
-        if(scannerState == BLEScannerState.SCANNING)
+        LOG.i("[Method:scan]");
+        if(isScanning())
         {
+            LOG.w("[Method:scan] error scannerState == " + scannerState);
             return;
         }
-        LOG.d("[Method:scan]");
 
         scannerState = BLEScannerState.SCANNING;
         this.targetPeripheralMacAddress = null;
@@ -270,7 +270,13 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void scanTargetPeripheral(String peripheralMacAddress)
     {
-        LOG.d("[Method:scanTargetPeripheral] peripheralMacAddress == " + peripheralMacAddress);
+        LOG.i("[Method:scanTargetPeripheral] peripheralMacAddress == " + peripheralMacAddress);
+        if(isScanning())
+        {
+            LOG.w("[Method:scanTargetPeripheral] error scannerState == " + scannerState);
+            return;
+        }
+
         this.targetPeripheralMacAddress = peripheralMacAddress;
         this.scannerState = BLEScannerState.SCANNING_TARGET_PERIPHERAL;
         if(!bluetoothAdapter.isEnabled())
@@ -303,13 +309,13 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     if(!connecting)
                     {
                         connecting = true;
-                        LOG.d("[Method:scanTargetPeripheral] connect peripheral directly");
+                        LOG.i("[Method:scanTargetPeripheral] connect peripheral directly");
                         handler.postDelayed(new Runnable()
                         {
                             @Override
                             public void run()
                             {
-                                LOG.d("[Method:scanTargetPeripheral] connect time out");
+                                LOG.i("[Method:scanTargetPeripheral] connect time out");
                                 if (null == currentPeripheral)
                                 {
                                     sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
@@ -338,7 +344,13 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void scanNewPeripheral()
     {
-        LOG.d("[Method:scanNewPeripheral]");
+        LOG.i("[Method:scanNewPeripheral]");
+        if(isScanning())
+        {
+            LOG.w("[Method:scanNewPeripheral] error scannerState == " + scannerState);
+            return;
+        }
+
         this.targetPeripheralMacAddress = null;
         this.scannerState = BLEScannerState.SCANNING_NEW_PERIPHERAL;
         if(!bluetoothAdapter.isEnabled())
@@ -367,7 +379,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 @Override
                 public void run()
                 {
-                    LOG.d("[Method:executeScan] Scan time out");
+                    LOG.i("[Method:executeScan] Scan time out");
                     if (null == currentPeripheral)
                     {
                         sendBroadcast(BLE_STATE_NO_PERIPHERAL_FOUND, currentPeripheral);
@@ -388,6 +400,10 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                 }
             }
         }
+        else
+        {
+            LOG.w("[Method:executeScan] last connecting go on");
+        }
     }
 
     public void setScanParameter(TGBLEScanParameter parameter)
@@ -400,7 +416,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
      */
     public void stopScan()
     {
-        LOG.d("[Method:stopScan]");
+        LOG.i("[Method:stopScan]");
         this.targetPeripheralMacAddress = null;
         connecting = false;
         this.scannerState = BLEScannerState.STOP;
@@ -532,7 +548,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         public void onServicesDiscovered(BluetoothGatt gatt, int status)
         {
             currentGatt = gatt;
-            LOG.d("[Method:onServicesDiscovered] status == " + status);
+            LOG.i("[Method:onServicesDiscovered] status == " + status);
             TGBLEManager.this.onServicesDiscovered(gatt, status);
         }
 
@@ -540,7 +556,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
         {
             //监听characteristic的值变化
-            LOG.d("[Method:onCharacteristicChanged]  characteristic == " + characteristic.getUuid() +
+            LOG.i("[Method:onCharacteristicChanged]  characteristic == " + characteristic.getUuid() +
                     " value == " + characteristic.getValue()[0]);
             TGBLEManager.this.onCharacteristicChanged(gatt, characteristic);
         }
@@ -548,7 +564,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
         {
-            LOG.d("[Method:onCharacteristicRead] status == " + status + "  characteristic == " +
+            LOG.i("[Method:onCharacteristicRead] status == " + status + "  characteristic == " +
                     characteristic.getUuid() +  "  value == " + characteristic.getValue()[0]);
             TGBLEManager.this.onCharacteristicRead(gatt, characteristic, status);
         }
@@ -556,7 +572,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
         {
-            LOG.d("[Method:onCharacteristicWrite] status == " + status + "  characteristic == " +
+            LOG.i("[Method:onCharacteristicWrite] status == " + status + "  characteristic == " +
                     characteristic.getUuid() + "  value == " + characteristic.getValue()[0]);
         }
 
@@ -572,7 +588,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     currentPeripheral.setMacAddress(gatt.getDevice().getAddress());
                     lastPeripheral = (null != lastPeripheral && currentPeripheral.getMacAddress().equals(lastPeripheral.getMacAddress())) ? null : lastPeripheral;
 
-                    LOG.d("[Method:onConnectionStateChange] STATE_CONNECTED  mac == " + gatt.getDevice().getAddress());
+                    LOG.i("[Method:onConnectionStateChange] STATE_CONNECTED  mac == " + gatt.getDevice().getAddress());
                     gatt.discoverServices();
                     sendBroadcast(BLE_STATE_CONNECTED, currentPeripheral);
 
@@ -582,7 +598,7 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
 
                 case BluetoothProfile.STATE_DISCONNECTED:
                     gatt.close();
-                    LOG.d("[Method:onConnectionStateChange] STATE_DISCONNECTED  mac == " + gatt.getDevice().getAddress());
+                    LOG.i("[Method:onConnectionStateChange] STATE_DISCONNECTED  mac == " + gatt.getDevice().getAddress());
                     lastPeripheral = (null != currentPeripheral) ? (TGBLEPeripheralInfo)currentPeripheral.clone() : lastPeripheral;
                     currentPeripheral = null;
                     currentGatt = null;
@@ -591,19 +607,19 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
                     switch (scannerState)
                     {
                         case SCANNING:
-                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING");
+                            LOG.i("[Method:onConnectionStateChange] scannerState == SCANNING");
                             handler.sendEmptyMessage(MESSAGE_START_SCAN);
                             break;
                         case SCANNING_NEW_PERIPHERAL:
-                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING_NEW_PERIPHERAL");
+                            LOG.i("[Method:onConnectionStateChange] scannerState == SCANNING_NEW_PERIPHERAL");
                             handler.sendEmptyMessage(MESSAGE_START_SCAN_NEW_PERIPHERAL);
                             break;
                         case SCANNING_TARGET_PERIPHERAL:
-                            LOG.d("[Method:onConnectionStateChange] scannerState == SCANNING_TARGET_PERIPHERAL   targetPeripheral == " + targetPeripheralMacAddress);
+                            LOG.i("[Method:onConnectionStateChange] scannerState == SCANNING_TARGET_PERIPHERAL   targetPeripheral == " + targetPeripheralMacAddress);
                             handler.sendEmptyMessage(MESSAGE_START_SCAN_TARGET_PERIPHERAL);
                             break;
                         default:
-                            LOG.d("[Method:onConnectionStateChange] scannerState == STOP");
+                            LOG.i("[Method:onConnectionStateChange] scannerState == STOP");
                             connecting = false;
                             sendBroadcast(BLE_STATE_DISCONNECTED, lastPeripheral);
                             break;
