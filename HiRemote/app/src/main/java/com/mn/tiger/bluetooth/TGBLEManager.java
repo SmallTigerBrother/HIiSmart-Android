@@ -124,17 +124,17 @@ public class TGBLEManager implements BluetoothAdapter.LeScanCallback
     /**
      * 停止扫描Message的what值
      */
-    private static final int MESSAGE_STOP_SCAN = 0x0001;
+    public static final int MESSAGE_STOP_SCAN = 0x0001;
 
     /**
      * 开始扫描
      */
-    private static final int MESSAGE_START_SCAN = 0x0002;
+    public static final int MESSAGE_START_SCAN = 0x0002;
 
     /**
      * 开始扫描新设备
      */
-    private static final int MESSAGE_START_SCAN_NEW_PERIPHERAL = 0x0003;
+    public static final int MESSAGE_START_SCAN_NEW_PERIPHERAL = 0x0003;
 
     /**
      * 开始扫描指定设备
