@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.widget.CircleProgressBar;
+import com.mn.tiger.location.TGLocation;
+import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.widget.imageview.CircleImageView;
 
 import butterknife.Bind;
@@ -61,6 +63,7 @@ public class PeripheralStatusView extends LinearLayout
 
         if(peripheralInfo.isConnected())
         {
+            //填充电量
             peripheralImageView.setImageResource(R.drawable.icon_device);
             if(energy <= 50)
             {
@@ -69,6 +72,13 @@ public class PeripheralStatusView extends LinearLayout
             else
             {
                 powerProgressBar.setColor(getResources().getColor(R.color.default_green_bg));
+            }
+
+            //填充位置信息
+            TGLocation location = TGLocationManager.getInstance().getLastLocation();
+            if(null != location)
+            {
+                peripheralLocationView.setText(location.getAddress());
             }
         }
         else
