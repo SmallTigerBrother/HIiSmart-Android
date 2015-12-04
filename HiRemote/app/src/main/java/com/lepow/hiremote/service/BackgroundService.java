@@ -63,10 +63,6 @@ public class BackgroundService extends Service
 
 					break;
 
-				case HSBLEPeripheralManager.FIND_PHONE_CHARACTERISTIC_VALUE_LONG:
-					startAlarm();
-					break;
-
 				default:
 					break;
 			}
@@ -102,7 +98,7 @@ public class BackgroundService extends Service
 	/**
 	 * 请求定位
 	 */
-	private void requestLocation()
+	public static void requestLocation()
 	{
 		TGLocationManager locationManager = TGLocationManager.getInstance();
 		locationManager.setLocationListener(new ILocationManager.ILocationListener()
@@ -111,11 +107,11 @@ public class BackgroundService extends Service
 			public void onReceiveLocation(TGLocation location)
 			{
 				LocationInfo locationInfo = LocationInfo.fromLocation(location);
-				LocationDataManager.getInstance().savePinnedLocation(BackgroundService.this, locationInfo);
+				LocationDataManager.getInstance().savePinnedLocation(TGApplicationProxy.getInstance().getApplication(), locationInfo);
 				LOG.d("[Method:onReceiveLocation] " + locationInfo.getAddress());
 
 				Intent intent = new Intent(IntentAction.ACTION_PINNED_LOCATION);
-				sendBroadcast(intent);
+				TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
 			}
 		});
 
@@ -164,17 +160,6 @@ public class BackgroundService extends Service
 					TGApplicationProxy.getInstance().getBus().post(recordInfo);
 				}
 			});
-		}
-	}
-
-	/**
-	 * 播放警报
-	 */
-	private void startAlarm()
-	{
-		if(!TGAudioPlayer.getInstance().isPlaying())
-		{
-			TGAudioPlayer.getInstance().start("");
 		}
 	}
 }
