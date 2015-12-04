@@ -1,8 +1,11 @@
 package com.mn.tiger.media;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
 
 import java.io.FileDescriptor;
@@ -54,6 +57,11 @@ public class TGAudioPlayer
 
     public void start(FileDescriptor dataSource, OnPlayListener listener)
     {
+        start(dataSource, listener, false);
+    }
+
+    public void start(FileDescriptor dataSource, OnPlayListener listener, boolean speakerphoneOn)
+    {
         this.currentFileDataSource = dataSource;
         this.currentDataSource = currentFileDataSource.toString();
         this.onPlayListener = listener;
@@ -74,7 +82,7 @@ public class TGAudioPlayer
         {
             mediaPlayer.reset(); //重置多媒体
             mediaPlayer.setDataSource(currentFileDataSource);//为多媒体对象设置播放路径
-            play();
+            play(speakerphoneOn);
         }
         catch (Exception e)
         {
@@ -84,10 +92,15 @@ public class TGAudioPlayer
 
     public void start(String dataSource)
     {
-        start(dataSource, null);
+        start(dataSource, null, false);
     }
 
     public void start(final String dataSource, final OnPlayListener listener)
+    {
+        start(dataSource, listener, false);
+    }
+
+    public void start(final String dataSource, final OnPlayListener listener, boolean speakerphoneOn)
     {
         this.currentDataSource = dataSource;
         this.onPlayListener = listener;
@@ -108,7 +121,7 @@ public class TGAudioPlayer
         {
             mediaPlayer.reset(); //重置多媒体
             mediaPlayer.setDataSource(currentDataSource);//为多媒体对象设置播放路径
-            play();
+            play(speakerphoneOn);
         }
         catch (Exception e)
         {
@@ -116,8 +129,15 @@ public class TGAudioPlayer
         }
     }
 
-    private void play() throws IOException
+    private void play(boolean speakerphoneOn) throws IOException
     {
+        AudioManager audioManager = (AudioManager)TGApplicationProxy.getInstance().getApplication().getSystemService(Context.AUDIO_SERVICE);
+        if(speakerphoneOn)
+        {
+            //设置声音强制从扬声器输出
+            audioManager.setSpeakerphoneOn(true);
+        }
+
         playDuration = 0;
         mediaPlayer.prepare();//准备播放
         mediaPlayer.start();//开始播放
