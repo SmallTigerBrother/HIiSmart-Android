@@ -84,7 +84,8 @@ public class HSApplication extends TGMultiDexApplication
                 try
                 {
                     AssetFileDescriptor dataSource = assetManager.openFd("alarm.mp3");
-                    TGAudioPlayer.getInstance().start(dataSource.getFileDescriptor(), null);
+                    //强制声音从手机扬声器播放
+                    TGAudioPlayer.getInstance().start(dataSource.getFileDescriptor(), null, true);
                     Intent startIntent = new Intent(HSApplication.this, AlarmAlertActivity.class);
                     startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(startIntent);
