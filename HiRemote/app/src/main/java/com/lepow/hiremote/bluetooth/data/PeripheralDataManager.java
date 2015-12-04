@@ -11,6 +11,9 @@ import com.mn.tiger.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 蓝牙设备数据管理器
+ */
 public class PeripheralDataManager
 {
 	private static final Logger LOG = Logger.getLogger(PeripheralDataManager.class);
@@ -29,6 +32,13 @@ public class PeripheralDataManager
 		return TGDBManager.create(context, DB_NAME, DB_VERSION, null);
 	}
 
+	/**
+	 * 获取所有连接过的蓝牙设备
+	 * @param context
+	 * @param connectedPeripheral 当前连接的蓝牙设备
+	 * @param disConnectedPeripheral 已断开连接的蓝牙设备
+	 * @return
+	 */
 	public static List<PeripheralInfo> getAllPeripherals(Context context, PeripheralInfo connectedPeripheral,
 														 PeripheralInfo disConnectedPeripheral)
 	{
@@ -41,6 +51,7 @@ public class PeripheralDataManager
 			}
 			else
 			{
+				//更新已连接蓝牙设备的状态
 				if(null != connectedPeripheral && !connectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 				{
 					for (int i = 0; i < peripheralInfos.size(); i++)
@@ -55,6 +66,7 @@ public class PeripheralDataManager
 					}
 				}
 
+				//更新已断开连接设备的状态
 				if(null != disConnectedPeripheral && !disConnectedPeripheral.equals(PeripheralInfo.NULL_OBJECT))
 				{
 					for (int i = 0; i < peripheralInfos.size(); i++)
@@ -78,6 +90,10 @@ public class PeripheralDataManager
 		}
 	}
 
+	/**
+	 * 获取默认的蓝牙设备列表
+	 * @return
+	 */
 	private static List<PeripheralInfo> getDefaultPeriperalInfos()
 	{
 		List<PeripheralInfo> peripheralInfos = new ArrayList<PeripheralInfo>();
@@ -85,6 +101,11 @@ public class PeripheralDataManager
 		return peripheralInfos;
 	}
 
+	/**
+	 * 保存蓝牙设备信息
+	 * @param context
+	 * @param peripheralInfo
+	 */
 	public synchronized static void savePeripheral(Context context, PeripheralInfo peripheralInfo)
 	{
 		if(null != peripheralInfo && !peripheralInfo.equals(PeripheralInfo.NULL_OBJECT))
@@ -112,6 +133,12 @@ public class PeripheralDataManager
 		}
 	}
 
+	/**
+	 * 根据mac地址查找指定的蓝牙设备
+	 * @param context
+	 * @param macAddress
+	 * @return
+	 */
 	public static PeripheralInfo findPeripheral(Context context, String macAddress)
 	{
 		if(!TextUtils.isEmpty(macAddress))
