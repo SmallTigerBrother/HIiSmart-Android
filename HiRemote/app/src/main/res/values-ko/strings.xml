@@ -13,7 +13,7 @@
     <string name="intro_camera_title">카메라 셔터</string>
     <string name="intro_camera_detail">HiRemote의 카메라셔터로 사진을 찍으세요.</string>
     <string name="intro_voice_title">음성메모</string>
-    <string name="intro_voice_detail">HiRemote의 카메라셔터로 사진을 찍으세요</string>
+    <string name="intro_voice_detail">간편한 방법으로 녹음을 할수 있고 녹음한 파일을 쉽게 관리 할수 있다</string>
     <string name="intro_hiremote_title">HiRemote 제어</string>
 
     <string name="my_bag">나의 hi백</string>
@@ -48,7 +48,7 @@
     <string name="rename_peripheral_btn_text">이름바꾸기HiRemote </string>
     <string name="next">다음</string>
     <string name="add_a_hismart">HiRemote 한개 추가</string>
-    <string name="add_a_hismart_tips">ⅰ: 당신의 스마트기기에 블루투스가 오픈되였는지 확인해주세요. \n ⅱ: 아래 이미지와 같이 HiRemote재생 버턴 길게 눌러서 활성화 시킵니다.</string>
+    <string name="add_a_hismart_tips">ⅰ: 당신의 스마트기기에 블루투스가 오픈되였는지 확인해주세요. \nⅱ: 아래 이미지와 같이 HiRemote재생 버턴 길게 눌러서 활성화 시킵니다.</string>
     <string name="scanning">스캔중...</string>
     <string name="push_notifications">소식 알림</string>
     <string name="voice_memo">음성 메모</string>
@@ -392,7 +392,7 @@
     <string name="switch_to_camera_lable">Switch to camera</string>
     <string name="switch_to_video_lable">Switch to video</string>
 
-    <string name="alarm_tips">The HiRemote is calling you!</string>
+    <string name="alarm_tips">HiSmart가  당신을 호출합니다!</string>
     <string name="bluetooth_off_tips"></string>
     <string name="bluetooth_open_dialog_title">블루투스 기기 체크하세요!</string>
 

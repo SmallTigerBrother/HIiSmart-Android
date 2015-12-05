@@ -71,7 +71,7 @@
     <string name="rename_peripheral_btn_text">Rename the HiRemote as...</string>
     <string name="next">Next</string>
     <string name="add_a_hismart">Add a HiRemote</string>
-    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \n ii: Hold the play button of the HiRemote to activate it.</string>
+    <string name="add_a_hismart_tips">i: Make sure your smartphone\'s Bluetooth is turned on. \nii: Hold the play button of the HiRemote to activate it.</string>
     <string name="scanning">Scanning...</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="voice_memo">Voice Memos</string>

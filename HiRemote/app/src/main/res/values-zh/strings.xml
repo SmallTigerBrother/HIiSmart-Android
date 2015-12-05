@@ -76,12 +76,12 @@
     <string name="rename_peripheral_btn_text">重命名HiRemote为</string>
     <string name="next">下一步</string>
     <string name="add_a_hismart">添加一个HiRemote</string>
-    <string name="add_a_hismart_tips">i: 确保您的智能手机的蓝牙已经打开。 \n ii: 按住HiRemote中的播放按钮来激活它。</string>
+    <string name="add_a_hismart_tips">i: 确保您的智能手机的蓝牙已经打开。 \nii: 按住HiRemote中的播放按钮来激活它。</string>
     <string name="scanning">扫描...</string>
     <string name="push_notifications">消息通知</string>
     <string name="voice_memo">录音记录</string>
     <string name="play_sounds">断开响铃</string>
-    <string name="stop">Stop</string>
+    <string name="stop">停止</string>
     <string name="forgot_password">忘记密码</string>
     <string name="password_hint">密码:</string>
     <string name="account_hint">用户名/邮箱:</string>
@@ -125,6 +125,7 @@
     <string name="no_device">无设备</string>
     <string name="change_name">更改名称</string>
     <string name="your_device_far_away_from_you">警告 你的HiSmart包在离你90英尺外</string>
+    <string name="alarm_tips">您的HiSmart正在向您发起呼叫!</string>
 
 
 
