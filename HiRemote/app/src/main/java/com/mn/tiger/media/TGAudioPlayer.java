@@ -134,8 +134,11 @@ public class TGAudioPlayer
         AudioManager audioManager = (AudioManager)TGApplicationProxy.getInstance().getApplication().getSystemService(Context.AUDIO_SERVICE);
         if(speakerphoneOn)
         {
+            audioManager.setBluetoothScoOn(false);
+            audioManager.setMicrophoneMute(false);
             //设置声音强制从扬声器输出
             audioManager.setSpeakerphoneOn(true);
+            audioManager.setMode(AudioManager.STREAM_MUSIC);
         }
 
         playDuration = 0;
