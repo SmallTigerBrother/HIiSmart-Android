@@ -1,8 +1,11 @@
 package com.mn.tiger.location;
 
+import com.lepow.hiremote.R;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.request.TGHttpLoader;
+import com.mn.tiger.request.error.TGHttpError;
 import com.mn.tiger.request.receiver.TGHttpResult;
+import com.mn.tiger.utility.ToastUtils;
 
 /**
  * Google地址解析功能
@@ -37,11 +40,15 @@ public class GoogleGeoCoding
                     }
 
                     @Override
-                    public void onLoadError(int i, String s, TGHttpResult tgHttpResult)
+                    public void onLoadError(int code, String s, TGHttpResult tgHttpResult)
                     {
+                        if(code == TGHttpError.IOEXCEPTION || code == TGHttpError.SOCKET_TIMEOUT)
+                        {
+                            ToastUtils.showToast(TGApplicationProxy.getInstance().getApplication(), R.string.location_permission_deny);
+                        }
                         if (null != listener)
                         {
-                            listener.onGeoCodingError(i, s);
+                            listener.onGeoCodingError(code, s);
                         }
                     }
 
