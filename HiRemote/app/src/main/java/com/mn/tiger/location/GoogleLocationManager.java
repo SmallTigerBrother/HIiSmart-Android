@@ -1,14 +1,18 @@
 package com.mn.tiger.location;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+import com.lepow.hiremote.R;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
+import com.mn.tiger.utility.ToastUtils;
 
 /**
  * Created by Dalang on 2015/7/26.
@@ -23,6 +27,8 @@ public class GoogleLocationManager implements ILocationManager
      * 上一次定位的地址
      */
     private Location lastLocation;
+
+    private TGLocation lastTGLocation;
 
     /**
      * 系统的位置管理器
@@ -42,8 +48,17 @@ public class GoogleLocationManager implements ILocationManager
     @Override
     public void requestLocationUpdates()
     {
-        requestGPSLocationUpdates();
-        requestNetworkLocationUpdates();
+        Application application = TGApplicationProxy.getInstance().getApplication();
+        if(PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_COARSE_LOCATION")
+                && PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_FINE_LOCATION"))
+        {
+            requestGPSLocationUpdates();
+            requestNetworkLocationUpdates();
+        }
+        else
+        {
+            ToastUtils.showToast(application, R.string.location_permission_deny);
+        }
     }
 
     @Override
@@ -185,16 +200,17 @@ public class GoogleLocationManager implements ILocationManager
             public void onGeoCodingSuccess(GoogleGeoCodeResult result)
             {
                 LOG.d("[Method:onGeoCodingSuccess]");
+                TGLocation tgLocation = TGLocation.initWith(location);
+                tgLocation.setTime(System.currentTimeMillis());
+                if(result.getResults().length > 0)
+                {
+                    GoogleAddressResult addressResult = result.getResults()[0];
+                    tgLocation.setAddress(addressResult.getFormatted_address());
+                }
+                GoogleLocationManager.this.lastTGLocation = tgLocation;
                 //发通知界面处理
                 if (null != listener)
                 {
-                    TGLocation tgLocation = TGLocation.initWith(location);
-                    tgLocation.setTime(System.currentTimeMillis());
-                    if(result.getResults().length > 0)
-                    {
-                        GoogleAddressResult addressResult = result.getResults()[0];
-                        tgLocation.setAddress(addressResult.getFormatted_address());
-                    }
                     listener.onReceiveLocation(tgLocation);
                 }
             }
@@ -306,6 +322,6 @@ public class GoogleLocationManager implements ILocationManager
     @Override
     public TGLocation getLastLocation()
     {
-        return TGLocation.initWith(lastLocation);
+        return lastTGLocation;
     }
 }

@@ -1,5 +1,7 @@
 package com.mn.tiger.location;
 
+import android.app.Application;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import com.amap.api.location.LocationProviderProxy;
 import com.lepow.hiremote.R;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.log.Logger;
+import com.mn.tiger.utility.ToastUtils;
 
 /**
  * Created by Dalang on 2015/7/26.
@@ -71,8 +74,17 @@ public class AMapLocationManager implements ILocationManager
     @Override
     public void requestLocationUpdates()
     {
-        locationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork, -1 , 50 , locationListener);
-        LOG.d("[Method:requestLocationUpdates]");
+        Application application = TGApplicationProxy.getInstance().getApplication();
+        if(PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_COARSE_LOCATION")
+                && PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_FINE_LOCATION"))
+        {
+            locationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork, -1, 50, locationListener);
+            LOG.d("[Method:requestLocationUpdates]");
+        }
+        else
+        {
+            ToastUtils.showToast(application, R.string.location_permission_deny);
+        }
     }
 
     @Override
