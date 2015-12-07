@@ -395,5 +395,8 @@
     <string name="alarm_tips">HiSmart가  당신을 호출합니다!</string>
     <string name="bluetooth_off_tips"></string>
     <string name="bluetooth_open_dialog_title">블루투스 기기 체크하세요!</string>
+    <string name="location_permission_deny">Location Permission Deny, please check system settings</string>
+    <string name="network_error">Network Error</string>
+
 
 </resources>

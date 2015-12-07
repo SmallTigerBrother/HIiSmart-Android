@@ -419,6 +419,8 @@
 
     <string name="alarm_tips">The HiRemote is calling you!</string>
     <string name="bluetooth_open_dialog_title">Please check the Bluetooth setting!</string>
+    <string name="location_permission_deny">Location Permission Deny, please check system settings</string>
+    <string name="network_error">Network Error</string>
 
     <string name="china_zh">中国</string>
     <string name="china_en">China</string>
