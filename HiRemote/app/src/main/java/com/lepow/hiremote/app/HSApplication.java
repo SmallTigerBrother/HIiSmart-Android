@@ -21,6 +21,7 @@ import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
+import com.mn.tiger.log.LogLevel;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.request.HttpType;
@@ -36,6 +37,8 @@ public class HSApplication extends TGMultiDexApplication
     public void onCreate()
     {
         super.onCreate();
+
+        Logger.setGlobalLogLevel(LogLevel.LOG_LEVEL_ERROR);
 
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
         httpLoader.addRequestParam("appId", getPackageName());
