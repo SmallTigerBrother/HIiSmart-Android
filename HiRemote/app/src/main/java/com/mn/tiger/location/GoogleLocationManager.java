@@ -48,6 +48,7 @@ public class GoogleLocationManager implements ILocationManager
     @Override
     public void requestLocationUpdates()
     {
+        LOG.i("[Method:requestLocationUpdates]");
         Application application = TGApplicationProxy.getInstance().getApplication();
         if(PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_COARSE_LOCATION")
                 && PackageManager.PERMISSION_GRANTED == application.checkCallingOrSelfPermission("android.permission.ACCESS_FINE_LOCATION"))
@@ -72,6 +73,7 @@ public class GoogleLocationManager implements ILocationManager
      */
     private void requestGPSLocationUpdates()
     {
+        LOG.i("[Method:requestGPSLocationUpdates]");
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 1000, 20, gpsLocationListener);
     }
 
@@ -80,6 +82,7 @@ public class GoogleLocationManager implements ILocationManager
      */
     private void requestNetworkLocationUpdates()
     {
+        LOG.i("[Method:requestNetworkLocationUpdates]");
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2 * 1000, 20, networkLocationListener);
     }
 
@@ -193,6 +196,7 @@ public class GoogleLocationManager implements ILocationManager
      */
     private void updateLocation(final Location location)
     {
+        LOG.i("[Method:updateLocation]");
         this.lastLocation = location;
         GoogleGeoCoding.geoCoding(location.getLatitude(), location.getLongitude(), new GoogleGeoCoding.GeoCodeListener()
         {
