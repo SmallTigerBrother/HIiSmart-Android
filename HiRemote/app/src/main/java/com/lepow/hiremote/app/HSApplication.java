@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.media.AudioManager;
 
 import com.lepow.hiremote.bluetooth.HSBLEPeripheralManager;
 import com.lepow.hiremote.bluetooth.data.PeripheralDataManager;
@@ -16,6 +17,7 @@ import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.request.HttpLoader;
 import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
+import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.app.TGMultiDexApplication;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.location.ILocationManager;
@@ -29,7 +31,7 @@ import com.mn.tiger.upgrade.TGUpgradeManager;
 
 import java.io.IOException;
 
-public class HSApplication extends TGMultiDexApplication
+public class HSApplication extends TGMultiDexApplication implements TGAudioPlayer.OnPlayListener
 {
     private static final Logger LOG = Logger.getLogger(HSApplication.class);
 
@@ -38,7 +40,7 @@ public class HSApplication extends TGMultiDexApplication
     {
         super.onCreate();
 
-        Logger.setGlobalLogLevel(LogLevel.LOG_LEVEL_ERROR);
+        Logger.setGlobalLogLevel(LogLevel.LOG_LEVEL_DEBUG);
 
         HttpLoader<Void> httpLoader = new HttpLoader<Void>();
         httpLoader.addRequestParam("appId", getPackageName());
@@ -124,5 +126,45 @@ public class HSApplication extends TGMultiDexApplication
         });
 
         locationManager.requestLocationUpdates();
+    }
+
+    @Override
+    public void onPlayStart(String dataSource)
+    {
+    }
+
+    @Override
+    public void onPlaying(String dataSource, int playDuration, int audioDuration)
+    {
+    }
+
+    @Override
+    public void onPlayPause(String dataSource)
+    {
+    }
+
+    @Override
+    public void onPlayStop(String dataSource)
+    {
+        changeAudioOutput();
+    }
+
+    @Override
+    public void onPlayComplete(String dataSource)
+    {
+        changeAudioOutput();
+    }
+
+    private void changeAudioOutput()
+    {
+        AudioManager audioManager = (AudioManager) TGApplicationProxy.getInstance().getApplication().getSystemService(Context.AUDIO_SERVICE);
+        if(audioManager.isWiredHeadsetOn())
+        {
+            audioManager.setBluetoothScoOn(true);
+            audioManager.setMicrophoneMute(true);
+            audioManager.setSpeakerphoneOn(false);
+        }
+        //设置声音强制从扬声器输出
+        audioManager.setMode(AudioManager.STREAM_MUSIC);
     }
 }
