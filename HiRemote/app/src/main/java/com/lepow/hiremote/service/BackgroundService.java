@@ -19,7 +19,6 @@ import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.log.Logger;
-import com.mn.tiger.media.TGAudioPlayer;
 import com.mn.tiger.media.TGRecorder;
 
 /**
@@ -98,9 +97,9 @@ public class BackgroundService extends Service
 	/**
 	 * 请求定位
 	 */
-	public static void requestLocation()
+	private static void requestLocation()
 	{
-		TGLocationManager locationManager = TGLocationManager.getInstance();
+		final TGLocationManager locationManager = TGLocationManager.getInstance();
 		locationManager.setLocationListener(new ILocationManager.ILocationListener()
 		{
 			@Override
@@ -112,6 +111,7 @@ public class BackgroundService extends Service
 
 				Intent intent = new Intent(IntentAction.ACTION_PINNED_LOCATION);
 				TGApplicationProxy.getInstance().getApplication().sendBroadcast(intent);
+				locationManager.removeLocationUpdates();
 			}
 		});
 
