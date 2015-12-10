@@ -20,6 +20,7 @@ import com.lepow.hiremote.upgrade.HSUpgradeDataParser;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.app.TGMultiDexApplication;
 import com.mn.tiger.bluetooth.TGBLEManager;
+import com.mn.tiger.bluetooth.TGBluetoothManager;
 import com.mn.tiger.location.ILocationManager;
 import com.mn.tiger.location.TGLocation;
 import com.mn.tiger.location.TGLocationManager;
@@ -90,7 +91,7 @@ public class HSApplication extends TGMultiDexApplication implements TGAudioPlaye
                 {
                     AssetFileDescriptor dataSource = assetManager.openFd("alarm.mp3");
                     //强制声音从手机扬声器播放
-                    TGAudioPlayer.getInstance().start(dataSource.getFileDescriptor(), null, true);
+                    TGAudioPlayer.getInstance().start(dataSource.getFileDescriptor(), HSApplication.this, true);
                     Intent startIntent = new Intent(HSApplication.this, AlarmAlertActivity.class);
                     startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(startIntent);
@@ -158,13 +159,14 @@ public class HSApplication extends TGMultiDexApplication implements TGAudioPlaye
     private void changeAudioOutput()
     {
         AudioManager audioManager = (AudioManager) TGApplicationProxy.getInstance().getApplication().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager.isWiredHeadsetOn())
+        //设置声音强制从扬声器输出
+        if(audioManager.isWiredHeadsetOn() || TGBluetoothManager.isBlueToothHeadsetConnected())
         {
             audioManager.setBluetoothScoOn(true);
             audioManager.setMicrophoneMute(true);
             audioManager.setSpeakerphoneOn(false);
         }
-        //设置声音强制从扬声器输出
+
         audioManager.setMode(AudioManager.STREAM_MUSIC);
     }
 }
