@@ -27,7 +27,7 @@ import java.util.Iterator;
 /**
  * Created by Dalang on 2015/8/23.
  */
-public class GoogleMapManager implements IMapManager, LocationSource, LocationListener
+public class GoogleMapManager implements IMapManager, LocationSource, LocationListener, GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback
 {
     private static final Logger LOG = Logger.getLogger(GoogleMapManager.class);
 
@@ -54,52 +54,24 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     @Override
     public void init(ViewGroup mapContainer, Bundle savedInstanceState)
     {
-//        GoogleMapOptions options = new GoogleMapOptions();
-//        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
-//        MapView mapView = new MapView(activity, options);
-//        mapContainer.addView(mapView, new ViewGroup.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        mapView.onCreate(savedInstanceState);
-//        googleMap = mapView.getMap();
-//        setUpMap();
-//
-//        mapView.getMapAsync(new OnMapReadyCallback()
-//                        {
-//                            @Override
-//                            public void onMapReady(GoogleMap googleMap)
-//                            {
-//                                LOG.d("[Method:onMapReady] googleMap == " + googleMap);
-//                                GoogleMapManager.this.googleMap = googleMap;
-//                                setUpMap();
-//                            }
-//                        });
-
         mapFragment = new MapFragment();
         try
         {
             activity.getFragmentManager().beginTransaction().add(mapContainer.getId(), mapFragment).commitAllowingStateLoss();
-            HANDLER.postDelayed(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    mapFragment.getMapAsync(new OnMapReadyCallback()
-                    {
-                        @Override
-                        public void onMapReady(GoogleMap googleMap)
-                        {
-                            LOG.d("[Method:onMapReady] googleMap == " + googleMap);
-                            GoogleMapManager.this.googleMap = googleMap;
-                            setUpMap();
-                        }
-                    });
-                }
-            }, 300);
+            mapFragment.getMapAsync(GoogleMapManager.this);
         }
         catch (Exception e)
         {
             LOG.e("[Method:init]", e);
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        LOG.d("[Method:onMapReady] googleMap == " + googleMap);
+        GoogleMapManager.this.googleMap = googleMap;
+        setUpMap();
     }
 
     /**
@@ -109,6 +81,7 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
     {
         if(null != googleMap)
         {
+            googleMap.setOnMyLocationButtonClickListener(this);
             googleMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setAllGesturesEnabled(true);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -134,6 +107,12 @@ public class GoogleMapManager implements IMapManager, LocationSource, LocationLi
             }
         });
         startNextTask();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick()
+    {
+        return false;
     }
 
     @Override

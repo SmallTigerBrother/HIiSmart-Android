@@ -120,10 +120,10 @@ public class GoogleLocationManager implements ILocationManager
         public void onStatusChanged(String provider, int status, Bundle extras)
         {
             LOG.d("[Method:onStatusChanged] provider == " + provider + "status == " + status);
-
             //若GPS定位不可用，则启动网络定位
             if (LocationProvider.OUT_OF_SERVICE == status)
             {
+                LOG.d("[Method:onStatusChanged] GPS out of service");
                 requestNetworkLocationUpdates();
                 isRemoveNetworkListener = false;
             }
@@ -147,6 +147,10 @@ public class GoogleLocationManager implements ILocationManager
             if (isBetterLocation(location, lastLocation))
             {
                 updateLocation(location);
+            }
+            else
+            {
+                updateLocation(lastLocation);
             }
 
             //删除网络定位监听接口
@@ -186,6 +190,10 @@ public class GoogleLocationManager implements ILocationManager
             if (isBetterLocation(location, lastLocation))
             {
                 updateLocation(location);
+            }
+            else
+            {
+                updateLocation(lastLocation);
             }
         }
     };
