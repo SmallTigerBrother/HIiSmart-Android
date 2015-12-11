@@ -38,7 +38,8 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_width="wrap_content"
+        android:visibility="gone">
         <com.android.camera.RotateImageView android:id="@+id/video_switch_icon"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
