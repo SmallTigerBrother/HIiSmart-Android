@@ -19,8 +19,8 @@ android {
         applicationId "com.lepow.androidhismart"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 15
-        versionName "1.2.5"
+        versionCode 16
+        versionName "1.2.6"
         multiDexEnabled = true
     }
     buildTypes {
