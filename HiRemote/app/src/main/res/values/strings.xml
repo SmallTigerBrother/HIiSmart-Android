@@ -426,4 +426,9 @@
     <string name="china_en">China</string>
     <string name="china_ko">중국</string>
 
+    <string name="faq_url">http://hismart.us/faq</string>
+    <string name="contact_url">http://hismart.us/contact</string>
+    <string name="privacy_url">http://hismart.us/help/privacy</string>
+    <string name="terms_conditions_url">http://hismart.us/help/privacy</string>
+
 </resources>

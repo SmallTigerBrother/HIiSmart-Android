@@ -9,7 +9,6 @@ import com.lepow.hiremote.app.BaseActivity;
 import com.lepow.hiremote.app.WebViewActivity;
 import com.lepow.hiremote.bluetooth.ScanNewPeripheralActivity;
 import com.lepow.hiremote.misc.IntentKeys;
-import com.lepow.hiremote.misc.ServerUrls;
 import com.mn.tiger.widget.TGNavigationBar;
 
 import butterknife.ButterKnife;
@@ -47,19 +46,19 @@ public class SettingActivity extends BaseActivity
                 break;
 
             case R.id.terms_conditions_layout:
-                startWebViewActivity(getString(R.string.terms_conditions), ServerUrls.TERMS_CONDITIONS);
+                startWebViewActivity(getString(R.string.terms_conditions), getString(R.string.terms_conditions_url));
                 break;
 
             case R.id.privacy_policy_layout:
-                startWebViewActivity(getString(R.string.privacy_policy), ServerUrls.PRIVACY_POLICY);
+                startWebViewActivity(getString(R.string.privacy_policy), getString(R.string.privacy_url));
                 break;
 
             case R.id.contact_us_layout:
-                startWebViewActivity(getString(R.string.contact_us), ServerUrls.CONTACT_US);
+                startWebViewActivity(getString(R.string.contact_us), getString(R.string.contact_url));
                 break;
 
             case R.id.support_faq_layout:
-                startWebViewActivity(getString(R.string.support_faq), ServerUrls.SUPPORT_FAQ);
+                startWebViewActivity(getString(R.string.support_faq), getString(R.string.faq_url));
                 break;
 
             default:
