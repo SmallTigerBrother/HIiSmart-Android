@@ -3,6 +3,7 @@ package com.lepow.hiremote.setting;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.app.BaseActivity;
@@ -11,6 +12,9 @@ import com.lepow.hiremote.bluetooth.ScanNewPeripheralActivity;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.mn.tiger.widget.TGNavigationBar;
 
+import java.util.Locale;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -19,6 +23,9 @@ import butterknife.OnClick;
  */
 public class SettingActivity extends BaseActivity
 {
+    @Bind(R.id.add_new_peripheral)
+    RelativeLayout addNewPeripheral;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -26,6 +33,11 @@ public class SettingActivity extends BaseActivity
         setContentView(R.layout.setting_activity);
         setBarTitleText(getString(R.string.settings));
         ButterKnife.bind(this);
+
+        if(Locale.KOREA.equals(getResources().getConfiguration().locale) || Locale.KOREAN.equals(getResources().getConfiguration().locale))
+        {
+            addNewPeripheral.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -14,6 +14,6 @@ public class DurationUtils
             duration = 1000;
         }
 
-        return DateUtils.date2String(duration + 16 * 3600000, DateUtils.TIME_FORMAT);
+        return DateUtils.date2String(duration, DateUtils.TIME_FORMAT);
     }
 }

@@ -91,7 +91,7 @@
     <string name="find_my_item_title">나의 기기 검색</string>
     <string name="change_name">이름변경</string>
     <string name="your_device_far_away_from_you">경고 당신의Hismart백은 90피드 밖에 있습니다</string>
-    <string name="history">기록</string>
+    <string name="history">지난 기록</string>
 
     <string name="camera_error_title">카메라 고장</string>
     <string name="cannot_connect_camera">카메라를 연결 할수 없음</string>

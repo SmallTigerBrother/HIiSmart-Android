@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.lepow.hiremote.R;
 import com.lepow.hiremote.record.data.RecordInfo;
-import com.lepow.hiremote.utils.DurationUtils;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.utility.DateUtils;
 import com.mn.tiger.widget.adpter.TGViewHolder;
@@ -41,13 +40,12 @@ public class RecordListViewHolder extends TGViewHolder<RecordInfo>
 	{
 		recordName.setText(itemData.getTitle());
 
-		String date = DateUtils.date2String(itemData.getTimestamp(),DateUtils.DATE_FORMAT);
-		if(!locale.getLanguage().equalsIgnoreCase("zh"))
+		String date = DateUtils.date2String(itemData.getTimestamp(),"yyyy-MM-dd HH:mm:ss");
+		if(!locale.getLanguage().equalsIgnoreCase("zh") && !locale.equals(Locale.KOREA) && !locale.equals(Locale.KOREAN))
 		{
-			date = DateUtils.date2String(itemData.getTimestamp(), "MM-dd-yyyy");
+			date = DateUtils.date2String(itemData.getTimestamp(), "MM-dd-yyyy HH:mm:ss");
 		}
 
 		recordDate.setText(date);
-		recordDuration.setText(DurationUtils.duration2String(itemData.getDuration()));
 	}
 }

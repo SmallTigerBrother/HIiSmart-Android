@@ -27,6 +27,8 @@ import com.lepow.hiremote.bluetooth.data.PeripheralInfo;
 import com.lepow.hiremote.home.widget.PeripheralStatusView;
 import com.lepow.hiremote.lbs.FindMyItemActivity;
 import com.lepow.hiremote.lbs.PinnedLocationHistoryActivity;
+import com.lepow.hiremote.lbs.data.LocationDataManager;
+import com.lepow.hiremote.lbs.data.LocationInfo;
 import com.lepow.hiremote.misc.IntentAction;
 import com.lepow.hiremote.misc.IntentKeys;
 import com.lepow.hiremote.misc.ServerUrls;
@@ -38,6 +40,8 @@ import com.lepow.hiremote.widget.ProgressDialog;
 import com.mn.tiger.app.TGApplicationProxy;
 import com.mn.tiger.bluetooth.TGBLEManager;
 import com.mn.tiger.bluetooth.data.TGBLEPeripheralInfo;
+import com.mn.tiger.location.TGLocation;
+import com.mn.tiger.location.TGLocationManager;
 import com.mn.tiger.log.Logger;
 import com.mn.tiger.notification.TGNotificationBuilder;
 import com.mn.tiger.upgrade.TGUpgradeManager;
@@ -180,21 +184,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		initViews();
 
 		handler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                //检测更新
-                LOG.d("check upgrade");
-                TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
-                registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
-                registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
-                registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
+		{
+			@Override
+			public void run()
+			{
+				//检测更新
+				LOG.d("check upgrade");
+				TGUpgradeManager.upgrade(ServerUrls.CHECK_UPGRADE_URL);
+				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_PERIPHERAL_POWER));
+				registerReceiver(broadcastReceiver, new IntentFilter(IntentAction.ACTION_READ_DISCONNECTED_ALARM));
+				registerReceiver(broadcastReceiver, new IntentFilter(TGBLEManager.ACTION_BLE_STATE_CHANGE));
 
-                //读取蓝牙设备特征值
-                HSBLEPeripheralManager.getInstance().readAllCharacteristics();
-            }
-        }, 1000);
+				//读取蓝牙设备特征值
+				HSBLEPeripheralManager.getInstance().readAllCharacteristics();
+			}
+		}, 1000);
 
 		//启动守护线程，当没有任何设备连接时，每隔1分钟进行设备扫描
 		HSBLEPeripheralManager.getInstance().startDeamonThread();
@@ -232,27 +236,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 			public void fillData(View viewOfPage, final PeripheralInfo itemData, int position, int viewType)
 			{
 				((PeripheralStatusView) viewOfPage).setData(itemData);
-                viewOfPage.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        //点击图标时，连接未连接的设备
-                        if(!itemData.isConnected())
-                        {
-                            handler.postDelayed(new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    HSBLEPeripheralManager.getInstance().scanTargetPeripheral(itemData.getMacAddress());
-                                }
-                            }, 2000);
+				viewOfPage.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						//点击图标时，连接未连接的设备
+						if (!itemData.isConnected())
+						{
+							handler.postDelayed(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									HSBLEPeripheralManager.getInstance().scanTargetPeripheral(itemData.getMacAddress());
+								}
+							}, 2000);
 
-                            progressDialog.show();
-                        }
-                    }
-                });
+							progressDialog.show();
+						}
+					}
+				});
 			}
 		});
 
@@ -263,6 +267,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 		initSettingsBoard();
 
 		onPeripheralChanged();
+
+		//保存定位记录
+		handler.postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				TGLocation lastLocation = TGLocationManager.getInstance().getLastLocation();
+				if(null != lastLocation)
+				{
+					LocationInfo locationInfo = LocationInfo.fromLocation(lastLocation);
+					LocationDataManager.getInstance().savePinnedLocation(TGApplicationProxy.getInstance().getApplication(), locationInfo);
+				}
+			}
+		}, 8000);
 	}
 
 	private void initBannerIndicator()
